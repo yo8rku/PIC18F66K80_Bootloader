@@ -39,10 +39,8 @@
  * This bootloader keeps IPEN=0, matching the application. No low-priority
  * redirect is needed for the current firmware.
  */
-#asm
-PSECT intcode
-    GOTO 0x0808
-#endasm
+asm("PSECT intcode");
+asm("GOTO 0x0808");
 
 #define _XTAL_FREQ       64000000UL
 #define UART2_BAUD       115200UL
