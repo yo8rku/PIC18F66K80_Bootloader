@@ -2,8 +2,8 @@
  * PIC18F66K80 UART2 Bootloader - Stage 1
  * MPLAB X + XC8 v2.46
  *
- * Stage 1 ONLY validates UART2 communications. It does NOT erase/program
- * Flash and deliberately does NOT jump to an application yet.
+ * Stage 1 validates UART2 communications and can launch the application.
+ * Flash erase/program operations are not implemented yet.
  *
  * Hardware:
  *   Fosc = 64 MHz (16 MHz crystal + PLL x4)
@@ -103,6 +103,34 @@ static bool uart2_try_getc(uint8_t *out)
     return true;
 }
 
+/*
+ * Launch the application linked at 0x0800.
+ *
+ * This is a software hand-off, not a hardware reset. Stop UART2 cleanly,
+ * keep interrupts disabled, clear the hardware return stack, then branch to
+ * the application's reset vector. The application startup code is expected
+ * to initialize its own C runtime and peripherals.
+ */
+static void jump_to_application(void)
+{
+    /* Finish transmitting the RUN response before releasing UART2. */
+    while (!TXSTA2bits.TRMT) {
+        CLRWDT();
+    }
+
+    RCSTA2 = 0;
+    TXSTA2 = 0;
+    BAUDCON2 = 0;
+
+    INTCONbits.GIE = 0;
+    INTCONbits.PEIE = 0;
+    STKPTR = 0;
+
+    asm("GOTO 0x0800");
+
+    /* Not reached. */
+}
+
 static void process_command(const char *cmd)
 {
     if (cmd[0] == 'I' && cmd[1] == 'N' && cmd[2] == 'F' &&
@@ -117,8 +145,9 @@ static void process_command(const char *cmd)
         uart2_newline();
     } else if (cmd[0] == 'R' && cmd[1] == 'U' && cmd[2] == 'N' &&
                cmd[3] == '\0') {
-        uart2_puts("RUN DISABLED IN STAGE1; NO APPLICATION JUMP");
+        uart2_puts("RUN: STARTING APPLICATION");
         uart2_newline();
+        jump_to_application();
     } else {
         uart2_puts("ERR UNKNOWN COMMAND");
         uart2_newline();
