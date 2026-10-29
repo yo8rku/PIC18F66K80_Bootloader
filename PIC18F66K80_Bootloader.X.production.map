@@ -7,11 +7,11 @@ Linker command line:
   -cn -h+dist/default/production\PIC18F66K80_Bootloader.X.production.sym \
   --cmf=dist/default/production\PIC18F66K80_Bootloader.X.production.cmf -z \
   -Q18F66K80 \
-  -oC:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsji8.\driver_tmp_3.o \
+  -oC:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsitk.\driver_tmp_3.o \
   --defsym=__MPLAB_BUILD=1 -ACODE=00h-07FFh -ACONST=00h-07FFh \
   -AMEDIUMCONST=00h-07FFh --fixupoverflow=error \
   -Mdist/default/production/PIC18F66K80_Bootloader.X.production.map \
-  --md=C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsji8.\driver_tmp_0.dat \
+  --md=C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsitk.\driver_tmp_0.dat \
   -E1 -ver=XC8 Compiler --acfsm=1493 -ASMALLCONST=0F00h-0FFFhx241 \
   -ACOMRAM=01h-05Fh -AABS1=00h-0E40h -ABIGRAM=01h-0E40h \
   -ARAM=060h-0FFh,0100h-01FFhx13,0E00h-0E40h -ABANK0=060h-0FFh \
@@ -23,14 +23,14 @@ Linker command line:
   -ASFR=0E41h-0EFFh,0F00h-0F5Fh,0F60h-0FFFh -ABIGSFR=0E41h-0FFFh \
   -ACONFIG=0300000h-030000Dh -AIDLOC=0200000h-0200007h \
   -AEEDATA=0F00000h-0F003FFh -peeprom_data=EEDATA \
-  -preset_vec=0800h,intcode,sivt_hi,intcodelo,sivt_lo,powerup,init \
+  -preset_vec=00h,intcode,sivt_hi,intcodelo,sivt_lo,powerup,init \
   -pramtop=0F00h -psmallconst=SMALLCONST -pmediumconst=MEDIUMCONST \
   -pconst=CONST -AFARRAM=00h-00h \
   -prdata=COMRAM,nvrram=COMRAM,nvbit=COMRAM,rbss=COMRAM,rbit=COMRAM \
   -pfarbss=FARRAM,fardata=FARRAM,nvFARRAM=FARRAM \
   -pintsave_regs=BIGRAM,bigbss=BIGRAM,bigdata=BIGRAM -pbss=RAM \
   -pidata=CODE,irdata=CODE,ibigdata=CODE,ifardata=CODE -prparam=COMRAM \
-  C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsji8.\driver_tmp_9.o \
+  C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsitk.\driver_tmp_9.o \
   dist/default/production\PIC18F66K80_Bootloader.X.production.o 
 
 Object code version is 3.11
@@ -40,9 +40,9 @@ Machine type is 18F66K80
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsji8.\driver_tmp_9.o
+C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsitk.\driver_tmp_9.o
                 config                           300000   300000        8        0       4
-                init                                800      800        4      400       0
+                init                                  0        0        4        0       0
 dist/default/production\PIC18F66K80_Bootloader.X.production.o
                 config                           300000   300000        8        0       4
                 mediumconst                         6F8      6F8      108      37C       0
@@ -58,7 +58,7 @@ dist/default/production\PIC18F66K80_Bootloader.X.production.o
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CODE           
-                init                                800      800        4         0
+                init                                  0        0        4         0
                 text6                               370      370       1C         0
                 text5                               362      362        E         0
                 text4                               3C0      3C0       36         0
@@ -135,6 +135,7 @@ TOTAL           Name                               Link     Load   Length     Sp
 
 SEGMENTS        Name                           Load    Length   Top    Selector   Space  Class
 
+                reset_vec                      000000  000004  000004         0       0  CODE    
                 cstackCOMRAM                   000001  00001F  000020         1       1  COMRAM  
                 cinit                          000358  00000A  000362       1AC       0  CODE    
                 text5                          000362  00000E  000370       1B1       0  CODE    
@@ -145,7 +146,6 @@ SEGMENTS        Name                           Load    Length   Top    Selector 
                 text0                          000436  0000F2  000528       21B       0  CODE    
                 text3                          000528  0001D0  0006F8       294       0  CODE    
                 mediumconst                    0006F8  000108  000800       37C       0  MEDIUMCO
-                reset_vec                      000800  000004  000804       400       0  CODE    
 
 
 UNUSED ADDRESS RANGES
@@ -168,14 +168,13 @@ UNUSED ADDRESS RANGES
         BANK9            000900-0009FF              100
         BIGRAM           000020-000E40              E21
         BIGSFR           000E41-000FFF              1BF
-        CODE             000000-000357              358
+        CODE             000004-000357              354
         COMRAM           000020-00005F               40
         CONFIG           300008-30000D                6
-        CONST            000000-000357              358
+        CONST            000004-000357              354
         EEDATA           F00000-F003FF              400
-        FARRAM           000000-000000                1
         IDLOC            200000-200007                8
-        MEDIUMCONST      000000-000357              358
+        MEDIUMCONST      000004-000357              354
         RAM              000060-000E40              100
         SFR              000E41-000FFF               BF
         SMALLCONST       000F00-00FFFF              100
@@ -231,10 +230,10 @@ __Hibigdata              ibigdata     000000
 __Hidata                 idata        000000
 __Hidloc                 idloc        000000
 __Hifardata              ifardata     000000
-__Hinit                  init         000804
-__Hintcode               intcode      000800
+__Hinit                  init         000004
+__Hintcode               intcode      000000
 __Hintcode_body          intcode_body 000000
-__Hintcodelo             intcodelo    000800
+__Hintcodelo             intcodelo    000000
 __Hintentry              intentry     000000
 __Hintret                intret       000000
 __Hintsave_regs          intsave_regs 000000
@@ -244,17 +243,17 @@ __HnvFARRAM              nvFARRAM     000000
 __Hnvbit                 nvbit        000000
 __Hnvrram                nvrram       000000
 __Hparam                 rparam       000000
-__Hpowerup               powerup      000800
+__Hpowerup               powerup      000000
 __Hram                   ram          000000
 __Hramtop                ramtop       000F00
 __Hrbit                  rbit         000000
 __Hrbss                  rbss         000000
 __Hrdata                 rdata        000000
-__Hreset_vec             reset_vec    000800
+__Hreset_vec             reset_vec    000000
 __Hrparam                rparam       000000
 __Hsfr                   sfr          000000
-__Hsivt_hi               sivt_hi      000800
-__Hsivt_lo               sivt_lo      000800
+__Hsivt_hi               sivt_hi      000000
+__Hsivt_lo               sivt_lo      000000
 __Hsmallconst            smallconst   000000
 __Hspace_0               (abs)        000F00
 __Hspace_1               (abs)        000020
@@ -309,10 +308,10 @@ __Libigdata              ibigdata     000000
 __Lidata                 idata        000000
 __Lidloc                 idloc        000000
 __Lifardata              ifardata     000000
-__Linit                  init         000800
-__Lintcode               intcode      000800
+__Linit                  init         000000
+__Lintcode               intcode      000000
 __Lintcode_body          intcode_body 000000
-__Lintcodelo             intcodelo    000800
+__Lintcodelo             intcodelo    000000
 __Lintentry              intentry     000000
 __Lintret                intret       000000
 __Lintsave_regs          intsave_regs 000000
@@ -322,17 +321,17 @@ __LnvFARRAM              nvFARRAM     000000
 __Lnvbit                 nvbit        000000
 __Lnvrram                nvrram       000000
 __Lparam                 rparam       000000
-__Lpowerup               powerup      000800
+__Lpowerup               powerup      000000
 __Lram                   ram          000000
 __Lramtop                ramtop       000F00
 __Lrbit                  rbit         000000
 __Lrbss                  rbss         000000
 __Lrdata                 rdata        000000
-__Lreset_vec             reset_vec    000800
+__Lreset_vec             reset_vec    000000
 __Lrparam                rparam       000000
 __Lsfr                   sfr          000000
-__Lsivt_hi               sivt_hi      000800
-__Lsivt_lo               sivt_lo      000800
+__Lsivt_hi               sivt_hi      000000
+__Lsivt_lo               sivt_lo      000000
 __Lsmallconst            smallconst   000000
 __Lspace_0               (abs)        000000
 __Lspace_1               (abs)        000000
@@ -410,7 +409,7 @@ main@line                cstackCOMRAM 000006
 process_command@cmd      cstackCOMRAM 000004
 stackhi                  (abs)        000000
 stacklo                  (abs)        000000
-start                    init         000800
+start                    init         000000
 start_initialization     cinit        000358
 uart2_init@dummy         cstackCOMRAM 000001
 uart2_putc@c             cstackCOMRAM 000001
