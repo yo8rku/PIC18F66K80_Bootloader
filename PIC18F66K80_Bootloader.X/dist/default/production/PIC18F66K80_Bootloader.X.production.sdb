@@ -27,21 +27,21 @@
 [v ___lmul __lmul `(ul  1 e 4 0 ]
 "91 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul64.c
 [v ___omul __omul `(uo  1 e 8 0 ]
-"49 G:\Other computers\T490\PA_Controler_YO6RK_-_final\PIC18F66K80_Bootloader\PIC18F66K80_Bootloader.X\main.c
+"64 G:\Other computers\T490\PA_Controler_YO6RK_-_final\PIC18F66K80_Bootloader\PIC18F66K80_Bootloader.X\main.c
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
-"70
-[v _uart2_putc uart2_putc `(v  1 s 1 uart2_putc ]
-"78
-[v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
 "85
+[v _uart2_putc uart2_putc `(v  1 s 1 uart2_putc ]
+"93
+[v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
+"100
 [v _uart2_newline uart2_newline `(v  1 s 1 uart2_newline ]
-"91
+"106
 [v _uart2_try_getc uart2_try_getc `(a  1 s 1 uart2_try_getc ]
-"114
+"129
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
-"134
+"149
 [v _process_command process_command `(v  1 s 1 process_command ]
-"157
+"172
 [v _main main `(v  1 e 1 0 ]
 "30045 C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h
 [v _TXREG2 TXREG2 `VEuc  1 e 1 @3961 ]
@@ -204,57 +204,57 @@
 [v _INTCONbits INTCONbits `VES245  1 e 1 @4082 ]
 "38462
 [v _STKPTR STKPTR `VEuc  1 e 1 @4092 ]
-"157 G:\Other computers\T490\PA_Controler_YO6RK_-_final\PIC18F66K80_Bootloader\PIC18F66K80_Bootloader.X\main.c
+"172 G:\Other computers\T490\PA_Controler_YO6RK_-_final\PIC18F66K80_Bootloader\PIC18F66K80_Bootloader.X\main.c
 [v _main main `(v  1 e 1 0 ]
 {
-"159
+"174
 [v main@line line `[24]uc  1 a 24 4 ]
-"161
+"176
 [v main@ch ch `uc  1 a 1 29 ]
-"160
+"175
 [v main@count count `uc  1 a 1 28 ]
-"196
+"211
 } 0
-"91
+"106
 [v _uart2_try_getc uart2_try_getc `(a  1 s 1 uart2_try_getc ]
 {
 [v uart2_try_getc@out out `*.30uc  1 p 1 0 ]
-"104
+"119
 } 0
-"49
+"64
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
 {
-"65
+"80
 [v uart2_init@dummy dummy `VEuc  1 a 1 0 ]
-"68
+"83
 } 0
-"134
+"149
 [v _process_command process_command `(v  1 s 1 process_command ]
 {
 [v process_command@cmd cmd `*.30Cuc  1 p 1 2 ]
-"155
+"170
 } 0
-"78
+"93
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
 {
 [v uart2_puts@s s `*.31Cuc  1 p 1 1 ]
-"83
+"98
 } 0
-"85
+"100
 [v _uart2_newline uart2_newline `(v  1 s 1 uart2_newline ]
 {
-"89
+"104
 } 0
-"70
+"85
 [v _uart2_putc uart2_putc `(v  1 s 1 uart2_putc ]
 {
 [v uart2_putc@c c `uc  1 a 1 wreg ]
 [v uart2_putc@c c `uc  1 a 1 wreg ]
 [v uart2_putc@c c `uc  1 a 1 0 ]
-"76
+"91
 } 0
-"114
+"129
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
 {
-"132
+"147
 } 0
