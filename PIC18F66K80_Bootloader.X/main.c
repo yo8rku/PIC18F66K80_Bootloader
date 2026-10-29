@@ -30,6 +30,20 @@
  * application's protection bits blindly.
  */
 
+/*
+ * Application interrupt redirect:
+ * The application is linked at 0x0800, so its high-priority/default
+ * interrupt entry is at 0x0808. Keep this in XC8's standard intcode psect
+ * so the linker places the GOTO at the hardware vector address 0x0008.
+ *
+ * This bootloader keeps IPEN=0, matching the application. No low-priority
+ * redirect is needed for the current firmware.
+ */
+#asm
+PSECT intcode
+    GOTO 0x0808
+#endasm
+
 #define _XTAL_FREQ       64000000UL
 #define UART2_BAUD       115200UL
 #define RX_LINE_MAX      24u
