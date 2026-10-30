@@ -584,6 +584,13 @@ static bool parse_upload_command(const char *cmd)
 
         crc = (crc << 4) | (uint32_t)nibble;
     }
+    
+    if (size > MAX_APP_SIZE) 
+    {
+        uart2_puts("ERR IMAGE SIZE");
+        uart2_newline();
+        return false;
+    }
 
     if (cmd[8] != '\0')
     {
