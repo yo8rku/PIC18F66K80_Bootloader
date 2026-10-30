@@ -32,8 +32,8 @@
 
 /*
  * Application interrupt redirect:
- * The application is linked at 0x0800, so its high-priority/default
- * interrupt entry is at 0x0808. Keep this in XC8's standard intcode psect
+ * The application is linked at 0x01000, so its high-priority/default
+ * interrupt entry is at 0x1008. Keep this in XC8's standard intcode psect
  * so the linker places the GOTO at the hardware vector address 0x0008.
  *
  * This bootloader keeps IPEN=0, matching the application. No low-priority
@@ -74,6 +74,9 @@ static uint16_t upload_sequence;
 static bool upload_active = false;
 
 static uint8_t frame_payload[BLOCK_SIZE];
+static uint8_t flash_row_buffer[FLASH_ROW_SIZE];
+static uint8_t flash_row_fill = 0;
+static uint16_t flash_row_address = APP_START;
 
 static uint32_t upload_crc32 = 0xFFFFFFFFUL;
 static bool upload_have_frame = false;
@@ -291,7 +294,31 @@ static bool flash_program_row(uint16_t address,
 
     return flash_write_row(address, buffer);
 }
-//////
+
+/* Program the current row and prepare the next one */
+static bool flash_flush_row(void)
+{
+    uint8_t i;
+
+    if (flash_row_fill == 0u)
+        return true;
+
+    /* Pad the last incomplete row with erased Flash value */
+    for (i = flash_row_fill; i < FLASH_ROW_SIZE; i++)
+        flash_row_buffer[i] = 0xFF;
+
+    if (!flash_program_row(flash_row_address, flash_row_buffer))
+        return false;
+
+    /* Prepare next row */
+    flash_row_fill = 0u;
+    flash_row_address += FLASH_ROW_SIZE;
+
+    for (i = 0; i < FLASH_ROW_SIZE; i++)
+        flash_row_buffer[i] = 0xFF;
+
+    return true;
+}
 
 /* CRC16-CCITT-FALSE
  * Init:   0xFFFF
@@ -391,55 +418,14 @@ static uint8_t receive_upload_frame(
 
     return FRAME_VALID;
 }
-/*
-static void receive_upload_data(void)
-{
-    uint16_t sequence;
-    uint8_t length;
-    uint8_t result;
 
-    while (upload_active)
-    {
-        CLRWDT();
-
-        result = receive_upload_frame(&sequence, &length);
-
-        switch (result)
-        {
-            case FRAME_VALID:
-                uart2_putc(ACK);
-                uart2_putc((uint8_t)(sequence >> 8));
-                uart2_putc((uint8_t)sequence);
-                upload_sequence++;
-                break;
-
-            case FRAME_INVALID:
-            case FRAME_TIMEOUT:
-                uart2_putc(NAK);
-                uart2_putc((uint8_t)(upload_sequence >> 8));
-                uart2_putc((uint8_t)upload_sequence);
-                break;
-
-            case FRAME_EOT:
-                upload_active = false;
-                uart2_puts("RX END");
-                uart2_newline();
-                break;
-
-            default:
-                break;
-        }
-    }
-}
-*/
-//inactv temporar
-/*
 static void receive_upload_data(void)
 {
     uint16_t sequence;
     uint8_t length;
     uint8_t result;
     uint8_t i;
+    uint32_t final_crc;
 
     while (upload_active)
     {
@@ -451,12 +437,12 @@ static void receive_upload_data(void)
         {
             case FRAME_VALID:
 
-                // Cadrul asteptat 
                 if (sequence == upload_sequence)
                 {
-                    // Verificare dimensiune imagine/
+                    /* Check image boundaries */
                     if ((upload_received > upload_size) ||
-                        ((uint32_t)length > (upload_size - upload_received)))
+                        ((uint32_t)length >
+                         (upload_size - upload_received)))
                     {
                         uart2_puts("ERR IMAGE SIZE");
                         uart2_newline();
@@ -464,37 +450,59 @@ static void receive_upload_data(void)
                         break;
                     }
 
-                    // Actualizare CRC32 /
+                    /* Process received data */
                     for (i = 0; i < length; i++)
                     {
-                        upload_crc32 = crc32_update(
-                            upload_crc32,
-                            frame_payload[i]
-                        );
+                        uint8_t data = frame_payload[i];
+
+                        upload_crc32 =
+                            crc32_update(upload_crc32, data);
+
+                        flash_row_buffer[flash_row_fill] = data;
+                        flash_row_fill++;
+
+                        /* Program complete 64-byte row */
+                        if (flash_row_fill >= FLASH_ROW_SIZE)
+                        {
+                            if (!flash_program_row(
+                                    flash_row_address,
+                                    flash_row_buffer))
+                            {
+                                uart2_puts("ERR FLASH WRITE");
+                                uart2_newline();
+                                upload_active = false;
+                                break;
+                            }
+
+                            flash_row_fill = 0u;
+                            flash_row_address += FLASH_ROW_SIZE;
+
+                            for (uint8_t j = 0; j < FLASH_ROW_SIZE; j++)
+                                flash_row_buffer[j] = 0xFF;
+                        }
                     }
 
-                    upload_received += length;
+                    if (!upload_active)
+                        break;
 
+                    upload_received += length;
                     upload_sequence++;
                     upload_have_frame = true;
 
-                    //ACK //
+                    /* ACK only after processing the frame */
                     uart2_putc(ACK);
                     uart2_putc((uint8_t)(sequence >> 8));
                     uart2_putc((uint8_t)sequence);
                 }
-
-                // Retransmiterea ultimului cadru /
                 else if (upload_have_frame &&
-                         (sequence == (uint16_t)(upload_sequence - 1u)))
+                         (sequence ==
+                          (uint16_t)(upload_sequence - 1u)))
                 {
-                    // ACK din nou, fara a numara datele /
+                    /* Duplicate frame: ACK without writing twice */
                     uart2_putc(ACK);
                     uart2_putc((uint8_t)(sequence >> 8));
                     uart2_putc((uint8_t)sequence);
                 }
-
-                // Secventa neasteptata/
                 else
                 {
                     uart2_putc(NAK);
@@ -506,7 +514,6 @@ static void receive_upload_data(void)
 
             case FRAME_INVALID:
 
-                // CRC16 invalid: cerem retransmiterea /
                 uart2_putc(NAK);
                 uart2_putc((uint8_t)(upload_sequence >> 8));
                 uart2_putc((uint8_t)upload_sequence);
@@ -523,7 +530,6 @@ static void receive_upload_data(void)
 
             case FRAME_TIMEOUT:
 
-                // Cadru incomplet: pierderea sincronizarii /
                 uart2_puts("ERR FRAME TIMEOUT");
                 uart2_newline();
                 upload_active = false;
@@ -538,23 +544,31 @@ static void receive_upload_data(void)
                 {
                     uart2_puts("ERR IMAGE LENGTH");
                     uart2_newline();
+                    break;
+                }
+
+                /* Program final partial row, if any */
+                if (!flash_flush_row())
+                {
+                    uart2_puts("ERR FLASH WRITE");
+                    uart2_newline();
+                    break;
+                }
+
+                final_crc = upload_crc32 ^ 0xFFFFFFFFUL;
+
+                if (final_crc == upload_expected_crc)
+                {
+                    uart2_puts("RX END");
+                    uart2_newline();
+
+                    uart2_puts("CRC32 OK");
+                    uart2_newline();
                 }
                 else
                 {
-                    upload_crc32 ^= 0xFFFFFFFFUL;
-
-                    if (upload_crc32 == upload_expected_crc)
-                    {
-                        uart2_puts("RX END");
-                        uart2_newline();
-                        uart2_puts("CRC32 OK");
-                        uart2_newline();
-                    }
-                    else
-                    {
-                        uart2_puts("ERR IMAGE CRC");
-                        uart2_newline();
-                    }
+                    uart2_puts("ERR IMAGE CRC");
+                    uart2_newline();
                 }
 
                 break;
@@ -564,48 +578,7 @@ static void receive_upload_data(void)
         }
     }
 }
-*/
-static void receive_upload_data(void)
-{
-    uint16_t sequence;
-    uint8_t length;
-    uint8_t result;
 
-    while (upload_active)
-    {
-        CLRWDT();
-
-        result = receive_upload_frame(&sequence, &length);
-
-        if (result == FRAME_VALID)
-        {
-            uart2_putc(ACK);
-            uart2_putc((uint8_t)(sequence >> 8));
-            uart2_putc((uint8_t)sequence);
-
-            upload_sequence++;
-        }
-        else if (result == FRAME_INVALID)
-        {
-            uart2_putc(NAK);
-            uart2_putc((uint8_t)(upload_sequence >> 8));
-            uart2_putc((uint8_t)upload_sequence);
-        }
-        else if (result == FRAME_EOT)
-        {
-            upload_active = false;
-            uart2_puts("RX END");
-            uart2_newline();
-        }
-        else if (result == FRAME_BAD_LENGTH ||
-                 result == FRAME_TIMEOUT)
-        {
-            upload_active = false;
-            uart2_puts("ERR FRAME");
-            uart2_newline();
-        }
-    }
-}
 
 /* CRC32 compatible with Python zlib.crc32()
  * Init:   0xFFFFFFFF
@@ -629,109 +602,6 @@ static uint32_t crc32_update(uint32_t crc, uint8_t data)
     return crc;
 }
 
-/*
-static bool parse_upload_command(const char *cmd)
-{
-    uint16_t size = 0;
-    uint32_t crc = 0;
-    uint8_t digits = 0;
-    uint8_t i;
-    uint8_t nibble;
-    char c;
-    
-
-    // Check command 
-    if (cmd[0] != 'U' || cmd[1] != 'P' ||
-        cmd[2] != 'L' || cmd[3] != 'O' ||
-        cmd[4] != 'A' || cmd[5] != 'D' ||
-        cmd[6] != ' ')
-        return false;
-
-    cmd += 7;
-
-    // Parse image size 
-    while (*cmd >= '0' && *cmd <= '9')
-    {
-        nibble = (uint8_t)(*cmd - '0');
-
-        if (digits >= 5u ||
-            size > 6553u ||
-            (size == 6553u && nibble > 5u))
-        {
-            uart2_puts("ERR IMAGE SIZE");
-            uart2_newline();
-            return true;
-        }
-
-        size = (uint16_t)((size << 3) + (size << 1) + nibble);
-
-        digits++;
-        cmd++;
-    }
-
-    if (digits == 0u || *cmd != ' ' || size == 0u)
-    {
-        uart2_puts("ERR IMAGE SIZE");
-        uart2_newline();
-        return true;
-    }
-
-    cmd++;
-
-    // Parse CRC32 - exactly 8 hexadecimal digits 
-    for (i = 0; i < 8u; i++)
-    {
-        c = cmd[i];
-
-        if (c >= '0' && c <= '9')
-            nibble = (uint8_t)(c - '0');
-        else if (c >= 'A' && c <= 'F')
-            nibble = (uint8_t)(c - 'A' + 10);
-        else if (c >= 'a' && c <= 'f')
-            nibble = (uint8_t)(c - 'a' + 10);
-        else
-        {
-            uart2_puts("ERR BAD UPLOAD CRC");
-            uart2_newline();
-            return true;
-        }
-
-        crc = (crc << 4) | (uint32_t)nibble;
-    }
-    
-    if (size > MAX_APP_SIZE) 
-    {
-        uart2_puts("ERR IMAGE SIZE");
-        uart2_newline();
-        return true;
-    }
-
-    if (cmd[8] != '\0')
-    {
-        uart2_puts("ERR BAD UPLOAD FORMAT");
-        uart2_newline();
-        return true;
-    }
-
-    if (upload_active)
-    {
-        uart2_puts("ERR UPLOAD BUSY");
-        uart2_newline();
-        return true;
-    }
-
-    upload_size = size;
-    upload_expected_crc = crc;
-    upload_received = 0;
-    upload_sequence = 0;
-    upload_active = true;
-
-    uart2_puts("READY");
-    uart2_newline();
-
-    return true;
-}
-*/
 static bool parse_upload_command(const char *cmd)
 {
     uint16_t size = 0;
@@ -832,6 +702,12 @@ static bool parse_upload_command(const char *cmd)
 
     upload_crc32 = 0xFFFFFFFFUL;
     upload_have_frame = false;
+    
+    flash_row_address = APP_START;
+    flash_row_fill = 0;
+
+    for (i = 0; i < FLASH_ROW_SIZE; i++)
+        flash_row_buffer[i] = 0xFF;
 
     upload_active = true;
 
@@ -842,7 +718,7 @@ static bool parse_upload_command(const char *cmd)
 }
 /////////////
 /*
- * Launch the application linked at 0x0800.
+ * Launch the application linked at 0x1000.
  *
  * This is a software hand-off, not a hardware reset. Stop UART2 cleanly,
  * keep interrupts disabled, clear the hardware return stack, then branch to
