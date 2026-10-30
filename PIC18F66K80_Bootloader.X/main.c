@@ -14,7 +14,6 @@
 #include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
-
 /*
 #pragma config FOSC = HS1, PLLCFG = ON
 #pragma config IESO = OFF, FCMEN = OFF
@@ -37,13 +36,6 @@
 #pragma config EBTRB = OFF
 #pragma warning disable 1510
 
-/*
- * IMPORTANT:
- * Boot-block size and protection config bits are intentionally NOT set here.
- * Confirm the exact BBSIZ/WRTB/CPB pragma values in the installed PIC18F66K80
- * device pack/datasheet before programming a real device. Do not copy the
- * application's protection bits blindly.
- */
 
 /*
  * Application interrupt redirect:

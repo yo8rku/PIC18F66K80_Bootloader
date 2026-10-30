@@ -21275,13 +21275,34 @@ unsigned char __t3rd16on(void);
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.46\\pic\\include\\c99\\stdbool.h" 1 3
 # 17 "main.c" 2
 
-#pragma config FOSC = HS1, PLLCFG = ON
+
+
+
+
+
+
+
+#pragma config FOSC = HS1 ,PLLCFG = ON
 #pragma config IESO = OFF, FCMEN = OFF
 #pragma config PWRTEN = ON, BORV = 3, BOREN = ON
 #pragma config WDTEN = ON, WDTPS = 128
 #pragma config MCLRE = ON, MSSPMSK = MSK7, T0CKMX = PORTB, T3CKMX = PORTB, CANMX = PORTB
-#pragma config STVREN = ON, DEBUG = OFF, XINST = OFF
-# 37 "main.c"
+#pragma config STVREN = ON, DEBUG = OFF, XINST = OFF, BBSIZ = BB1K
+#pragma config CP0 = OFF, CP1 = OFF, CP2 = OFF, CP3 = OFF
+#pragma config CPB = OFF, CPD = OFF
+#pragma config WRT0 = OFF, WRT1 = OFF, WRT2 = OFF, WRT3 = OFF
+#pragma config WRTC = OFF, WRTB = ON, WRTD = OFF
+#pragma config EBTR0 = OFF, EBTR1 = OFF, EBTR2 = OFF, EBTR3 = OFF
+#pragma config EBTRB = OFF
+#pragma warning disable 1510
+# 57 "main.c"
+__asm("PSECT intcode");
+__asm("GOTO 0x0808");
+
+
+
+
+
 static void uart2_init(void)
 {
 
@@ -21338,6 +21359,26 @@ static _Bool uart2_try_getc(uint8_t *out)
     *out = RCREG2;
     return 1;
 }
+# 129 "main.c"
+static void jump_to_application(void)
+{
+
+    while (!TXSTA2bits.TRMT) {
+        __asm(" clrwdt");
+    }
+
+    RCSTA2 = 0;
+    TXSTA2 = 0;
+    BAUDCON2 = 0;
+
+    INTCONbits.GIE = 0;
+    INTCONbits.PEIE = 0;
+    STKPTR = 0;
+
+    __asm("GOTO 0x0800");
+
+
+}
 
 static void process_command(const char *cmd)
 {
@@ -21353,8 +21394,9 @@ static void process_command(const char *cmd)
         uart2_newline();
     } else if (cmd[0] == 'R' && cmd[1] == 'U' && cmd[2] == 'N' &&
                cmd[3] == '\0') {
-        uart2_puts("RUN DISABLED IN STAGE1; NO APPLICATION JUMP");
+        uart2_puts("RUN: STARTING APPLICATION");
         uart2_newline();
+        jump_to_application();
     } else {
         uart2_puts("ERR UNKNOWN COMMAND");
         uart2_newline();
