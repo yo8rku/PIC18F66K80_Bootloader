@@ -391,6 +391,46 @@ static uint8_t receive_upload_frame(
     return FRAME_VALID;
 }
 
+static void receive_upload_data(void)
+{
+    uint16_t sequence;
+    uint8_t length;
+    uint8_t result;
+
+    while (upload_active)
+    {
+        CLRWDT();
+
+        result = receive_upload_frame(&sequence, &length);
+
+        switch (result)
+        {
+            case FRAME_VALID:
+                uart2_putc(ACK);
+                uart2_putc((uint8_t)(sequence >> 8));
+                uart2_putc((uint8_t)sequence);
+                upload_sequence++;
+                break;
+
+            case FRAME_INVALID:
+            case FRAME_TIMEOUT:
+                uart2_putc(NAK);
+                uart2_putc((uint8_t)(upload_sequence >> 8));
+                uart2_putc((uint8_t)upload_sequence);
+                break;
+
+            case FRAME_EOT:
+                upload_active = false;
+                uart2_puts("RX END");
+                uart2_newline();
+                break;
+
+            default:
+                break;
+        }
+    }
+}
+
 /* CRC32 compatible with Python zlib.crc32()
  * Init:   0xFFFFFFFF
  * Poly:   0xEDB88320 (reflected)
@@ -724,6 +764,10 @@ void main(void)
                 if (count != 0u) {
                     line[count] = '\0';
                     process_command(line);
+                    if (upload_active)
+                    {
+                        receive_upload_data();
+                    }
                     count = 0;
                 }
             } else if (ch >= 32u && ch <= 126u) {
