@@ -40,7 +40,7 @@
  * redirect is needed for the current firmware.
  */
 asm("PSECT intcode");
-asm("GOTO 0x0808");
+asm("GOTO 0x1008");
 
 #define _XTAL_FREQ       64000000UL
 #define UART2_BAUD       115200UL
@@ -864,7 +864,7 @@ static void jump_to_application(void)
     INTCONbits.PEIE = 0;
     STKPTR = 0;
 
-    asm("GOTO 0x0800");
+    asm("GOTO 0x1000");
 
     /* Not reached. */
 }
