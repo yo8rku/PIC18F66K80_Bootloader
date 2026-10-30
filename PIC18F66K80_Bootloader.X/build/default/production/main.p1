@@ -81,7 +81,59 @@ Version 4.0 HI-TECH Software Intermediate Code
 "30045
 [; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 30045: extern volatile unsigned char TXREG2 __attribute__((address(0xF79)));
 [v _TXREG2 `Vuc ~T0 @X0 0 e@3961 ]
-"35002
+"38366
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38366: extern volatile unsigned char TBLPTRU __attribute__((address(0xFF8)));
+[v _TBLPTRU `Vuc ~T0 @X0 0 e@4088 ]
+"38346
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38346: extern volatile unsigned char TBLPTRH __attribute__((address(0xFF7)));
+[v _TBLPTRH `Vuc ~T0 @X0 0 e@4087 ]
+"38326
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38326: extern volatile unsigned char TBLPTRL __attribute__((address(0xFF6)));
+[v _TBLPTRL `Vuc ~T0 @X0 0 e@4086 ]
+"30171
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 30171:     struct {
+[s S1146 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1146 . RD WR WREN WRERR FREE . CFGS EEPGD ]
+"30181
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 30181:     struct {
+[s S1147 :6 `uc 1 :1 `uc 1 ]
+[n S1147 . . EEFS ]
+"30170
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 30170: typedef union {
+[u S1145 `S1146 1 `S1147 1 ]
+[n S1145 . . . ]
+"30186
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 30186: extern volatile EECON1bits_t EECON1bits __attribute__((address(0xF7F)));
+[v _EECON1bits `VS1145 ~T0 @X0 0 e@3967 ]
+"38029
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38029:     struct {
+[s S1535 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1535 . RBIF INT0IF TMR0IF RBIE INT0IE TMR0IE PEIE_GIEL GIE_GIEH ]
+"38039
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38039:     struct {
+[s S1536 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1536 . . INT0F T0IF . INT0E T0IE PEIE GIE ]
+"38049
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38049:     struct {
+[s S1537 :6 `uc 1 :1 `uc 1 :1 `uc 1 ]
+[n S1537 . . GIEL GIEH ]
+"38028
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38028: typedef union {
+[u S1534 `S1535 1 `S1536 1 `S1537 1 ]
+[n S1534 . . . . ]
+"38055
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38055: extern volatile INTCONbits_t INTCONbits __attribute__((address(0xFF2)));
+[v _INTCONbits `VS1534 ~T0 @X0 0 e@4082 ]
+"30145
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 30145: extern volatile unsigned char EECON2 __attribute__((address(0xF7E)));
+[v _EECON2 `Vuc ~T0 @X0 0 e@3966 ]
+"38297
+[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38297: extern volatile unsigned char TABLAT __attribute__((address(0xFF5)));
+[v _TABLAT `Vuc ~T0 @X0 0 e@4085 ]
+"85 main.c
+[; ;main.c: 85: static uint32_t crc32_update(uint32_t crc, uint8_t data);
+[v _crc32_update `(ul ~T0 @X0 0 sf2`ul`uc ]
+"35002 C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h
 [; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 35002:     struct {
 [s S1357 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
 [n S1357 . TX9D TRMT BRGH SENDB SYNC TXEN TX9 CSRC ]
@@ -103,25 +155,6 @@ Version 4.0 HI-TECH Software Intermediate Code
 "34864
 [; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 34864: extern volatile unsigned char BAUDCON2 __attribute__((address(0xFB9)));
 [v _BAUDCON2 `Vuc ~T0 @X0 0 e@4025 ]
-"38029
-[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38029:     struct {
-[s S1535 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1535 . RBIF INT0IF TMR0IF RBIE INT0IE TMR0IE PEIE_GIEL GIE_GIEH ]
-"38039
-[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38039:     struct {
-[s S1536 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1536 . . INT0F T0IF . INT0E T0IE PEIE GIE ]
-"38049
-[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38049:     struct {
-[s S1537 :6 `uc 1 :1 `uc 1 :1 `uc 1 ]
-[n S1537 . . GIEL GIEH ]
-"38028
-[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38028: typedef union {
-[u S1534 `S1535 1 `S1536 1 `S1537 1 ]
-[n S1534 . . . . ]
-"38055
-[; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38055: extern volatile INTCONbits_t INTCONbits __attribute__((address(0xFF2)));
-[v _INTCONbits `VS1534 ~T0 @X0 0 e@4082 ]
 "38462
 [; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38462: extern volatile unsigned char STKPTR __attribute__((address(0xFFC)));
 [v _STKPTR `Vuc ~T0 @X0 0 e@4092 ]
@@ -1548,507 +1581,2055 @@ Version 4.0 HI-TECH Software Intermediate Code
 "38585
 [; ;C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h: 38585: __asm("TOSU equ 0FFFh");
 [; <" TOSU equ 0FFFh ;# ">
-"25 main.c
+"18 main.c
 [p x FOSC  =  HS1   PLLCFG  =  ON ]
-"26
+"19
 [p x IESO  =  OFF   FCMEN  =  OFF ]
-"27
+"20
 [p x PWRTEN  =  ON   BORV  =  3   BOREN  =  ON ]
-"28
+"21
 [p x WDTEN  =  ON   WDTPS  =  128 ]
-"29
+"22
 [p x MCLRE  =  ON   MSSPMSK  =  MSK7   T0CKMX  =  PORTB   T3CKMX  =  PORTB   CANMX  =  PORTB ]
-"30
-[p x STVREN  =  ON   DEBUG  =  OFF   XINST  =  OFF   BBSIZ  =  BB1K ]
-"31
+"23
+[p x STVREN  =  ON   DEBUG  =  OFF   XINST  =  OFF   BBSIZ  =  BB2K ]
+"24
 [p x CP0  =  OFF   CP1  =  OFF   CP2  =  OFF   CP3  =  OFF ]
-"32
+"25
 [p x CPB  =  OFF   CPD  =  OFF ]
-"33
+"26
 [p x WRT0  =  OFF   WRT1  =  OFF   WRT2  =  OFF   WRT3  =  OFF ]
-"34
+"27
 [p x WRTC  =  OFF   WRTB  =  ON   WRTD  =  OFF ]
-"35
+"28
 [p x EBTR0  =  OFF   EBTR1  =  OFF   EBTR2  =  OFF   EBTR3  =  OFF ]
-"36
+"29
 [p x EBTRB  =  OFF ]
-"37
+"30
 [p n 1510 ]
-"57
-[; ;main.c: 57: __asm("PSECT intcode");
+"42
+[; ;main.c: 42: __asm("PSECT intcode");
 [; <" PSECT intcode ;# ">
-"58
-[; ;main.c: 58: __asm("GOTO 0x0808");
-[; <" GOTO 0x0808 ;# ">
-"64
-[; ;main.c: 64: static void uart2_init(void)
+"43
+[; ;main.c: 43: __asm("GOTO 0x1008");
+[; <" GOTO 0x1008 ;# ">
+"70
+[; ;main.c: 70: static uint32_t upload_size;
+[v _upload_size `ul ~T0 @X0 1 s ]
+"71
+[; ;main.c: 71: static uint32_t upload_expected_crc;
+[v _upload_expected_crc `ul ~T0 @X0 1 s ]
+"72
+[; ;main.c: 72: static uint32_t upload_received;
+[v _upload_received `ul ~T0 @X0 1 s ]
+"73
+[; ;main.c: 73: static uint16_t upload_sequence;
+[v _upload_sequence `us ~T0 @X0 1 s ]
+"74
+[; ;main.c: 74: static _Bool upload_active = 0;
+[v _upload_active `a ~T0 @X0 1 s ]
+[i _upload_active
+-> -> 0 `i `a
+]
+"76
+[; ;main.c: 76: static uint8_t frame_payload[48u];
+[v _frame_payload `uc ~T0 @X0 -> 48 `i s ]
+"77
+[; ;main.c: 77: static uint8_t flash_row_buffer[64u];
+[v _flash_row_buffer `uc ~T0 @X0 -> 64 `i s ]
+"78
+[; ;main.c: 78: static uint8_t flash_row_fill = 0;
+[v _flash_row_fill `uc ~T0 @X0 1 s ]
+[i _flash_row_fill
+-> -> 0 `i `uc
+]
+"79
+[; ;main.c: 79: static uint16_t flash_row_address = 0x1000u;
+[v _flash_row_address `us ~T0 @X0 1 s ]
+[i _flash_row_address
+-> -> 4096 `ui `us
+]
+"81
+[; ;main.c: 81: static uint32_t upload_crc32 = 0xFFFFFFFFUL;
+[v _upload_crc32 `ul ~T0 @X0 1 s ]
+[i _upload_crc32
+-> 4294967295 `ul
+]
+"82
+[; ;main.c: 82: static _Bool upload_have_frame = 0;
+[v _upload_have_frame `a ~T0 @X0 1 s ]
+[i _upload_have_frame
+-> -> 0 `i `a
+]
+"87
+[; ;main.c: 87: static void uart2_init(void)
 [v _uart2_init `(v ~T0 @X0 1 sf ]
-"65
-[; ;main.c: 65: {
+"88
+[; ;main.c: 88: {
 {
 [e :U _uart2_init ]
 [f ]
-"67
-[; ;main.c: 67:     TRISE = 0b01000111;
+"90
+[; ;main.c: 90:     TRISE = 0b01000111;
 [e = _TRISE -> -> 71 `i `uc ]
-"69
-[; ;main.c: 69:     BAUDCON2bits.BRG16 = 0;
+"92
+[; ;main.c: 92:     BAUDCON2bits.BRG16 = 0;
 [e = . . _BAUDCON2bits 0 3 -> -> 0 `i `uc ]
-"70
-[; ;main.c: 70:     RCSTA2 = 0b10010000;
+"93
+[; ;main.c: 93:     RCSTA2 = 0b10010000;
 [e = _RCSTA2 -> -> 144 `i `uc ]
-"71
-[; ;main.c: 71:     TXSTA2 = 0b00100100;
+"94
+[; ;main.c: 94:     TXSTA2 = 0b00100100;
 [e = _TXSTA2 -> -> 36 `i `uc ]
-"72
-[; ;main.c: 72:     SPBRG2 = 34;
+"95
+[; ;main.c: 95:     SPBRG2 = 34;
 [e = _SPBRG2 -> -> 34 `i `uc ]
-"73
-[; ;main.c: 73:     SPBRGH2 = 0;
+"96
+[; ;main.c: 96:     SPBRGH2 = 0;
 [e = _SPBRGH2 -> -> 0 `i `uc ]
-"75
-[; ;main.c: 75:     if (RCSTA2bits.OERR) {
+"98
+[; ;main.c: 98:     if (RCSTA2bits.OERR) {
 [e $ ! != -> . . _RCSTA2bits 0 1 `i -> 0 `i 1594  ]
 {
-"76
-[; ;main.c: 76:         RCSTA2bits.CREN = 0;
+"99
+[; ;main.c: 99:         RCSTA2bits.CREN = 0;
 [e = . . _RCSTA2bits 0 4 -> -> 0 `i `uc ]
-"77
-[; ;main.c: 77:         RCSTA2bits.CREN = 1;
+"100
+[; ;main.c: 100:         RCSTA2bits.CREN = 1;
 [e = . . _RCSTA2bits 0 4 -> -> 1 `i `uc ]
-"78
-[; ;main.c: 78:     }
+"101
+[; ;main.c: 101:     }
 }
 [e :U 1594 ]
-"79
-[; ;main.c: 79:     while (PIR3bits.RC2IF) {
+"102
+[; ;main.c: 102:     while (PIR3bits.RC2IF) {
 [e $U 1595  ]
 [e :U 1596 ]
 {
-"80
-[; ;main.c: 80:         volatile uint8_t dummy = RCREG2;
+"103
+[; ;main.c: 103:         volatile uint8_t dummy = RCREG2;
 [v _dummy `Vuc ~T0 @X0 1 a ]
 [e = _dummy _RCREG2 ]
-"81
-[; ;main.c: 81:         (void)dummy;
+"104
+[; ;main.c: 104:         (void)dummy;
 [e _dummy ]
-"82
-[; ;main.c: 82:     }
+"105
+[; ;main.c: 105:     }
 }
 [e :U 1595 ]
-"79
-[; ;main.c: 79:     while (PIR3bits.RC2IF) {
+"102
+[; ;main.c: 102:     while (PIR3bits.RC2IF) {
 [e $ != -> . . _PIR3bits 0 5 `i -> 0 `i 1596  ]
 [e :U 1597 ]
-"83
-[; ;main.c: 83: }
+"106
+[; ;main.c: 106: }
 [e :UE 1593 ]
 }
-"85
-[; ;main.c: 85: static void uart2_putc(char c)
+"108
+[; ;main.c: 108: static void uart2_putc(char c)
 [v _uart2_putc `(v ~T0 @X0 1 sf1`uc ]
-"86
-[; ;main.c: 86: {
+"109
+[; ;main.c: 109: {
 {
 [e :U _uart2_putc ]
-"85
-[; ;main.c: 85: static void uart2_putc(char c)
+"108
+[; ;main.c: 108: static void uart2_putc(char c)
 [v _c `uc ~T0 @X0 1 r1 ]
-"86
-[; ;main.c: 86: {
+"109
+[; ;main.c: 109: {
 [f ]
-"87
-[; ;main.c: 87:     while (!PIR3bits.TX2IF) {
+"110
+[; ;main.c: 110:     while (!PIR3bits.TX2IF) {
 [e $U 1599  ]
 [e :U 1600 ]
 {
-"88
-[; ;main.c: 88:         __asm(" clrwdt");
+"111
+[; ;main.c: 111:         __asm(" clrwdt");
 [; <"  clrwdt ;# ">
-"89
-[; ;main.c: 89:     }
+"112
+[; ;main.c: 112:     }
 }
 [e :U 1599 ]
-"87
-[; ;main.c: 87:     while (!PIR3bits.TX2IF) {
+"110
+[; ;main.c: 110:     while (!PIR3bits.TX2IF) {
 [e $ ! != -> . . _PIR3bits 0 4 `i -> 0 `i 1600  ]
 [e :U 1601 ]
-"90
-[; ;main.c: 90:     TXREG2 = c;
+"113
+[; ;main.c: 113:     TXREG2 = c;
 [e = _TXREG2 -> _c `uc ]
-"91
-[; ;main.c: 91: }
+"114
+[; ;main.c: 114: }
 [e :UE 1598 ]
 }
-"93
-[; ;main.c: 93: static void uart2_puts(const char *s)
+"116
+[; ;main.c: 116: static void uart2_puts(const char *s)
 [v _uart2_puts `(v ~T0 @X0 1 sf1`*Cuc ]
-"94
-[; ;main.c: 94: {
+"117
+[; ;main.c: 117: {
 {
 [e :U _uart2_puts ]
-"93
-[; ;main.c: 93: static void uart2_puts(const char *s)
+"116
+[; ;main.c: 116: static void uart2_puts(const char *s)
 [v _s `*Cuc ~T0 @X0 1 r1 ]
-"94
-[; ;main.c: 94: {
+"117
+[; ;main.c: 117: {
 [f ]
-"95
-[; ;main.c: 95:     while (*s != '\0') {
+"118
+[; ;main.c: 118:     while (*s != '\0') {
 [e $U 1603  ]
 [e :U 1604 ]
 {
-"96
-[; ;main.c: 96:         uart2_putc(*s++);
+"119
+[; ;main.c: 119:         uart2_putc(*s++);
 [e ( _uart2_putc (1 *U ++ _s * -> -> 1 `i `x -> -> # *U _s `i `x ]
-"97
-[; ;main.c: 97:     }
+"120
+[; ;main.c: 120:     }
 }
 [e :U 1603 ]
-"95
-[; ;main.c: 95:     while (*s != '\0') {
+"118
+[; ;main.c: 118:     while (*s != '\0') {
 [e $ != -> *U _s `ui -> 0 `ui 1604  ]
 [e :U 1605 ]
-"98
-[; ;main.c: 98: }
+"121
+[; ;main.c: 121: }
 [e :UE 1602 ]
 }
-"100
-[; ;main.c: 100: static void uart2_newline(void)
+"123
+[; ;main.c: 123: static void uart2_newline(void)
 [v _uart2_newline `(v ~T0 @X0 1 sf ]
-"101
-[; ;main.c: 101: {
+"124
+[; ;main.c: 124: {
 {
 [e :U _uart2_newline ]
 [f ]
-"102
-[; ;main.c: 102:     uart2_putc('\r');
+"125
+[; ;main.c: 125:     uart2_putc('\r');
 [e ( _uart2_putc (1 -> -> 13 `ui `uc ]
-"103
-[; ;main.c: 103:     uart2_putc('\n');
+"126
+[; ;main.c: 126:     uart2_putc('\n');
 [e ( _uart2_putc (1 -> -> 10 `ui `uc ]
-"104
-[; ;main.c: 104: }
+"127
+[; ;main.c: 127: }
 [e :UE 1606 ]
 }
-"106
-[; ;main.c: 106: static _Bool uart2_try_getc(uint8_t *out)
-[v _uart2_try_getc `(a ~T0 @X0 1 sf1`*uc ]
-"107
-[; ;main.c: 107: {
-{
-[e :U _uart2_try_getc ]
-"106
-[; ;main.c: 106: static _Bool uart2_try_getc(uint8_t *out)
-[v _out `*uc ~T0 @X0 1 r1 ]
-"107
-[; ;main.c: 107: {
-[f ]
-"108
-[; ;main.c: 108:     if (RCSTA2bits.OERR) {
-[e $ ! != -> . . _RCSTA2bits 0 1 `i -> 0 `i 1608  ]
-{
-"109
-[; ;main.c: 109:         RCSTA2bits.CREN = 0;
-[e = . . _RCSTA2bits 0 4 -> -> 0 `i `uc ]
-"110
-[; ;main.c: 110:         RCSTA2bits.CREN = 1;
-[e = . . _RCSTA2bits 0 4 -> -> 1 `i `uc ]
-"111
-[; ;main.c: 111:     }
-}
-[e :U 1608 ]
-"113
-[; ;main.c: 113:     if (!PIR3bits.RC2IF) {
-[e $ ! ! != -> . . _PIR3bits 0 5 `i -> 0 `i 1609  ]
-{
-"114
-[; ;main.c: 114:         return 0;
-[e ) -> -> 0 `i `a ]
-[e $UE 1607  ]
-"115
-[; ;main.c: 115:     }
-}
-[e :U 1609 ]
-"117
-[; ;main.c: 117:     *out = RCREG2;
-[e = *U _out _RCREG2 ]
-"118
-[; ;main.c: 118:     return 1;
-[e ) -> -> 1 `i `a ]
-[e $UE 1607  ]
-"119
-[; ;main.c: 119: }
-[e :UE 1607 ]
-}
 "129
-[; ;main.c: 129: static void jump_to_application(void)
-[v _jump_to_application `(v ~T0 @X0 1 sf ]
+[; ;main.c: 129: static _Bool uart2_try_getc(uint8_t *out)
+[v _uart2_try_getc `(a ~T0 @X0 1 sf1`*uc ]
 "130
 [; ;main.c: 130: {
 {
-[e :U _jump_to_application ]
+[e :U _uart2_try_getc ]
+"129
+[; ;main.c: 129: static _Bool uart2_try_getc(uint8_t *out)
+[v _out `*uc ~T0 @X0 1 r1 ]
+"130
+[; ;main.c: 130: {
 [f ]
-"132
-[; ;main.c: 132:     while (!TXSTA2bits.TRMT) {
-[e $U 1611  ]
-[e :U 1612 ]
+"131
+[; ;main.c: 131:     if (RCSTA2bits.OERR) {
+[e $ ! != -> . . _RCSTA2bits 0 1 `i -> 0 `i 1608  ]
 {
+"132
+[; ;main.c: 132:         RCSTA2bits.CREN = 0;
+[e = . . _RCSTA2bits 0 4 -> -> 0 `i `uc ]
 "133
-[; ;main.c: 133:         __asm(" clrwdt");
-[; <"  clrwdt ;# ">
+[; ;main.c: 133:         RCSTA2bits.CREN = 1;
+[e = . . _RCSTA2bits 0 4 -> -> 1 `i `uc ]
 "134
 [; ;main.c: 134:     }
 }
-[e :U 1611 ]
-"132
-[; ;main.c: 132:     while (!TXSTA2bits.TRMT) {
-[e $ ! != -> . . _TXSTA2bits 0 1 `i -> 0 `i 1612  ]
-[e :U 1613 ]
+[e :U 1608 ]
 "136
-[; ;main.c: 136:     RCSTA2 = 0;
-[e = _RCSTA2 -> -> 0 `i `uc ]
+[; ;main.c: 136:     if (!PIR3bits.RC2IF) {
+[e $ ! ! != -> . . _PIR3bits 0 5 `i -> 0 `i 1609  ]
+{
 "137
-[; ;main.c: 137:     TXSTA2 = 0;
-[e = _TXSTA2 -> -> 0 `i `uc ]
+[; ;main.c: 137:         return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1607  ]
 "138
-[; ;main.c: 138:     BAUDCON2 = 0;
-[e = _BAUDCON2 -> -> 0 `i `uc ]
+[; ;main.c: 138:     }
+}
+[e :U 1609 ]
 "140
-[; ;main.c: 140:     INTCONbits.GIE = 0;
-[e = . . _INTCONbits 1 7 -> -> 0 `i `uc ]
+[; ;main.c: 140:     *out = RCREG2;
+[e = *U _out _RCREG2 ]
 "141
-[; ;main.c: 141:     INTCONbits.PEIE = 0;
-[e = . . _INTCONbits 1 6 -> -> 0 `i `uc ]
+[; ;main.c: 141:     return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1607  ]
 "142
-[; ;main.c: 142:     STKPTR = 0;
-[e = _STKPTR -> -> 0 `i `uc ]
+[; ;main.c: 142: }
+[e :UE 1607 ]
+}
 "144
-[; ;main.c: 144:     __asm("GOTO 0x0800");
-[; <" GOTO 0x0800 ;# ">
-"147
-[; ;main.c: 147: }
+[; ;main.c: 144: static _Bool uart2_getc_timeout(uint8_t *out)
+[v _uart2_getc_timeout `(a ~T0 @X0 1 sf1`*uc ]
+"145
+[; ;main.c: 145: {
+{
+[e :U _uart2_getc_timeout ]
+"144
+[; ;main.c: 144: static _Bool uart2_getc_timeout(uint8_t *out)
+[v _out `*uc ~T0 @X0 1 r1 ]
+"145
+[; ;main.c: 145: {
+[f ]
+"146
+[; ;main.c: 146:     uint16_t timeout = 60000u;
+[v _timeout `us ~T0 @X0 1 a ]
+[e = _timeout -> -> 60000 `ui `us ]
+"148
+[; ;main.c: 148:     while (timeout != 0u)
+[e $U 1611  ]
+[e :U 1612 ]
+"149
+[; ;main.c: 149:     {
+{
+"150
+[; ;main.c: 150:         if (uart2_try_getc(out))
+[e $ ! != -> ( _uart2_try_getc (1 _out `i -> 0 `i 1614  ]
+"151
+[; ;main.c: 151:             return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1610  ]
+[e :U 1614 ]
+"153
+[; ;main.c: 153:         __asm(" clrwdt");
+[; <"  clrwdt ;# ">
+"154
+[; ;main.c: 154:         timeout--;
+[e -- _timeout -> -> 1 `i `us ]
+"155
+[; ;main.c: 155:     }
+}
+[e :U 1611 ]
+"148
+[; ;main.c: 148:     while (timeout != 0u)
+[e $ != -> _timeout `ui -> 0 `ui 1612  ]
+[e :U 1613 ]
+"157
+[; ;main.c: 157:     return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1610  ]
+"158
+[; ;main.c: 158: }
 [e :UE 1610 ]
 }
-"149
-[; ;main.c: 149: static void process_command(const char *cmd)
+"161
+[; ;main.c: 161: static void flash_set_pointer(uint16_t address)
+[v _flash_set_pointer `(v ~T0 @X0 1 sf1`us ]
+"162
+[; ;main.c: 162: {
+{
+[e :U _flash_set_pointer ]
+"161
+[; ;main.c: 161: static void flash_set_pointer(uint16_t address)
+[v _address `us ~T0 @X0 1 r1 ]
+"162
+[; ;main.c: 162: {
+[f ]
+"163
+[; ;main.c: 163:     TBLPTRU = 0;
+[e = _TBLPTRU -> -> 0 `i `uc ]
+"164
+[; ;main.c: 164:     TBLPTRH = (uint8_t)(address >> 8);
+[e = _TBLPTRH -> >> -> _address `ui -> 8 `i `uc ]
+"165
+[; ;main.c: 165:     TBLPTRL = (uint8_t)address;
+[e = _TBLPTRL -> _address `uc ]
+"166
+[; ;main.c: 166: }
+[e :UE 1615 ]
+}
+"169
+[; ;main.c: 169: static _Bool flash_valid_row(uint16_t address)
+[v _flash_valid_row `(a ~T0 @X0 1 sf1`us ]
+"170
+[; ;main.c: 170: {
+{
+[e :U _flash_valid_row ]
+"169
+[; ;main.c: 169: static _Bool flash_valid_row(uint16_t address)
+[v _address `us ~T0 @X0 1 r1 ]
+"170
+[; ;main.c: 170: {
+[f ]
+"171
+[; ;main.c: 171:     if (address < 0x1000u)
+[e $ ! < -> _address `ui -> 4096 `ui 1617  ]
+"172
+[; ;main.c: 172:         return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1616  ]
+[e :U 1617 ]
+"174
+[; ;main.c: 174:     if (address > (0xFFFFu - (64u - 1u)))
+[e $ ! > -> _address `ui - -> 65535 `ui - -> 64 `ui -> 1 `ui 1618  ]
+"175
+[; ;main.c: 175:         return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1616  ]
+[e :U 1618 ]
+"177
+[; ;main.c: 177:     if ((address & (64u - 1u)) != 0u)
+[e $ ! != & -> _address `ui - -> 64 `ui -> 1 `ui -> 0 `ui 1619  ]
+"178
+[; ;main.c: 178:         return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1616  ]
+[e :U 1619 ]
+"180
+[; ;main.c: 180:     return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1616  ]
+"181
+[; ;main.c: 181: }
+[e :UE 1616 ]
+}
+"184
+[; ;main.c: 184: static _Bool flash_erase_row(uint16_t address)
+[v _flash_erase_row `(a ~T0 @X0 1 sf1`us ]
+"185
+[; ;main.c: 185: {
+{
+[e :U _flash_erase_row ]
+"184
+[; ;main.c: 184: static _Bool flash_erase_row(uint16_t address)
+[v _address `us ~T0 @X0 1 r1 ]
+"185
+[; ;main.c: 185: {
+[f ]
+"186
+[; ;main.c: 186:     uint8_t gie_state;
+[v _gie_state `uc ~T0 @X0 1 a ]
+"188
+[; ;main.c: 188:     if (!flash_valid_row(address))
+[e $ ! ! != -> ( _flash_valid_row (1 _address `i -> 0 `i 1621  ]
+"189
+[; ;main.c: 189:         return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1620  ]
+[e :U 1621 ]
+"191
+[; ;main.c: 191:     flash_set_pointer(address);
+[e ( _flash_set_pointer (1 _address ]
+"193
+[; ;main.c: 193:     EECON1bits.EEPGD = 1;
+[e = . . _EECON1bits 0 7 -> -> 1 `i `uc ]
+"194
+[; ;main.c: 194:     EECON1bits.CFGS = 0;
+[e = . . _EECON1bits 0 6 -> -> 0 `i `uc ]
+"195
+[; ;main.c: 195:     EECON1bits.WREN = 1;
+[e = . . _EECON1bits 0 2 -> -> 1 `i `uc ]
+"196
+[; ;main.c: 196:     EECON1bits.FREE = 1;
+[e = . . _EECON1bits 0 4 -> -> 1 `i `uc ]
+"198
+[; ;main.c: 198:     gie_state = INTCONbits.GIE;
+[e = _gie_state . . _INTCONbits 1 7 ]
+"199
+[; ;main.c: 199:     INTCONbits.GIE = 0;
+[e = . . _INTCONbits 1 7 -> -> 0 `i `uc ]
+"201
+[; ;main.c: 201:     EECON2 = 0x55;
+[e = _EECON2 -> -> 85 `i `uc ]
+"202
+[; ;main.c: 202:     EECON2 = 0xAA;
+[e = _EECON2 -> -> 170 `i `uc ]
+"203
+[; ;main.c: 203:     EECON1bits.WR = 1;
+[e = . . _EECON1bits 0 1 -> -> 1 `i `uc ]
+"205
+[; ;main.c: 205:     INTCONbits.GIE = gie_state;
+[e = . . _INTCONbits 1 7 _gie_state ]
+"207
+[; ;main.c: 207:     while (EECON1bits.WR)
+[e $U 1622  ]
+[e :U 1623 ]
+"208
+[; ;main.c: 208:         __asm(" clrwdt");
+[; <"  clrwdt ;# ">
+[e :U 1622 ]
+"207
+[; ;main.c: 207:     while (EECON1bits.WR)
+[e $ != -> . . _EECON1bits 0 1 `i -> 0 `i 1623  ]
+[e :U 1624 ]
+"210
+[; ;main.c: 210:     EECON1bits.WREN = 0;
+[e = . . _EECON1bits 0 2 -> -> 0 `i `uc ]
+"211
+[; ;main.c: 211:     EECON1bits.FREE = 0;
+[e = . . _EECON1bits 0 4 -> -> 0 `i `uc ]
+"213
+[; ;main.c: 213:     return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1620  ]
+"214
+[; ;main.c: 214: }
+[e :UE 1620 ]
+}
+"217
+[; ;main.c: 217: static _Bool flash_verify_row(uint16_t address,
+[v _flash_verify_row `(a ~T0 @X0 1 sf2`us`*Cuc ]
+"219
+[; ;main.c: 219: {
+{
+[e :U _flash_verify_row ]
+"217
+[; ;main.c: 217: static _Bool flash_verify_row(uint16_t address,
+[v _address `us ~T0 @X0 1 r1 ]
+"218
+[; ;main.c: 218:                              const uint8_t *buffer)
+[v _buffer `*Cuc ~T0 @X0 1 r2 ]
+"219
+[; ;main.c: 219: {
+[f ]
+"220
+[; ;main.c: 220:     uint8_t i;
+[v _i `uc ~T0 @X0 1 a ]
+"222
+[; ;main.c: 222:     if (!flash_valid_row(address))
+[e $ ! ! != -> ( _flash_valid_row (1 _address `i -> 0 `i 1626  ]
+"223
+[; ;main.c: 223:         return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1625  ]
+[e :U 1626 ]
+"225
+[; ;main.c: 225:     EECON1bits.EEPGD = 1;
+[e = . . _EECON1bits 0 7 -> -> 1 `i `uc ]
+"226
+[; ;main.c: 226:     EECON1bits.CFGS = 0;
+[e = . . _EECON1bits 0 6 -> -> 0 `i `uc ]
+"228
+[; ;main.c: 228:     flash_set_pointer(address);
+[e ( _flash_set_pointer (1 _address ]
+"230
+[; ;main.c: 230:     for (i = 0; i < 64u; i++)
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `ui -> 64 `ui 1627  ]
+[e $U 1628  ]
+[e :U 1627 ]
+"231
+[; ;main.c: 231:     {
+{
+"232
+[; ;main.c: 232:         __asm("TBLRD*+");
+[; <" TBLRD*+ ;# ">
+"234
+[; ;main.c: 234:         if (TABLAT != buffer[i])
+[e $ ! != -> _TABLAT `i -> *U + _buffer * -> _i `ux -> -> # *U _buffer `ui `ux `i 1630  ]
+"235
+[; ;main.c: 235:             return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1625  ]
+[e :U 1630 ]
+"236
+[; ;main.c: 236:     }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `ui -> 64 `ui 1627  ]
+[e :U 1628 ]
+}
+"238
+[; ;main.c: 238:     return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1625  ]
+"239
+[; ;main.c: 239: }
+[e :UE 1625 ]
+}
+"243
+[; ;main.c: 243: static _Bool flash_write_row(uint16_t address,
+[v _flash_write_row `(a ~T0 @X0 1 sf2`us`*Cuc ]
+"245
+[; ;main.c: 245: {
+{
+[e :U _flash_write_row ]
+"243
+[; ;main.c: 243: static _Bool flash_write_row(uint16_t address,
+[v _address `us ~T0 @X0 1 r1 ]
+"244
+[; ;main.c: 244:                             const uint8_t *buffer)
+[v _buffer `*Cuc ~T0 @X0 1 r2 ]
+"245
+[; ;main.c: 245: {
+[f ]
+"246
+[; ;main.c: 246:     uint8_t i;
+[v _i `uc ~T0 @X0 1 a ]
+"247
+[; ;main.c: 247:     uint8_t gie_state;
+[v _gie_state `uc ~T0 @X0 1 a ]
+"249
+[; ;main.c: 249:     if (!flash_valid_row(address))
+[e $ ! ! != -> ( _flash_valid_row (1 _address `i -> 0 `i 1632  ]
+"250
+[; ;main.c: 250:         return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1631  ]
+[e :U 1632 ]
+"252
+[; ;main.c: 252:     EECON1bits.EEPGD = 1;
+[e = . . _EECON1bits 0 7 -> -> 1 `i `uc ]
+"253
+[; ;main.c: 253:     EECON1bits.CFGS = 0;
+[e = . . _EECON1bits 0 6 -> -> 0 `i `uc ]
+"255
+[; ;main.c: 255:     flash_set_pointer(address);
+[e ( _flash_set_pointer (1 _address ]
+"258
+[; ;main.c: 258:     for (i = 0; i < 64u; i++)
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `ui -> 64 `ui 1633  ]
+[e $U 1634  ]
+[e :U 1633 ]
+"259
+[; ;main.c: 259:     {
+{
+"260
+[; ;main.c: 260:         TABLAT = buffer[i];
+[e = _TABLAT *U + _buffer * -> _i `ux -> -> # *U _buffer `ui `ux ]
+"261
+[; ;main.c: 261:         __asm("TBLWT*+");
+[; <" TBLWT*+ ;# ">
+"262
+[; ;main.c: 262:     }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `ui -> 64 `ui 1633  ]
+[e :U 1634 ]
+}
+"265
+[; ;main.c: 265:     flash_set_pointer(address);
+[e ( _flash_set_pointer (1 _address ]
+"267
+[; ;main.c: 267:     EECON1bits.WREN = 1;
+[e = . . _EECON1bits 0 2 -> -> 1 `i `uc ]
+"268
+[; ;main.c: 268:     EECON1bits.FREE = 0;
+[e = . . _EECON1bits 0 4 -> -> 0 `i `uc ]
+"270
+[; ;main.c: 270:     gie_state = INTCONbits.GIE;
+[e = _gie_state . . _INTCONbits 1 7 ]
+"271
+[; ;main.c: 271:     INTCONbits.GIE = 0;
+[e = . . _INTCONbits 1 7 -> -> 0 `i `uc ]
+"273
+[; ;main.c: 273:     EECON2 = 0x55;
+[e = _EECON2 -> -> 85 `i `uc ]
+"274
+[; ;main.c: 274:     EECON2 = 0xAA;
+[e = _EECON2 -> -> 170 `i `uc ]
+"275
+[; ;main.c: 275:     EECON1bits.WR = 1;
+[e = . . _EECON1bits 0 1 -> -> 1 `i `uc ]
+"277
+[; ;main.c: 277:     INTCONbits.GIE = gie_state;
+[e = . . _INTCONbits 1 7 _gie_state ]
+"279
+[; ;main.c: 279:     while (EECON1bits.WR)
+[e $U 1636  ]
+[e :U 1637 ]
+"280
+[; ;main.c: 280:         __asm(" clrwdt");
+[; <"  clrwdt ;# ">
+[e :U 1636 ]
+"279
+[; ;main.c: 279:     while (EECON1bits.WR)
+[e $ != -> . . _EECON1bits 0 1 `i -> 0 `i 1637  ]
+[e :U 1638 ]
+"282
+[; ;main.c: 282:     EECON1bits.WREN = 0;
+[e = . . _EECON1bits 0 2 -> -> 0 `i `uc ]
+"285
+[; ;main.c: 285:     return flash_verify_row(address, buffer);
+[e ) ( _flash_verify_row (2 , _address _buffer ]
+[e $UE 1631  ]
+"286
+[; ;main.c: 286: }
+[e :UE 1631 ]
+}
+"289
+[; ;main.c: 289: static _Bool flash_program_row(uint16_t address,
+[v _flash_program_row `(a ~T0 @X0 1 sf2`us`*Cuc ]
+"291
+[; ;main.c: 291: {
+{
+[e :U _flash_program_row ]
+"289
+[; ;main.c: 289: static _Bool flash_program_row(uint16_t address,
+[v _address `us ~T0 @X0 1 r1 ]
+"290
+[; ;main.c: 290:                               const uint8_t *buffer)
+[v _buffer `*Cuc ~T0 @X0 1 r2 ]
+"291
+[; ;main.c: 291: {
+[f ]
+"292
+[; ;main.c: 292:     if (!flash_erase_row(address))
+[e $ ! ! != -> ( _flash_erase_row (1 _address `i -> 0 `i 1640  ]
+"293
+[; ;main.c: 293:         return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1639  ]
+[e :U 1640 ]
+"295
+[; ;main.c: 295:     return flash_write_row(address, buffer);
+[e ) ( _flash_write_row (2 , _address _buffer ]
+[e $UE 1639  ]
+"296
+[; ;main.c: 296: }
+[e :UE 1639 ]
+}
+"299
+[; ;main.c: 299: static _Bool flash_flush_row(void)
+[v _flash_flush_row `(a ~T0 @X0 1 sf ]
+"300
+[; ;main.c: 300: {
+{
+[e :U _flash_flush_row ]
+[f ]
+"301
+[; ;main.c: 301:     uint8_t i;
+[v _i `uc ~T0 @X0 1 a ]
+"303
+[; ;main.c: 303:     if (flash_row_fill == 0u)
+[e $ ! == -> _flash_row_fill `ui -> 0 `ui 1642  ]
+"304
+[; ;main.c: 304:         return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1641  ]
+[e :U 1642 ]
+"307
+[; ;main.c: 307:     for (i = flash_row_fill; i < 64u; i++)
+{
+[e = _i _flash_row_fill ]
+[e $ < -> _i `ui -> 64 `ui 1643  ]
+[e $U 1644  ]
+[e :U 1643 ]
+"308
+[; ;main.c: 308:         flash_row_buffer[i] = 0xFF;
+[e = *U + &U _flash_row_buffer * -> _i `ux -> -> # *U &U _flash_row_buffer `ui `ux -> -> 255 `i `uc ]
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `ui -> 64 `ui 1643  ]
+[e :U 1644 ]
+}
+"310
+[; ;main.c: 310:     if (!flash_program_row(flash_row_address, flash_row_buffer))
+[e $ ! ! != -> ( _flash_program_row (2 , _flash_row_address -> &U _flash_row_buffer `*Cuc `i -> 0 `i 1646  ]
+"311
+[; ;main.c: 311:         return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1641  ]
+[e :U 1646 ]
+"314
+[; ;main.c: 314:     flash_row_fill = 0u;
+[e = _flash_row_fill -> -> 0 `ui `uc ]
+"315
+[; ;main.c: 315:     flash_row_address += 64u;
+[e =+ _flash_row_address -> -> 64 `ui `us ]
+"317
+[; ;main.c: 317:     for (i = 0; i < 64u; i++)
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `ui -> 64 `ui 1647  ]
+[e $U 1648  ]
+[e :U 1647 ]
+"318
+[; ;main.c: 318:         flash_row_buffer[i] = 0xFF;
+[e = *U + &U _flash_row_buffer * -> _i `ux -> -> # *U &U _flash_row_buffer `ui `ux -> -> 255 `i `uc ]
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `ui -> 64 `ui 1647  ]
+[e :U 1648 ]
+}
+"320
+[; ;main.c: 320:     return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1641  ]
+"321
+[; ;main.c: 321: }
+[e :UE 1641 ]
+}
+"330
+[; ;main.c: 330: static uint16_t crc16_update(uint16_t crc, uint8_t data)
+[v _crc16_update `(us ~T0 @X0 1 sf2`us`uc ]
+"331
+[; ;main.c: 331: {
+{
+[e :U _crc16_update ]
+"330
+[; ;main.c: 330: static uint16_t crc16_update(uint16_t crc, uint8_t data)
+[v _crc `us ~T0 @X0 1 r1 ]
+[v _data `uc ~T0 @X0 1 r2 ]
+"331
+[; ;main.c: 331: {
+[f ]
+"332
+[; ;main.c: 332:     uint8_t i;
+[v _i `uc ~T0 @X0 1 a ]
+"334
+[; ;main.c: 334:     crc ^= (uint16_t)data << 8;
+[e =^ _crc -> << -> -> _data `us `ui -> 8 `i `us ]
+"336
+[; ;main.c: 336:     for (i = 0; i < 8u; i++)
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `ui -> 8 `ui 1651  ]
+[e $U 1652  ]
+[e :U 1651 ]
+"337
+[; ;main.c: 337:     {
+{
+"338
+[; ;main.c: 338:         if (crc & 0x8000u)
+[e $ ! != & -> _crc `ui -> 32768 `ui -> -> 0 `i `ui 1654  ]
+"339
+[; ;main.c: 339:             crc = (uint16_t)((crc << 1) ^ 0x1021u);
+[e = _crc -> ^ << -> _crc `ui -> 1 `i -> 4129 `ui `us ]
+[e $U 1655  ]
+"340
+[; ;main.c: 340:         else
+[e :U 1654 ]
+"341
+[; ;main.c: 341:             crc <<= 1;
+[e =<< _crc -> -> 1 `i `us ]
+[e :U 1655 ]
+"342
+[; ;main.c: 342:     }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `ui -> 8 `ui 1651  ]
+[e :U 1652 ]
+}
+"344
+[; ;main.c: 344:     return crc;
+[e ) _crc ]
+[e $UE 1650  ]
+"345
+[; ;main.c: 345: }
+[e :UE 1650 ]
+}
+"347
+[; ;main.c: 347: static uint8_t receive_upload_frame(
+[v _receive_upload_frame `(uc ~T0 @X0 1 sf2`*us`*uc ]
+"350
+[; ;main.c: 350: {
+{
+[e :U _receive_upload_frame ]
+"348
+[; ;main.c: 348:     uint16_t *sequence,
+[v _sequence `*us ~T0 @X0 1 r1 ]
+"349
+[; ;main.c: 349:     uint8_t *length)
+[v _length `*uc ~T0 @X0 1 r2 ]
+"350
+[; ;main.c: 350: {
+[f ]
+"351
+[; ;main.c: 351:     uint8_t ch;
+[v _ch `uc ~T0 @X0 1 a ]
+"352
+[; ;main.c: 352:     uint8_t i;
+[v _i `uc ~T0 @X0 1 a ]
+"353
+[; ;main.c: 353:     uint16_t received_crc;
+[v _received_crc `us ~T0 @X0 1 a ]
+"354
+[; ;main.c: 354:     uint16_t calculated_crc;
+[v _calculated_crc `us ~T0 @X0 1 a ]
+"355
+[; ;main.c: 355:     uint16_t frame_len;
+[v _frame_len `us ~T0 @X0 1 a ]
+"357
+[; ;main.c: 357:     uint8_t seq_hi;
+[v _seq_hi `uc ~T0 @X0 1 a ]
+"358
+[; ;main.c: 358:     uint8_t seq_lo;
+[v _seq_lo `uc ~T0 @X0 1 a ]
+"359
+[; ;main.c: 359:     uint8_t len_hi;
+[v _len_hi `uc ~T0 @X0 1 a ]
+"360
+[; ;main.c: 360:     uint8_t len_lo;
+[v _len_lo `uc ~T0 @X0 1 a ]
+"363
+[; ;main.c: 363:     if (!uart2_try_getc(&ch))
+[e $ ! ! != -> ( _uart2_try_getc (1 &U _ch `i -> 0 `i 1657  ]
+"364
+[; ;main.c: 364:         return 0u;
+[e ) -> -> 0 `ui `uc ]
+[e $UE 1656  ]
+[e :U 1657 ]
+"366
+[; ;main.c: 366:     if (ch == 0x04u)
+[e $ ! == -> _ch `ui -> 4 `ui 1658  ]
+"367
+[; ;main.c: 367:         return 4u;
+[e ) -> -> 4 `ui `uc ]
+[e $UE 1656  ]
+[e :U 1658 ]
+"369
+[; ;main.c: 369:     if (ch != 0x02u)
+[e $ ! != -> _ch `ui -> 2 `ui 1659  ]
+"370
+[; ;main.c: 370:         return 0u;
+[e ) -> -> 0 `ui `uc ]
+[e $UE 1656  ]
+[e :U 1659 ]
+"373
+[; ;main.c: 373:     if (!uart2_getc_timeout(&seq_hi) ||
+[e $ ! || ! != -> ( _uart2_getc_timeout (1 &U _seq_hi `i -> 0 `i ! != -> ( _uart2_getc_timeout (1 &U _seq_lo `i -> 0 `i 1660  ]
+"375
+[; ;main.c: 375:         return 3u;
+[e ) -> -> 3 `ui `uc ]
+[e $UE 1656  ]
+[e :U 1660 ]
+"378
+[; ;main.c: 378:     if (!uart2_getc_timeout(&len_hi) ||
+[e $ ! || ! != -> ( _uart2_getc_timeout (1 &U _len_hi `i -> 0 `i ! != -> ( _uart2_getc_timeout (1 &U _len_lo `i -> 0 `i 1661  ]
+"380
+[; ;main.c: 380:         return 3u;
+[e ) -> -> 3 `ui `uc ]
+[e $UE 1656  ]
+[e :U 1661 ]
+"382
+[; ;main.c: 382:     *sequence = ((uint16_t)seq_hi << 8) | seq_lo;
+[e = *U _sequence -> | << -> -> _seq_hi `us `ui -> 8 `i -> _seq_lo `ui `us ]
+"384
+[; ;main.c: 384:     frame_len = ((uint16_t)len_hi << 8) | len_lo;
+[e = _frame_len -> | << -> -> _len_hi `us `ui -> 8 `i -> _len_lo `ui `us ]
+"386
+[; ;main.c: 386:     if (frame_len == 0u || frame_len > 48u)
+[e $ ! || == -> _frame_len `ui -> 0 `ui > -> _frame_len `ui -> 48 `ui 1662  ]
+"388
+[; ;main.c: 388:         return 5u;
+[e ) -> -> 5 `ui `uc ]
+[e $UE 1656  ]
+[e :U 1662 ]
+"390
+[; ;main.c: 390:     *length = (uint8_t)frame_len;
+[e = *U _length -> _frame_len `uc ]
+"392
+[; ;main.c: 392:     calculated_crc = 0xFFFFu;
+[e = _calculated_crc -> -> 65535 `ui `us ]
+"394
+[; ;main.c: 394:     calculated_crc = crc16_update(calculated_crc, seq_hi);
+[e = _calculated_crc ( _crc16_update (2 , _calculated_crc _seq_hi ]
+"395
+[; ;main.c: 395:     calculated_crc = crc16_update(calculated_crc, seq_lo);
+[e = _calculated_crc ( _crc16_update (2 , _calculated_crc _seq_lo ]
+"396
+[; ;main.c: 396:     calculated_crc = crc16_update(calculated_crc, len_hi);
+[e = _calculated_crc ( _crc16_update (2 , _calculated_crc _len_hi ]
+"397
+[; ;main.c: 397:     calculated_crc = crc16_update(calculated_crc, len_lo);
+[e = _calculated_crc ( _crc16_update (2 , _calculated_crc _len_lo ]
+"400
+[; ;main.c: 400:     for (i = 0; i < *length; i++)
+{
+[e = _i -> -> 0 `i `uc ]
+[e $U 1666  ]
+[e :U 1663 ]
+"401
+[; ;main.c: 401:     {
+{
+"402
+[; ;main.c: 402:         if (!uart2_getc_timeout(&frame_payload[i]))
+[e $ ! ! != -> ( _uart2_getc_timeout (1 &U *U + &U _frame_payload * -> _i `ux -> -> # *U &U _frame_payload `ui `ux `i -> 0 `i 1667  ]
+"403
+[; ;main.c: 403:             return 3u;
+[e ) -> -> 3 `ui `uc ]
+[e $UE 1656  ]
+[e :U 1667 ]
+"405
+[; ;main.c: 405:         calculated_crc =
+[e = _calculated_crc ( _crc16_update (2 , _calculated_crc *U + &U _frame_payload * -> _i `ux -> -> # *U &U _frame_payload `ui `ux ]
+"407
+[; ;main.c: 407:     }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e :U 1666 ]
+[e $ < -> _i `i -> *U _length `i 1663  ]
+[e :U 1664 ]
+}
+"410
+[; ;main.c: 410:     if (!uart2_getc_timeout(&seq_hi) ||
+[e $ ! || ! != -> ( _uart2_getc_timeout (1 &U _seq_hi `i -> 0 `i ! != -> ( _uart2_getc_timeout (1 &U _seq_lo `i -> 0 `i 1668  ]
+"412
+[; ;main.c: 412:         return 3u;
+[e ) -> -> 3 `ui `uc ]
+[e $UE 1656  ]
+[e :U 1668 ]
+"414
+[; ;main.c: 414:     received_crc = ((uint16_t)seq_hi << 8) | seq_lo;
+[e = _received_crc -> | << -> -> _seq_hi `us `ui -> 8 `i -> _seq_lo `ui `us ]
+"416
+[; ;main.c: 416:     if (received_crc != calculated_crc)
+[e $ ! != -> _received_crc `ui -> _calculated_crc `ui 1669  ]
+"417
+[; ;main.c: 417:         return 2u;
+[e ) -> -> 2 `ui `uc ]
+[e $UE 1656  ]
+[e :U 1669 ]
+"419
+[; ;main.c: 419:     return 1u;
+[e ) -> -> 1 `ui `uc ]
+[e $UE 1656  ]
+"420
+[; ;main.c: 420: }
+[e :UE 1656 ]
+}
+"422
+[; ;main.c: 422: static void receive_upload_data(void)
+[v _receive_upload_data `(v ~T0 @X0 1 sf ]
+"423
+[; ;main.c: 423: {
+{
+[e :U _receive_upload_data ]
+[f ]
+"424
+[; ;main.c: 424:     uint16_t sequence;
+[v _sequence `us ~T0 @X0 1 a ]
+"425
+[; ;main.c: 425:     uint8_t length;
+[v _length `uc ~T0 @X0 1 a ]
+"426
+[; ;main.c: 426:     uint8_t result;
+[v _result `uc ~T0 @X0 1 a ]
+"427
+[; ;main.c: 427:     uint8_t i;
+[v _i `uc ~T0 @X0 1 a ]
+"428
+[; ;main.c: 428:     uint32_t final_crc;
+[v _final_crc `ul ~T0 @X0 1 a ]
+"430
+[; ;main.c: 430:     while (upload_active)
+[e $U 1671  ]
+[e :U 1672 ]
+"431
+[; ;main.c: 431:     {
+{
+"432
+[; ;main.c: 432:         __asm(" clrwdt");
+[; <"  clrwdt ;# ">
+"434
+[; ;main.c: 434:         result = receive_upload_frame(&sequence, &length);
+[e = _result ( _receive_upload_frame (2 , &U _sequence &U _length ]
+"436
+[; ;main.c: 436:         switch (result)
+[e $U 1675  ]
+"437
+[; ;main.c: 437:         {
+{
+"438
+[; ;main.c: 438:             case 1u:
+[e :U 1676 ]
+"440
+[; ;main.c: 440:                 if (sequence == upload_sequence)
+[e $ ! == -> _sequence `ui -> _upload_sequence `ui 1677  ]
+"441
+[; ;main.c: 441:                 {
+{
+"443
+[; ;main.c: 443:                     if ((upload_received > upload_size) ||
+[e $ ! || > _upload_received _upload_size > -> _length `ul - _upload_size _upload_received 1678  ]
+"446
+[; ;main.c: 446:                     {
+{
+"447
+[; ;main.c: 447:                         uart2_puts("ERR IMAGE SIZE");
+[e ( _uart2_puts (1 :s 1C ]
+"448
+[; ;main.c: 448:                         uart2_newline();
+[e ( _uart2_newline ..  ]
+"449
+[; ;main.c: 449:                         upload_active = 0;
+[e = _upload_active -> -> 0 `i `a ]
+"450
+[; ;main.c: 450:                         break;
+[e $U 1674  ]
+"451
+[; ;main.c: 451:                     }
+}
+[e :U 1678 ]
+"454
+[; ;main.c: 454:                     for (i = 0; i < length; i++)
+{
+[e = _i -> -> 0 `i `uc ]
+[e $U 1682  ]
+[e :U 1679 ]
+"455
+[; ;main.c: 455:                     {
+{
+"456
+[; ;main.c: 456:                         uint8_t data = frame_payload[i];
+[v _data `uc ~T0 @X0 1 a ]
+[e = _data *U + &U _frame_payload * -> _i `ux -> -> # *U &U _frame_payload `ui `ux ]
+"458
+[; ;main.c: 458:                         upload_crc32 =
+[e = _upload_crc32 ( _crc32_update (2 , _upload_crc32 _data ]
+"461
+[; ;main.c: 461:                         flash_row_buffer[flash_row_fill] = data;
+[e = *U + &U _flash_row_buffer * -> _flash_row_fill `ux -> -> # *U &U _flash_row_buffer `ui `ux _data ]
+"462
+[; ;main.c: 462:                         flash_row_fill++;
+[e ++ _flash_row_fill -> -> 1 `i `uc ]
+"465
+[; ;main.c: 465:                         if (flash_row_fill >= 64u)
+[e $ ! >= -> _flash_row_fill `ui -> 64 `ui 1683  ]
+"466
+[; ;main.c: 466:                         {
+{
+"467
+[; ;main.c: 467:                             if (!flash_program_row(
+[e $ ! ! != -> ( _flash_program_row (2 , _flash_row_address -> &U _flash_row_buffer `*Cuc `i -> 0 `i 1684  ]
+"470
+[; ;main.c: 470:                             {
+{
+"471
+[; ;main.c: 471:                                 uart2_puts("ERR FLASH WRITE");
+[e ( _uart2_puts (1 :s 2C ]
+"472
+[; ;main.c: 472:                                 uart2_newline();
+[e ( _uart2_newline ..  ]
+"473
+[; ;main.c: 473:                                 upload_active = 0;
+[e = _upload_active -> -> 0 `i `a ]
+"474
+[; ;main.c: 474:                                 break;
+[e $U 1680  ]
+"475
+[; ;main.c: 475:                             }
+}
+[e :U 1684 ]
+"477
+[; ;main.c: 477:                             flash_row_fill = 0u;
+[e = _flash_row_fill -> -> 0 `ui `uc ]
+"478
+[; ;main.c: 478:                             flash_row_address += 64u;
+[e =+ _flash_row_address -> -> 64 `ui `us ]
+"480
+[; ;main.c: 480:                             for (uint8_t j = 0; j < 64u; j++)
+{
+[v _j `uc ~T0 @X0 1 a ]
+[e = _j -> -> 0 `i `uc ]
+[e $ < -> _j `ui -> 64 `ui 1685  ]
+[e $U 1686  ]
+[e :U 1685 ]
+"481
+[; ;main.c: 481:                                 flash_row_buffer[j] = 0xFF;
+[e = *U + &U _flash_row_buffer * -> _j `ux -> -> # *U &U _flash_row_buffer `ui `ux -> -> 255 `i `uc ]
+[e ++ _j -> -> 1 `i `uc ]
+[e $ < -> _j `ui -> 64 `ui 1685  ]
+[e :U 1686 ]
+}
+"482
+[; ;main.c: 482:                         }
+}
+[e :U 1683 ]
+"483
+[; ;main.c: 483:                     }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e :U 1682 ]
+[e $ < -> _i `i -> _length `i 1679  ]
+[e :U 1680 ]
+}
+"485
+[; ;main.c: 485:                     if (!upload_active)
+[e $ ! ! != -> _upload_active `i -> 0 `i 1688  ]
+"486
+[; ;main.c: 486:                         break;
+[e $U 1674  ]
+[e :U 1688 ]
+"488
+[; ;main.c: 488:                     upload_received += length;
+[e =+ _upload_received -> _length `ul ]
+"489
+[; ;main.c: 489:                     upload_sequence++;
+[e ++ _upload_sequence -> -> 1 `i `us ]
+"490
+[; ;main.c: 490:                     upload_have_frame = 1;
+[e = _upload_have_frame -> -> 1 `i `a ]
+"493
+[; ;main.c: 493:                     uart2_putc(0x06u);
+[e ( _uart2_putc (1 -> -> 6 `ui `uc ]
+"494
+[; ;main.c: 494:                     uart2_putc((uint8_t)(sequence >> 8));
+[e ( _uart2_putc (1 -> -> >> -> _sequence `ui -> 8 `i `uc `uc ]
+"495
+[; ;main.c: 495:                     uart2_putc((uint8_t)sequence);
+[e ( _uart2_putc (1 -> -> _sequence `uc `uc ]
+"496
+[; ;main.c: 496:                 }
+}
+[e $U 1689  ]
+"497
+[; ;main.c: 497:                 else if (upload_have_frame &&
+[e :U 1677 ]
+[e $ ! && != -> _upload_have_frame `i -> 0 `i == -> _sequence `ui -> -> - -> _upload_sequence `ui -> 1 `ui `us `ui 1690  ]
+"500
+[; ;main.c: 500:                 {
+{
+"502
+[; ;main.c: 502:                     uart2_putc(0x06u);
+[e ( _uart2_putc (1 -> -> 6 `ui `uc ]
+"503
+[; ;main.c: 503:                     uart2_putc((uint8_t)(sequence >> 8));
+[e ( _uart2_putc (1 -> -> >> -> _sequence `ui -> 8 `i `uc `uc ]
+"504
+[; ;main.c: 504:                     uart2_putc((uint8_t)sequence);
+[e ( _uart2_putc (1 -> -> _sequence `uc `uc ]
+"505
+[; ;main.c: 505:                 }
+}
+[e $U 1691  ]
+"506
+[; ;main.c: 506:                 else
+[e :U 1690 ]
+"507
+[; ;main.c: 507:                 {
+{
+"508
+[; ;main.c: 508:                     uart2_putc(0x15u);
+[e ( _uart2_putc (1 -> -> 21 `ui `uc ]
+"509
+[; ;main.c: 509:                     uart2_putc((uint8_t)(upload_sequence >> 8));
+[e ( _uart2_putc (1 -> -> >> -> _upload_sequence `ui -> 8 `i `uc `uc ]
+"510
+[; ;main.c: 510:                     uart2_putc((uint8_t)upload_sequence);
+[e ( _uart2_putc (1 -> -> _upload_sequence `uc `uc ]
+"511
+[; ;main.c: 511:                 }
+}
+[e :U 1691 ]
+[e :U 1689 ]
+"513
+[; ;main.c: 513:                 break;
+[e $U 1674  ]
+"515
+[; ;main.c: 515:             case 2u:
+[e :U 1692 ]
+"517
+[; ;main.c: 517:                 uart2_putc(0x15u);
+[e ( _uart2_putc (1 -> -> 21 `ui `uc ]
+"518
+[; ;main.c: 518:                 uart2_putc((uint8_t)(upload_sequence >> 8));
+[e ( _uart2_putc (1 -> -> >> -> _upload_sequence `ui -> 8 `i `uc `uc ]
+"519
+[; ;main.c: 519:                 uart2_putc((uint8_t)upload_sequence);
+[e ( _uart2_putc (1 -> -> _upload_sequence `uc `uc ]
+"521
+[; ;main.c: 521:                 break;
+[e $U 1674  ]
+"523
+[; ;main.c: 523:             case 5u:
+[e :U 1693 ]
+"525
+[; ;main.c: 525:                 uart2_puts("ERR FRAME LENGTH");
+[e ( _uart2_puts (1 :s 3C ]
+"526
+[; ;main.c: 526:                 uart2_newline();
+[e ( _uart2_newline ..  ]
+"527
+[; ;main.c: 527:                 upload_active = 0;
+[e = _upload_active -> -> 0 `i `a ]
+"529
+[; ;main.c: 529:                 break;
+[e $U 1674  ]
+"531
+[; ;main.c: 531:             case 3u:
+[e :U 1694 ]
+"533
+[; ;main.c: 533:                 uart2_puts("ERR FRAME TIMEOUT");
+[e ( _uart2_puts (1 :s 4C ]
+"534
+[; ;main.c: 534:                 uart2_newline();
+[e ( _uart2_newline ..  ]
+"535
+[; ;main.c: 535:                 upload_active = 0;
+[e = _upload_active -> -> 0 `i `a ]
+"537
+[; ;main.c: 537:                 break;
+[e $U 1674  ]
+"539
+[; ;main.c: 539:             case 4u:
+[e :U 1695 ]
+"541
+[; ;main.c: 541:                 upload_active = 0;
+[e = _upload_active -> -> 0 `i `a ]
+"543
+[; ;main.c: 543:                 if (upload_received != upload_size)
+[e $ ! != _upload_received _upload_size 1696  ]
+"544
+[; ;main.c: 544:                 {
+{
+"545
+[; ;main.c: 545:                     uart2_puts("ERR IMAGE LENGTH");
+[e ( _uart2_puts (1 :s 5C ]
+"546
+[; ;main.c: 546:                     uart2_newline();
+[e ( _uart2_newline ..  ]
+"547
+[; ;main.c: 547:                     break;
+[e $U 1674  ]
+"548
+[; ;main.c: 548:                 }
+}
+[e :U 1696 ]
+"551
+[; ;main.c: 551:                 if (!flash_flush_row())
+[e $ ! ! != -> ( _flash_flush_row ..  `i -> 0 `i 1697  ]
+"552
+[; ;main.c: 552:                 {
+{
+"553
+[; ;main.c: 553:                     uart2_puts("ERR FLASH WRITE");
+[e ( _uart2_puts (1 :s 6C ]
+"554
+[; ;main.c: 554:                     uart2_newline();
+[e ( _uart2_newline ..  ]
+"555
+[; ;main.c: 555:                     break;
+[e $U 1674  ]
+"556
+[; ;main.c: 556:                 }
+}
+[e :U 1697 ]
+"558
+[; ;main.c: 558:                 final_crc = upload_crc32 ^ 0xFFFFFFFFUL;
+[e = _final_crc ^ _upload_crc32 -> 4294967295 `ul ]
+"560
+[; ;main.c: 560:                 if (final_crc == upload_expected_crc)
+[e $ ! == _final_crc _upload_expected_crc 1698  ]
+"561
+[; ;main.c: 561:                 {
+{
+"562
+[; ;main.c: 562:                     uart2_puts("RX END");
+[e ( _uart2_puts (1 :s 7C ]
+"563
+[; ;main.c: 563:                     uart2_newline();
+[e ( _uart2_newline ..  ]
+"565
+[; ;main.c: 565:                     uart2_puts("CRC32 OK");
+[e ( _uart2_puts (1 :s 8C ]
+"566
+[; ;main.c: 566:                     uart2_newline();
+[e ( _uart2_newline ..  ]
+"567
+[; ;main.c: 567:                 }
+}
+[e $U 1699  ]
+"568
+[; ;main.c: 568:                 else
+[e :U 1698 ]
+"569
+[; ;main.c: 569:                 {
+{
+"570
+[; ;main.c: 570:                     uart2_puts("ERR IMAGE CRC");
+[e ( _uart2_puts (1 :s 9C ]
+"571
+[; ;main.c: 571:                     uart2_newline();
+[e ( _uart2_newline ..  ]
+"572
+[; ;main.c: 572:                 }
+}
+[e :U 1699 ]
+"574
+[; ;main.c: 574:                 break;
+[e $U 1674  ]
+"576
+[; ;main.c: 576:             default:
+[e :U 1700 ]
+"577
+[; ;main.c: 577:                 break;
+[e $U 1674  ]
+"578
+[; ;main.c: 578:         }
+}
+[e $U 1674  ]
+[e :U 1675 ]
+[e [\ _result , $ -> -> 1 `ui `i 1676
+ , $ -> -> 2 `ui `i 1692
+ , $ -> -> 5 `ui `i 1693
+ , $ -> -> 3 `ui `i 1694
+ , $ -> -> 4 `ui `i 1695
+ 1700 ]
+[e :U 1674 ]
+"579
+[; ;main.c: 579:     }
+}
+[e :U 1671 ]
+"430
+[; ;main.c: 430:     while (upload_active)
+[e $ != -> _upload_active `i -> 0 `i 1672  ]
+[e :U 1673 ]
+"580
+[; ;main.c: 580: }
+[e :UE 1670 ]
+}
+"588
+[; ;main.c: 588: static uint32_t crc32_update(uint32_t crc, uint8_t data)
+[v _crc32_update `(ul ~T0 @X0 1 sf2`ul`uc ]
+"589
+[; ;main.c: 589: {
+{
+[e :U _crc32_update ]
+"588
+[; ;main.c: 588: static uint32_t crc32_update(uint32_t crc, uint8_t data)
+[v _crc `ul ~T0 @X0 1 r1 ]
+[v _data `uc ~T0 @X0 1 r2 ]
+"589
+[; ;main.c: 589: {
+[f ]
+"590
+[; ;main.c: 590:     uint8_t i;
+[v _i `uc ~T0 @X0 1 a ]
+"592
+[; ;main.c: 592:     crc ^= data;
+[e =^ _crc -> _data `ul ]
+"594
+[; ;main.c: 594:     for (i = 0; i < 8u; i++)
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `ui -> 8 `ui 1702  ]
+[e $U 1703  ]
+[e :U 1702 ]
+"595
+[; ;main.c: 595:     {
+{
+"596
+[; ;main.c: 596:         if (crc & 1u)
+[e $ ! != & _crc -> -> 1 `ui `ul -> -> -> 0 `i `l `ul 1705  ]
+"597
+[; ;main.c: 597:             crc = (crc >> 1) ^ 0xEDB88320UL;
+[e = _crc ^ >> _crc -> 1 `i -> 3988292384 `ul ]
+[e $U 1706  ]
+"598
+[; ;main.c: 598:         else
+[e :U 1705 ]
+"599
+[; ;main.c: 599:             crc >>= 1;
+[e =>> _crc -> -> 1 `i `ul ]
+[e :U 1706 ]
+"600
+[; ;main.c: 600:     }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `ui -> 8 `ui 1702  ]
+[e :U 1703 ]
+}
+"602
+[; ;main.c: 602:     return crc;
+[e ) _crc ]
+[e $UE 1701  ]
+"603
+[; ;main.c: 603: }
+[e :UE 1701 ]
+}
+"605
+[; ;main.c: 605: static _Bool parse_upload_command(const char *cmd)
+[v _parse_upload_command `(a ~T0 @X0 1 sf1`*Cuc ]
+"606
+[; ;main.c: 606: {
+{
+[e :U _parse_upload_command ]
+"605
+[; ;main.c: 605: static _Bool parse_upload_command(const char *cmd)
+[v _cmd `*Cuc ~T0 @X0 1 r1 ]
+"606
+[; ;main.c: 606: {
+[f ]
+"607
+[; ;main.c: 607:     uint16_t size = 0;
+[v _size `us ~T0 @X0 1 a ]
+[e = _size -> -> 0 `i `us ]
+"608
+[; ;main.c: 608:     uint32_t crc = 0;
+[v _crc `ul ~T0 @X0 1 a ]
+[e = _crc -> -> -> 0 `i `l `ul ]
+"609
+[; ;main.c: 609:     uint8_t digits = 0;
+[v _digits `uc ~T0 @X0 1 a ]
+[e = _digits -> -> 0 `i `uc ]
+"610
+[; ;main.c: 610:     uint8_t i;
+[v _i `uc ~T0 @X0 1 a ]
+"611
+[; ;main.c: 611:     uint8_t nibble;
+[v _nibble `uc ~T0 @X0 1 a ]
+"612
+[; ;main.c: 612:     char c;
+[v _c `uc ~T0 @X0 1 a ]
+"615
+[; ;main.c: 615:     if (cmd[0] != 'U' || cmd[1] != 'P' ||
+[e $ ! || || || || || || != -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 85 `ui != -> *U + _cmd * -> -> 1 `i `x -> -> # *U _cmd `i `x `ui -> 80 `ui != -> *U + _cmd * -> -> 2 `i `x -> -> # *U _cmd `i `x `ui -> 76 `ui != -> *U + _cmd * -> -> 3 `i `x -> -> # *U _cmd `i `x `ui -> 79 `ui != -> *U + _cmd * -> -> 4 `i `x -> -> # *U _cmd `i `x `ui -> 65 `ui != -> *U + _cmd * -> -> 5 `i `x -> -> # *U _cmd `i `x `ui -> 68 `ui != -> *U + _cmd * -> -> 6 `i `x -> -> # *U _cmd `i `x `ui -> 32 `ui 1708  ]
+"619
+[; ;main.c: 619:         return 0;
+[e ) -> -> 0 `i `a ]
+[e $UE 1707  ]
+[e :U 1708 ]
+"621
+[; ;main.c: 621:     cmd += 7;
+[e =+ _cmd * -> -> 7 `i `x -> -> # *U _cmd `i `x ]
+"624
+[; ;main.c: 624:     while (*cmd >= '0' && *cmd <= '9')
+[e $U 1709  ]
+[e :U 1710 ]
+"625
+[; ;main.c: 625:     {
+{
+"626
+[; ;main.c: 626:         nibble = (uint8_t)(*cmd - '0');
+[e = _nibble -> - -> *U _cmd `ui -> 48 `ui `uc ]
+"628
+[; ;main.c: 628:         if (digits >= 5u ||
+[e $ ! || || >= -> _digits `ui -> 5 `ui > -> _size `ui -> 6553 `ui && == -> _size `ui -> 6553 `ui > -> _nibble `ui -> 5 `ui 1712  ]
+"631
+[; ;main.c: 631:         {
+{
+"632
+[; ;main.c: 632:             uart2_puts("ERR IMAGE SIZE");
+[e ( _uart2_puts (1 :s 10C ]
+"633
+[; ;main.c: 633:             uart2_newline();
+[e ( _uart2_newline ..  ]
+"634
+[; ;main.c: 634:             return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1707  ]
+"635
+[; ;main.c: 635:         }
+}
+[e :U 1712 ]
+"637
+[; ;main.c: 637:         size = (uint16_t)((size << 3) + (size << 1) + nibble);
+[e = _size -> + + << -> _size `ui -> 3 `i << -> _size `ui -> 1 `i -> _nibble `ui `us ]
+"639
+[; ;main.c: 639:         digits++;
+[e ++ _digits -> -> 1 `i `uc ]
+"640
+[; ;main.c: 640:         cmd++;
+[e ++ _cmd * -> -> 1 `i `x -> -> # *U _cmd `i `x ]
+"641
+[; ;main.c: 641:     }
+}
+[e :U 1709 ]
+"624
+[; ;main.c: 624:     while (*cmd >= '0' && *cmd <= '9')
+[e $ && >= -> *U _cmd `ui -> 48 `ui <= -> *U _cmd `ui -> 57 `ui 1710  ]
+[e :U 1711 ]
+"643
+[; ;main.c: 643:     if (digits == 0u || *cmd != ' ' || size == 0u)
+[e $ ! || || == -> _digits `ui -> 0 `ui != -> *U _cmd `ui -> 32 `ui == -> _size `ui -> 0 `ui 1713  ]
+"644
+[; ;main.c: 644:     {
+{
+"645
+[; ;main.c: 645:         uart2_puts("ERR IMAGE SIZE");
+[e ( _uart2_puts (1 :s 11C ]
+"646
+[; ;main.c: 646:         uart2_newline();
+[e ( _uart2_newline ..  ]
+"647
+[; ;main.c: 647:         return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1707  ]
+"648
+[; ;main.c: 648:     }
+}
+[e :U 1713 ]
+"650
+[; ;main.c: 650:     cmd++;
+[e ++ _cmd * -> -> 1 `i `x -> -> # *U _cmd `i `x ]
+"653
+[; ;main.c: 653:     for (i = 0; i < 8u; i++)
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `ui -> 8 `ui 1714  ]
+[e $U 1715  ]
+[e :U 1714 ]
+"654
+[; ;main.c: 654:     {
+{
+"655
+[; ;main.c: 655:         c = cmd[i];
+[e = _c *U + _cmd * -> _i `ux -> -> # *U _cmd `ui `ux ]
+"657
+[; ;main.c: 657:         if (c >= '0' && c <= '9')
+[e $ ! && >= -> _c `ui -> 48 `ui <= -> _c `ui -> 57 `ui 1717  ]
+"658
+[; ;main.c: 658:             nibble = (uint8_t)(c - '0');
+[e = _nibble -> - -> _c `ui -> 48 `ui `uc ]
+[e $U 1718  ]
+"659
+[; ;main.c: 659:         else if (c >= 'A' && c <= 'F')
+[e :U 1717 ]
+[e $ ! && >= -> _c `ui -> 65 `ui <= -> _c `ui -> 70 `ui 1719  ]
+"660
+[; ;main.c: 660:             nibble = (uint8_t)(c - 'A' + 10);
+[e = _nibble -> + - -> _c `ui -> 65 `ui -> -> 10 `i `ui `uc ]
+[e $U 1720  ]
+"661
+[; ;main.c: 661:         else if (c >= 'a' && c <= 'f')
+[e :U 1719 ]
+[e $ ! && >= -> _c `ui -> 97 `ui <= -> _c `ui -> 102 `ui 1721  ]
+"662
+[; ;main.c: 662:             nibble = (uint8_t)(c - 'a' + 10);
+[e = _nibble -> + - -> _c `ui -> 97 `ui -> -> 10 `i `ui `uc ]
+[e $U 1722  ]
+"663
+[; ;main.c: 663:         else
+[e :U 1721 ]
+"664
+[; ;main.c: 664:         {
+{
+"665
+[; ;main.c: 665:             uart2_puts("ERR BAD UPLOAD CRC");
+[e ( _uart2_puts (1 :s 12C ]
+"666
+[; ;main.c: 666:             uart2_newline();
+[e ( _uart2_newline ..  ]
+"667
+[; ;main.c: 667:             return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1707  ]
+"668
+[; ;main.c: 668:         }
+}
+[e :U 1722 ]
+[e :U 1720 ]
+[e :U 1718 ]
+"670
+[; ;main.c: 670:         crc = (crc << 4) | (uint32_t)nibble;
+[e = _crc | << _crc -> 4 `i -> _nibble `ul ]
+"671
+[; ;main.c: 671:     }
+}
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `ui -> 8 `ui 1714  ]
+[e :U 1715 ]
+}
+"674
+[; ;main.c: 674:     if (size > 0xF000U)
+[e $ ! > -> _size `ui -> 61440 `ui 1723  ]
+"675
+[; ;main.c: 675:     {
+{
+"676
+[; ;main.c: 676:         uart2_puts("ERR IMAGE SIZE");
+[e ( _uart2_puts (1 :s 13C ]
+"677
+[; ;main.c: 677:         uart2_newline();
+[e ( _uart2_newline ..  ]
+"678
+[; ;main.c: 678:         return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1707  ]
+"679
+[; ;main.c: 679:     }
+}
+[e :U 1723 ]
+"682
+[; ;main.c: 682:     if (cmd[8] != '\0')
+[e $ ! != -> *U + _cmd * -> -> 8 `i `x -> -> # *U _cmd `i `x `ui -> 0 `ui 1724  ]
+"683
+[; ;main.c: 683:     {
+{
+"684
+[; ;main.c: 684:         uart2_puts("ERR BAD UPLOAD FORMAT");
+[e ( _uart2_puts (1 :s 14C ]
+"685
+[; ;main.c: 685:         uart2_newline();
+[e ( _uart2_newline ..  ]
+"686
+[; ;main.c: 686:         return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1707  ]
+"687
+[; ;main.c: 687:     }
+}
+[e :U 1724 ]
+"690
+[; ;main.c: 690:     if (upload_active)
+[e $ ! != -> _upload_active `i -> 0 `i 1725  ]
+"691
+[; ;main.c: 691:     {
+{
+"692
+[; ;main.c: 692:         uart2_puts("ERR UPLOAD BUSY");
+[e ( _uart2_puts (1 :s 15C ]
+"693
+[; ;main.c: 693:         uart2_newline();
+[e ( _uart2_newline ..  ]
+"694
+[; ;main.c: 694:         return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1707  ]
+"695
+[; ;main.c: 695:     }
+}
+[e :U 1725 ]
+"698
+[; ;main.c: 698:     upload_size = size;
+[e = _upload_size -> _size `ul ]
+"699
+[; ;main.c: 699:     upload_expected_crc = crc;
+[e = _upload_expected_crc _crc ]
+"700
+[; ;main.c: 700:     upload_received = 0;
+[e = _upload_received -> -> -> 0 `i `l `ul ]
+"701
+[; ;main.c: 701:     upload_sequence = 0;
+[e = _upload_sequence -> -> 0 `i `us ]
+"703
+[; ;main.c: 703:     upload_crc32 = 0xFFFFFFFFUL;
+[e = _upload_crc32 -> 4294967295 `ul ]
+"704
+[; ;main.c: 704:     upload_have_frame = 0;
+[e = _upload_have_frame -> -> 0 `i `a ]
+"706
+[; ;main.c: 706:     flash_row_address = 0x1000u;
+[e = _flash_row_address -> -> 4096 `ui `us ]
+"707
+[; ;main.c: 707:     flash_row_fill = 0;
+[e = _flash_row_fill -> -> 0 `i `uc ]
+"709
+[; ;main.c: 709:     for (i = 0; i < 64u; i++)
+{
+[e = _i -> -> 0 `i `uc ]
+[e $ < -> _i `ui -> 64 `ui 1726  ]
+[e $U 1727  ]
+[e :U 1726 ]
+"710
+[; ;main.c: 710:         flash_row_buffer[i] = 0xFF;
+[e = *U + &U _flash_row_buffer * -> _i `ux -> -> # *U &U _flash_row_buffer `ui `ux -> -> 255 `i `uc ]
+[e ++ _i -> -> 1 `i `uc ]
+[e $ < -> _i `ui -> 64 `ui 1726  ]
+[e :U 1727 ]
+}
+"712
+[; ;main.c: 712:     upload_active = 1;
+[e = _upload_active -> -> 1 `i `a ]
+"714
+[; ;main.c: 714:     uart2_puts("READY");
+[e ( _uart2_puts (1 :s 16C ]
+"715
+[; ;main.c: 715:     uart2_newline();
+[e ( _uart2_newline ..  ]
+"717
+[; ;main.c: 717:     return 1;
+[e ) -> -> 1 `i `a ]
+[e $UE 1707  ]
+"718
+[; ;main.c: 718: }
+[e :UE 1707 ]
+}
+"728
+[; ;main.c: 728: static void jump_to_application(void)
+[v _jump_to_application `(v ~T0 @X0 1 sf ]
+"729
+[; ;main.c: 729: {
+{
+[e :U _jump_to_application ]
+[f ]
+"731
+[; ;main.c: 731:     while (!TXSTA2bits.TRMT) {
+[e $U 1730  ]
+[e :U 1731 ]
+{
+"732
+[; ;main.c: 732:         __asm(" clrwdt");
+[; <"  clrwdt ;# ">
+"733
+[; ;main.c: 733:     }
+}
+[e :U 1730 ]
+"731
+[; ;main.c: 731:     while (!TXSTA2bits.TRMT) {
+[e $ ! != -> . . _TXSTA2bits 0 1 `i -> 0 `i 1731  ]
+[e :U 1732 ]
+"735
+[; ;main.c: 735:     RCSTA2 = 0;
+[e = _RCSTA2 -> -> 0 `i `uc ]
+"736
+[; ;main.c: 736:     TXSTA2 = 0;
+[e = _TXSTA2 -> -> 0 `i `uc ]
+"737
+[; ;main.c: 737:     BAUDCON2 = 0;
+[e = _BAUDCON2 -> -> 0 `i `uc ]
+"739
+[; ;main.c: 739:     INTCONbits.GIE = 0;
+[e = . . _INTCONbits 1 7 -> -> 0 `i `uc ]
+"740
+[; ;main.c: 740:     INTCONbits.PEIE = 0;
+[e = . . _INTCONbits 1 6 -> -> 0 `i `uc ]
+"741
+[; ;main.c: 741:     STKPTR = 0;
+[e = _STKPTR -> -> 0 `i `uc ]
+"743
+[; ;main.c: 743:     __asm("GOTO 0x1000");
+[; <" GOTO 0x1000 ;# ">
+"746
+[; ;main.c: 746: }
+[e :UE 1729 ]
+}
+"774
+[; ;main.c: 774: static void process_command(const char *cmd)
 [v _process_command `(v ~T0 @X0 1 sf1`*Cuc ]
-"150
-[; ;main.c: 150: {
+"775
+[; ;main.c: 775: {
 {
 [e :U _process_command ]
-"149
-[; ;main.c: 149: static void process_command(const char *cmd)
+"774
+[; ;main.c: 774: static void process_command(const char *cmd)
 [v _cmd `*Cuc ~T0 @X0 1 r1 ]
-"150
-[; ;main.c: 150: {
+"775
+[; ;main.c: 775: {
 [f ]
-"151
-[; ;main.c: 151:     if (cmd[0] == 'I' && cmd[1] == 'N' && cmd[2] == 'F' &&
-[e $ ! && && && && == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 73 `ui == -> *U + _cmd * -> -> 1 `i `x -> -> # *U _cmd `i `x `ui -> 78 `ui == -> *U + _cmd * -> -> 2 `i `x -> -> # *U _cmd `i `x `ui -> 70 `ui == -> *U + _cmd * -> -> 3 `i `x -> -> # *U _cmd `i `x `ui -> 79 `ui == -> *U + _cmd * -> -> 4 `i `x -> -> # *U _cmd `i `x `ui -> 0 `ui 1615  ]
-"152
-[; ;main.c: 152:         cmd[3] == 'O' && cmd[4] == '\0') {
+"776
+[; ;main.c: 776:     if (parse_upload_command(cmd))
+[e $ ! != -> ( _parse_upload_command (1 _cmd `i -> 0 `i 1734  ]
+"777
+[; ;main.c: 777:         return;
+[e $UE 1733  ]
+[e :U 1734 ]
+"779
+[; ;main.c: 779:     if (cmd[0] == 'I' && cmd[1] == '\0') {
+[e $ ! && == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 73 `ui == -> *U + _cmd * -> -> 1 `i `x -> -> # *U _cmd `i `x `ui -> 0 `ui 1735  ]
 {
-"153
-[; ;main.c: 153:         uart2_puts("PIC18F66K80 BOOTLOADER STAGE1");
-[e ( _uart2_puts (1 :s 1C ]
-"154
-[; ;main.c: 154:         uart2_newline();
+"780
+[; ;main.c: 780:         uart2_puts("PIC18F66K80");
+[e ( _uart2_puts (1 :s 17C ]
+"781
+[; ;main.c: 781:         uart2_newline();
 [e ( _uart2_newline ..  ]
-"155
-[; ;main.c: 155:         uart2_puts("XC8 2.46; FOSC=64000000; UART2=115200 8N1");
-[e ( _uart2_puts (1 :s 2C ]
-"156
-[; ;main.c: 156:         uart2_newline();
+"782
+[; ;main.c: 782:         uart2_puts("64MHz; UART2=115200");
+[e ( _uart2_puts (1 :s 18C ]
+"783
+[; ;main.c: 783:         uart2_newline();
 [e ( _uart2_newline ..  ]
-"157
-[; ;main.c: 157:     } else if (cmd[0] == 'B' && cmd[1] == 'O' && cmd[2] == 'O' &&
+"785
+[; ;main.c: 785:     } else if (cmd[0] == 'B' && cmd[1] == '\0') {
 }
-[e $U 1616  ]
-[e :U 1615 ]
-[e $ ! && && && && == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 66 `ui == -> *U + _cmd * -> -> 1 `i `x -> -> # *U _cmd `i `x `ui -> 79 `ui == -> *U + _cmd * -> -> 2 `i `x -> -> # *U _cmd `i `x `ui -> 79 `ui == -> *U + _cmd * -> -> 3 `i `x -> -> # *U _cmd `i `x `ui -> 84 `ui == -> *U + _cmd * -> -> 4 `i `x -> -> # *U _cmd `i `x `ui -> 0 `ui 1617  ]
-"158
-[; ;main.c: 158:                cmd[3] == 'T' && cmd[4] == '\0') {
+[e $U 1736  ]
+[e :U 1735 ]
+[e $ ! && == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 66 `ui == -> *U + _cmd * -> -> 1 `i `x -> -> # *U _cmd `i `x `ui -> 0 `ui 1737  ]
 {
-"159
-[; ;main.c: 159:         uart2_puts("BOOT MODE READY; FLASH UPDATE NOT IMPLEMENTED");
-[e ( _uart2_puts (1 :s 3C ]
-"160
-[; ;main.c: 160:         uart2_newline();
+"786
+[; ;main.c: 786:         uart2_puts("BOOT");
+[e ( _uart2_puts (1 :s 19C ]
+"787
+[; ;main.c: 787:         uart2_newline();
 [e ( _uart2_newline ..  ]
-"161
-[; ;main.c: 161:     } else if (cmd[0] == 'R' && cmd[1] == 'U' && cmd[2] == 'N' &&
+"789
+[; ;main.c: 789:     } else if (cmd[0] == 'R' && cmd[1] == '\0') {
 }
-[e $U 1618  ]
-[e :U 1617 ]
-[e $ ! && && && == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 82 `ui == -> *U + _cmd * -> -> 1 `i `x -> -> # *U _cmd `i `x `ui -> 85 `ui == -> *U + _cmd * -> -> 2 `i `x -> -> # *U _cmd `i `x `ui -> 78 `ui == -> *U + _cmd * -> -> 3 `i `x -> -> # *U _cmd `i `x `ui -> 0 `ui 1619  ]
-"162
-[; ;main.c: 162:                cmd[3] == '\0') {
+[e $U 1738  ]
+[e :U 1737 ]
+[e $ ! && == -> *U + _cmd * -> -> 0 `i `x -> -> # *U _cmd `i `x `ui -> 82 `ui == -> *U + _cmd * -> -> 1 `i `x -> -> # *U _cmd `i `x `ui -> 0 `ui 1739  ]
 {
-"163
-[; ;main.c: 163:         uart2_puts("RUN: STARTING APPLICATION");
-[e ( _uart2_puts (1 :s 4C ]
-"164
-[; ;main.c: 164:         uart2_newline();
+"790
+[; ;main.c: 790:         uart2_puts("RUN");
+[e ( _uart2_puts (1 :s 20C ]
+"791
+[; ;main.c: 791:         uart2_newline();
 [e ( _uart2_newline ..  ]
-"165
-[; ;main.c: 165:         jump_to_application();
+"792
+[; ;main.c: 792:         jump_to_application();
 [e ( _jump_to_application ..  ]
-"166
-[; ;main.c: 166:     } else {
+"794
+[; ;main.c: 794:     } else {
 }
-[e $U 1620  ]
-[e :U 1619 ]
+[e $U 1740  ]
+[e :U 1739 ]
 {
-"167
-[; ;main.c: 167:         uart2_puts("ERR UNKNOWN COMMAND");
-[e ( _uart2_puts (1 :s 5C ]
-"168
-[; ;main.c: 168:         uart2_newline();
+"795
+[; ;main.c: 795:         uart2_puts("ERR");
+[e ( _uart2_puts (1 :s 21C ]
+"796
+[; ;main.c: 796:         uart2_newline();
 [e ( _uart2_newline ..  ]
-"169
-[; ;main.c: 169:     }
+"797
+[; ;main.c: 797:     }
 }
-[e :U 1620 ]
-[e :U 1618 ]
-[e :U 1616 ]
-"170
-[; ;main.c: 170: }
-[e :UE 1614 ]
+[e :U 1740 ]
+[e :U 1738 ]
+[e :U 1736 ]
+"798
+[; ;main.c: 798: }
+[e :UE 1733 ]
 }
 [v $root$_main `(v ~T0 @X0 0 e ]
-"172
-[; ;main.c: 172: void main(void)
+"800
+[; ;main.c: 800: void main(void)
 [v _main `(v ~T0 @X0 1 ef ]
-"173
-[; ;main.c: 173: {
+"801
+[; ;main.c: 801: {
 {
 [e :U _main ]
 [f ]
-"174
-[; ;main.c: 174:     char line[24u];
+"802
+[; ;main.c: 802:     char line[24u];
 [v _line `uc ~T0 @X0 -> 24 `i a ]
-"175
-[; ;main.c: 175:     uint8_t count = 0;
+"803
+[; ;main.c: 803:     uint8_t count = 0;
 [v _count `uc ~T0 @X0 1 a ]
 [e = _count -> -> 0 `i `uc ]
-"176
-[; ;main.c: 176:     uint8_t ch;
+"804
+[; ;main.c: 804:     uint8_t ch;
 [v _ch `uc ~T0 @X0 1 a ]
-"179
-[; ;main.c: 179:     INTCONbits.GIE = 0;
+"807
+[; ;main.c: 807:     INTCONbits.GIE = 0;
 [e = . . _INTCONbits 1 7 -> -> 0 `i `uc ]
-"180
-[; ;main.c: 180:     INTCONbits.PEIE = 0;
+"808
+[; ;main.c: 808:     INTCONbits.PEIE = 0;
 [e = . . _INTCONbits 1 6 -> -> 0 `i `uc ]
-"182
-[; ;main.c: 182:     uart2_init();
+"810
+[; ;main.c: 810:     uart2_init();
 [e ( _uart2_init ..  ]
-"184
-[; ;main.c: 184:     uart2_newline();
+"812
+[; ;main.c: 812:     uart2_newline();
 [e ( _uart2_newline ..  ]
-"185
-[; ;main.c: 185:     uart2_puts("PIC18F66K80 BOOTLOADER STAGE1 READY");
-[e ( _uart2_puts (1 :s 6C ]
-"186
-[; ;main.c: 186:     uart2_newline();
+"813
+[; ;main.c: 813:     uart2_puts("PIC18F66K80 BOOTLOADER READY");
+[e ( _uart2_puts (1 :s 22C ]
+"814
+[; ;main.c: 814:     uart2_newline();
 [e ( _uart2_newline ..  ]
-"187
-[; ;main.c: 187:     uart2_puts("Commands: INFO, BOOT, RUN");
-[e ( _uart2_puts (1 :s 7C ]
-"188
-[; ;main.c: 188:     uart2_newline();
+"815
+[; ;main.c: 815:     uart2_puts("Commands: I, B, R, UPLOAD");
+[e ( _uart2_puts (1 :s 23C ]
+"816
+[; ;main.c: 816:     uart2_newline();
 [e ( _uart2_newline ..  ]
-"190
-[; ;main.c: 190:     for (;;) {
+"818
+[; ;main.c: 818:     for (;;) {
 {
-[e :U 1622 ]
+[e :U 1742 ]
 {
-"191
-[; ;main.c: 191:         __asm(" clrwdt");
+"819
+[; ;main.c: 819:         __asm(" clrwdt");
 [; <"  clrwdt ;# ">
-"193
-[; ;main.c: 193:         if (uart2_try_getc(&ch)) {
-[e $ ! != -> ( _uart2_try_getc (1 &U _ch `i -> 0 `i 1625  ]
+"821
+[; ;main.c: 821:         if (uart2_try_getc(&ch)) {
+[e $ ! != -> ( _uart2_try_getc (1 &U _ch `i -> 0 `i 1745  ]
 {
-"194
-[; ;main.c: 194:             if (ch == '\r' || ch == '\n') {
-[e $ ! || == -> _ch `ui -> 13 `ui == -> _ch `ui -> 10 `ui 1626  ]
+"822
+[; ;main.c: 822:             if (ch == '\r' || ch == '\n') {
+[e $ ! || == -> _ch `ui -> 13 `ui == -> _ch `ui -> 10 `ui 1746  ]
 {
-"195
-[; ;main.c: 195:                 if (count != 0u) {
-[e $ ! != -> _count `ui -> 0 `ui 1627  ]
+"823
+[; ;main.c: 823:                 if (count != 0u) {
+[e $ ! != -> _count `ui -> 0 `ui 1747  ]
 {
-"196
-[; ;main.c: 196:                     line[count] = '\0';
+"824
+[; ;main.c: 824:                     line[count] = '\0';
 [e = *U + &U _line * -> _count `ux -> -> # *U &U _line `ui `ux -> -> 0 `ui `uc ]
-"197
-[; ;main.c: 197:                     process_command(line);
+"825
+[; ;main.c: 825:                     process_command(line);
 [e ( _process_command (1 -> &U _line `*Cuc ]
-"198
-[; ;main.c: 198:                     count = 0;
+"826
+[; ;main.c: 826:                     if (upload_active)
+[e $ ! != -> _upload_active `i -> 0 `i 1748  ]
+"827
+[; ;main.c: 827:                     {
+{
+"828
+[; ;main.c: 828:                         receive_upload_data();
+[e ( _receive_upload_data ..  ]
+"829
+[; ;main.c: 829:                     }
+}
+[e :U 1748 ]
+"830
+[; ;main.c: 830:                     count = 0;
 [e = _count -> -> 0 `i `uc ]
-"199
-[; ;main.c: 199:                 }
+"831
+[; ;main.c: 831:                 }
 }
-[e :U 1627 ]
-"200
-[; ;main.c: 200:             } else if (ch >= 32u && ch <= 126u) {
+[e :U 1747 ]
+"832
+[; ;main.c: 832:             } else if (ch >= 32u && ch <= 126u) {
 }
-[e $U 1628  ]
-[e :U 1626 ]
-[e $ ! && >= -> _ch `ui -> 32 `ui <= -> _ch `ui -> 126 `ui 1629  ]
+[e $U 1749  ]
+[e :U 1746 ]
+[e $ ! && >= -> _ch `ui -> 32 `ui <= -> _ch `ui -> 126 `ui 1750  ]
 {
-"201
-[; ;main.c: 201:                 if (count < (24u - 1u)) {
-[e $ ! < -> _count `ui - -> 24 `ui -> 1 `ui 1630  ]
+"833
+[; ;main.c: 833:                 if (count < (24u - 1u)) {
+[e $ ! < -> _count `ui - -> 24 `ui -> 1 `ui 1751  ]
 {
-"202
-[; ;main.c: 202:                     line[count++] = (char)ch;
+"834
+[; ;main.c: 834:                     line[count++] = (char)ch;
 [e = *U + &U _line * -> ++ _count -> -> 1 `i `uc `ux -> -> # *U &U _line `ui `ux -> _ch `uc ]
-"203
-[; ;main.c: 203:                 } else {
+"835
+[; ;main.c: 835:                 } else {
 }
-[e $U 1631  ]
-[e :U 1630 ]
+[e $U 1752  ]
+[e :U 1751 ]
 {
-"204
-[; ;main.c: 204:                     count = 0;
+"836
+[; ;main.c: 836:                     count = 0;
 [e = _count -> -> 0 `i `uc ]
-"205
-[; ;main.c: 205:                     uart2_puts("ERR LINE TOO LONG");
-[e ( _uart2_puts (1 :s 8C ]
-"206
-[; ;main.c: 206:                     uart2_newline();
+"837
+[; ;main.c: 837:                     uart2_puts("ERR LINE TOO LONG");
+[e ( _uart2_puts (1 :s 24C ]
+"838
+[; ;main.c: 838:                     uart2_newline();
 [e ( _uart2_newline ..  ]
-"207
-[; ;main.c: 207:                 }
+"839
+[; ;main.c: 839:                 }
 }
-[e :U 1631 ]
-"208
-[; ;main.c: 208:             }
+[e :U 1752 ]
+"840
+[; ;main.c: 840:             }
 }
-[e :U 1629 ]
-[e :U 1628 ]
-"209
-[; ;main.c: 209:         }
+[e :U 1750 ]
+[e :U 1749 ]
+"841
+[; ;main.c: 841:         }
 }
-[e :U 1625 ]
-"210
-[; ;main.c: 210:     }
+[e :U 1745 ]
+"842
+[; ;main.c: 842:     }
 }
-[e $U 1622  ]
-[e :U 1623 ]
+[e $U 1742  ]
+[e :U 1743 ]
 }
-"211
-[; ;main.c: 211: }
-[e :UE 1621 ]
+"843
+[; ;main.c: 843: }
+[e :UE 1741 ]
 }
-[a 6C 80 73 67 49 56 70 54 54 75 56 48 32 66 79 79 84 76 79 65 68 69 82 32 83 84 65 71 69 49 32 82 69 65 68 89 0 ]
-[a 7C 67 111 109 109 97 110 100 115 58 32 73 78 70 79 44 32 66 79 79 84 44 32 82 85 78 0 ]
-[a 4C 82 85 78 58 32 83 84 65 82 84 73 78 71 32 65 80 80 76 73 67 65 84 73 79 78 0 ]
-[a 8C 69 82 82 32 76 73 78 69 32 84 79 79 32 76 79 78 71 0 ]
-[a 5C 69 82 82 32 85 78 75 78 79 87 78 32 67 79 77 77 65 78 68 0 ]
-[a 3C 66 79 79 84 32 77 79 68 69 32 82 69 65 68 89 59 32 70 76 65 83 72 32 85 80 68 65 84 69 32 78 79 84 32 73 77 80 76 69 77 69 78 84 69 68 0 ]
-[a 2C 88 67 56 32 50 46 52 54 59 32 70 79 83 67 61 54 52 48 48 48 48 48 48 59 32 85 65 82 84 50 61 49 49 53 50 48 48 32 56 78 49 0 ]
-[a 1C 80 73 67 49 56 70 54 54 75 56 48 32 66 79 79 84 76 79 65 68 69 82 32 83 84 65 71 69 49 0 ]
+[a 15C 69 82 82 32 85 80 76 79 65 68 32 66 85 83 89 0 ]
+[a 22C 80 73 67 49 56 70 54 54 75 56 48 32 66 79 79 84 76 79 65 68 69 82 32 82 69 65 68 89 0 ]
+[a 16C 82 69 65 68 89 0 ]
+[a 4C 69 82 82 32 70 82 65 77 69 32 84 73 77 69 79 85 84 0 ]
+[a 19C 66 79 79 84 0 ]
+[a 14C 69 82 82 32 66 65 68 32 85 80 76 79 65 68 32 70 79 82 77 65 84 0 ]
+[a 21C 69 82 82 0 ]
+[a 20C 82 85 78 0 ]
+[a 8C 67 82 67 51 50 32 79 75 0 ]
+[a 3C 69 82 82 32 70 82 65 77 69 32 76 69 78 71 84 72 0 ]
+[a 5C 69 82 82 32 73 77 65 71 69 32 76 69 78 71 84 72 0 ]
+[a 24C 69 82 82 32 76 73 78 69 32 84 79 79 32 76 79 78 71 0 ]
+[a 1C 69 82 82 32 73 77 65 71 69 32 83 73 90 69 0 ]
+[a 10C 69 82 82 32 73 77 65 71 69 32 83 73 90 69 0 ]
+[a 11C 69 82 82 32 73 77 65 71 69 32 83 73 90 69 0 ]
+[a 13C 69 82 82 32 73 77 65 71 69 32 83 73 90 69 0 ]
+[a 2C 69 82 82 32 70 76 65 83 72 32 87 82 73 84 69 0 ]
+[a 6C 69 82 82 32 70 76 65 83 72 32 87 82 73 84 69 0 ]
+[a 7C 82 88 32 69 78 68 0 ]
+[a 23C 67 111 109 109 97 110 100 115 58 32 73 44 32 66 44 32 82 44 32 85 80 76 79 65 68 0 ]
+[a 9C 69 82 82 32 73 77 65 71 69 32 67 82 67 0 ]
+[a 12C 69 82 82 32 66 65 68 32 85 80 76 79 65 68 32 67 82 67 0 ]
+[a 17C 80 73 67 49 56 70 54 54 75 56 48 0 ]
+[a 18C 54 52 77 72 122 59 32 85 65 82 84 50 61 49 49 53 50 48 48 0 ]

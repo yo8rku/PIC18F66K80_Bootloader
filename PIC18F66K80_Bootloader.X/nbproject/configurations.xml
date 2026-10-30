@@ -74,7 +74,7 @@
         <property key="default-bitfield-type" value="true"/>
         <property key="default-char-type" value="true"/>
         <property key="define-macros" value=""/>
-        <property key="disable-optimizations" value="true"/>
+        <property key="disable-optimizations" value="false"/>
         <property key="extra-include-directories" value=""/>
         <property key="favor-optimization-for" value="-speed,+space"/>
         <property key="garbage-collect-data" value="true"/>
@@ -88,7 +88,7 @@
         <property key="optimization-debug" value="false"/>
         <property key="optimization-invariant-enable" value="false"/>
         <property key="optimization-invariant-value" value="16"/>
-        <property key="optimization-level" value="-O0"/>
+        <property key="optimization-level" value="-O1"/>
         <property key="optimization-speed" value="false"/>
         <property key="optimization-stable-enable" value="false"/>
         <property key="preprocess-assembler" value="true"/>
@@ -107,7 +107,7 @@
         <property key="additional-options-checksumAVR2" value="0"/>
         <property key="additional-options-code-offset" value=""/>
         <property key="additional-options-command-line"
-                  value="-Wl,-ACODE=00h-07FFh,-ACONST=00h-07FFh,-AMEDIUMCONST=00h-07FFh,-ASMALLCONST=00h-07FFh"/>
+                  value="-Wl,-ACODE=00h-0FFFh,-ACONST=00h-0FFFh,-AMEDIUMCONST=00h-0FFFh,-ASMALLCONST=00h-0FFFh"/>
         <property key="additional-options-errata" value=""/>
         <property key="additional-options-extend-address" value="false"/>
         <property key="additional-options-fillAVR2" value="0"/>

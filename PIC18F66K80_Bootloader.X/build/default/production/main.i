@@ -21275,19 +21275,12 @@ unsigned char __t3rd16on(void);
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.46\\pic\\include\\c99\\stdbool.h" 1 3
 # 17 "main.c" 2
 
-
-
-
-
-
-
-
 #pragma config FOSC = HS1 ,PLLCFG = ON
 #pragma config IESO = OFF, FCMEN = OFF
 #pragma config PWRTEN = ON, BORV = 3, BOREN = ON
 #pragma config WDTEN = ON, WDTPS = 128
 #pragma config MCLRE = ON, MSSPMSK = MSK7, T0CKMX = PORTB, T3CKMX = PORTB, CANMX = PORTB
-#pragma config STVREN = ON, DEBUG = OFF, XINST = OFF, BBSIZ = BB1K
+#pragma config STVREN = ON, DEBUG = OFF, XINST = OFF, BBSIZ = BB2K
 #pragma config CP0 = OFF, CP1 = OFF, CP2 = OFF, CP3 = OFF
 #pragma config CPB = OFF, CPD = OFF
 #pragma config WRT0 = OFF, WRT1 = OFF, WRT2 = OFF, WRT3 = OFF
@@ -21295,13 +21288,26 @@ unsigned char __t3rd16on(void);
 #pragma config EBTR0 = OFF, EBTR1 = OFF, EBTR2 = OFF, EBTR3 = OFF
 #pragma config EBTRB = OFF
 #pragma warning disable 1510
-# 57 "main.c"
+# 42 "main.c"
 __asm("PSECT intcode");
-__asm("GOTO 0x0808");
+__asm("GOTO 0x1008");
+# 70 "main.c"
+static uint32_t upload_size;
+static uint32_t upload_expected_crc;
+static uint32_t upload_received;
+static uint16_t upload_sequence;
+static _Bool upload_active = 0;
+
+static uint8_t frame_payload[48u];
+static uint8_t flash_row_buffer[64u];
+static uint8_t flash_row_fill = 0;
+static uint16_t flash_row_address = 0x1000u;
+
+static uint32_t upload_crc32 = 0xFFFFFFFFUL;
+static _Bool upload_have_frame = 0;
 
 
-
-
+static uint32_t crc32_update(uint32_t crc, uint8_t data);
 
 static void uart2_init(void)
 {
@@ -21359,7 +21365,576 @@ static _Bool uart2_try_getc(uint8_t *out)
     *out = RCREG2;
     return 1;
 }
-# 129 "main.c"
+
+static _Bool uart2_getc_timeout(uint8_t *out)
+{
+    uint16_t timeout = 60000u;
+
+    while (timeout != 0u)
+    {
+        if (uart2_try_getc(out))
+            return 1;
+
+        __asm(" clrwdt");
+        timeout--;
+    }
+
+    return 0;
+}
+
+
+static void flash_set_pointer(uint16_t address)
+{
+    TBLPTRU = 0;
+    TBLPTRH = (uint8_t)(address >> 8);
+    TBLPTRL = (uint8_t)address;
+}
+
+
+static _Bool flash_valid_row(uint16_t address)
+{
+    if (address < 0x1000u)
+        return 0;
+
+    if (address > (0xFFFFu - (64u - 1u)))
+        return 0;
+
+    if ((address & (64u - 1u)) != 0u)
+        return 0;
+
+    return 1;
+}
+
+
+static _Bool flash_erase_row(uint16_t address)
+{
+    uint8_t gie_state;
+
+    if (!flash_valid_row(address))
+        return 0;
+
+    flash_set_pointer(address);
+
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+    EECON1bits.WREN = 1;
+    EECON1bits.FREE = 1;
+
+    gie_state = INTCONbits.GIE;
+    INTCONbits.GIE = 0;
+
+    EECON2 = 0x55;
+    EECON2 = 0xAA;
+    EECON1bits.WR = 1;
+
+    INTCONbits.GIE = gie_state;
+
+    while (EECON1bits.WR)
+        __asm(" clrwdt");
+
+    EECON1bits.WREN = 0;
+    EECON1bits.FREE = 0;
+
+    return 1;
+}
+
+
+static _Bool flash_verify_row(uint16_t address,
+                             const uint8_t *buffer)
+{
+    uint8_t i;
+
+    if (!flash_valid_row(address))
+        return 0;
+
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+
+    flash_set_pointer(address);
+
+    for (i = 0; i < 64u; i++)
+    {
+        __asm("TBLRD*+");
+
+        if (TABLAT != buffer[i])
+            return 0;
+    }
+
+    return 1;
+}
+
+
+
+static _Bool flash_write_row(uint16_t address,
+                            const uint8_t *buffer)
+{
+    uint8_t i;
+    uint8_t gie_state;
+
+    if (!flash_valid_row(address))
+        return 0;
+
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+
+    flash_set_pointer(address);
+
+
+    for (i = 0; i < 64u; i++)
+    {
+        TABLAT = buffer[i];
+        __asm("TBLWT*+");
+    }
+
+
+    flash_set_pointer(address);
+
+    EECON1bits.WREN = 1;
+    EECON1bits.FREE = 0;
+
+    gie_state = INTCONbits.GIE;
+    INTCONbits.GIE = 0;
+
+    EECON2 = 0x55;
+    EECON2 = 0xAA;
+    EECON1bits.WR = 1;
+
+    INTCONbits.GIE = gie_state;
+
+    while (EECON1bits.WR)
+        __asm(" clrwdt");
+
+    EECON1bits.WREN = 0;
+
+
+    return flash_verify_row(address, buffer);
+}
+
+
+static _Bool flash_program_row(uint16_t address,
+                              const uint8_t *buffer)
+{
+    if (!flash_erase_row(address))
+        return 0;
+
+    return flash_write_row(address, buffer);
+}
+
+
+static _Bool flash_flush_row(void)
+{
+    uint8_t i;
+
+    if (flash_row_fill == 0u)
+        return 1;
+
+
+    for (i = flash_row_fill; i < 64u; i++)
+        flash_row_buffer[i] = 0xFF;
+
+    if (!flash_program_row(flash_row_address, flash_row_buffer))
+        return 0;
+
+
+    flash_row_fill = 0u;
+    flash_row_address += 64u;
+
+    for (i = 0; i < 64u; i++)
+        flash_row_buffer[i] = 0xFF;
+
+    return 1;
+}
+# 330 "main.c"
+static uint16_t crc16_update(uint16_t crc, uint8_t data)
+{
+    uint8_t i;
+
+    crc ^= (uint16_t)data << 8;
+
+    for (i = 0; i < 8u; i++)
+    {
+        if (crc & 0x8000u)
+            crc = (uint16_t)((crc << 1) ^ 0x1021u);
+        else
+            crc <<= 1;
+    }
+
+    return crc;
+}
+
+static uint8_t receive_upload_frame(
+    uint16_t *sequence,
+    uint8_t *length)
+{
+    uint8_t ch;
+    uint8_t i;
+    uint16_t received_crc;
+    uint16_t calculated_crc;
+    uint16_t frame_len;
+
+    uint8_t seq_hi;
+    uint8_t seq_lo;
+    uint8_t len_hi;
+    uint8_t len_lo;
+
+
+    if (!uart2_try_getc(&ch))
+        return 0u;
+
+    if (ch == 0x04u)
+        return 4u;
+
+    if (ch != 0x02u)
+        return 0u;
+
+
+    if (!uart2_getc_timeout(&seq_hi) ||
+        !uart2_getc_timeout(&seq_lo))
+        return 3u;
+
+
+    if (!uart2_getc_timeout(&len_hi) ||
+        !uart2_getc_timeout(&len_lo))
+        return 3u;
+
+    *sequence = ((uint16_t)seq_hi << 8) | seq_lo;
+
+    frame_len = ((uint16_t)len_hi << 8) | len_lo;
+
+    if (frame_len == 0u || frame_len > 48u)
+
+        return 5u;
+
+    *length = (uint8_t)frame_len;
+
+    calculated_crc = 0xFFFFu;
+
+    calculated_crc = crc16_update(calculated_crc, seq_hi);
+    calculated_crc = crc16_update(calculated_crc, seq_lo);
+    calculated_crc = crc16_update(calculated_crc, len_hi);
+    calculated_crc = crc16_update(calculated_crc, len_lo);
+
+
+    for (i = 0; i < *length; i++)
+    {
+        if (!uart2_getc_timeout(&frame_payload[i]))
+            return 3u;
+
+        calculated_crc =
+            crc16_update(calculated_crc, frame_payload[i]);
+    }
+
+
+    if (!uart2_getc_timeout(&seq_hi) ||
+        !uart2_getc_timeout(&seq_lo))
+        return 3u;
+
+    received_crc = ((uint16_t)seq_hi << 8) | seq_lo;
+
+    if (received_crc != calculated_crc)
+        return 2u;
+
+    return 1u;
+}
+
+static void receive_upload_data(void)
+{
+    uint16_t sequence;
+    uint8_t length;
+    uint8_t result;
+    uint8_t i;
+    uint32_t final_crc;
+
+    while (upload_active)
+    {
+        __asm(" clrwdt");
+
+        result = receive_upload_frame(&sequence, &length);
+
+        switch (result)
+        {
+            case 1u:
+
+                if (sequence == upload_sequence)
+                {
+
+                    if ((upload_received > upload_size) ||
+                        ((uint32_t)length >
+                         (upload_size - upload_received)))
+                    {
+                        uart2_puts("ERR IMAGE SIZE");
+                        uart2_newline();
+                        upload_active = 0;
+                        break;
+                    }
+
+
+                    for (i = 0; i < length; i++)
+                    {
+                        uint8_t data = frame_payload[i];
+
+                        upload_crc32 =
+                            crc32_update(upload_crc32, data);
+
+                        flash_row_buffer[flash_row_fill] = data;
+                        flash_row_fill++;
+
+
+                        if (flash_row_fill >= 64u)
+                        {
+                            if (!flash_program_row(
+                                    flash_row_address,
+                                    flash_row_buffer))
+                            {
+                                uart2_puts("ERR FLASH WRITE");
+                                uart2_newline();
+                                upload_active = 0;
+                                break;
+                            }
+
+                            flash_row_fill = 0u;
+                            flash_row_address += 64u;
+
+                            for (uint8_t j = 0; j < 64u; j++)
+                                flash_row_buffer[j] = 0xFF;
+                        }
+                    }
+
+                    if (!upload_active)
+                        break;
+
+                    upload_received += length;
+                    upload_sequence++;
+                    upload_have_frame = 1;
+
+
+                    uart2_putc(0x06u);
+                    uart2_putc((uint8_t)(sequence >> 8));
+                    uart2_putc((uint8_t)sequence);
+                }
+                else if (upload_have_frame &&
+                         (sequence ==
+                          (uint16_t)(upload_sequence - 1u)))
+                {
+
+                    uart2_putc(0x06u);
+                    uart2_putc((uint8_t)(sequence >> 8));
+                    uart2_putc((uint8_t)sequence);
+                }
+                else
+                {
+                    uart2_putc(0x15u);
+                    uart2_putc((uint8_t)(upload_sequence >> 8));
+                    uart2_putc((uint8_t)upload_sequence);
+                }
+
+                break;
+
+            case 2u:
+
+                uart2_putc(0x15u);
+                uart2_putc((uint8_t)(upload_sequence >> 8));
+                uart2_putc((uint8_t)upload_sequence);
+
+                break;
+
+            case 5u:
+
+                uart2_puts("ERR FRAME LENGTH");
+                uart2_newline();
+                upload_active = 0;
+
+                break;
+
+            case 3u:
+
+                uart2_puts("ERR FRAME TIMEOUT");
+                uart2_newline();
+                upload_active = 0;
+
+                break;
+
+            case 4u:
+
+                upload_active = 0;
+
+                if (upload_received != upload_size)
+                {
+                    uart2_puts("ERR IMAGE LENGTH");
+                    uart2_newline();
+                    break;
+                }
+
+
+                if (!flash_flush_row())
+                {
+                    uart2_puts("ERR FLASH WRITE");
+                    uart2_newline();
+                    break;
+                }
+
+                final_crc = upload_crc32 ^ 0xFFFFFFFFUL;
+
+                if (final_crc == upload_expected_crc)
+                {
+                    uart2_puts("RX END");
+                    uart2_newline();
+
+                    uart2_puts("CRC32 OK");
+                    uart2_newline();
+                }
+                else
+                {
+                    uart2_puts("ERR IMAGE CRC");
+                    uart2_newline();
+                }
+
+                break;
+
+            default:
+                break;
+        }
+    }
+}
+
+
+
+
+
+
+
+static uint32_t crc32_update(uint32_t crc, uint8_t data)
+{
+    uint8_t i;
+
+    crc ^= data;
+
+    for (i = 0; i < 8u; i++)
+    {
+        if (crc & 1u)
+            crc = (crc >> 1) ^ 0xEDB88320UL;
+        else
+            crc >>= 1;
+    }
+
+    return crc;
+}
+
+static _Bool parse_upload_command(const char *cmd)
+{
+    uint16_t size = 0;
+    uint32_t crc = 0;
+    uint8_t digits = 0;
+    uint8_t i;
+    uint8_t nibble;
+    char c;
+
+
+    if (cmd[0] != 'U' || cmd[1] != 'P' ||
+        cmd[2] != 'L' || cmd[3] != 'O' ||
+        cmd[4] != 'A' || cmd[5] != 'D' ||
+        cmd[6] != ' ')
+        return 0;
+
+    cmd += 7;
+
+
+    while (*cmd >= '0' && *cmd <= '9')
+    {
+        nibble = (uint8_t)(*cmd - '0');
+
+        if (digits >= 5u ||
+            size > 6553u ||
+            (size == 6553u && nibble > 5u))
+        {
+            uart2_puts("ERR IMAGE SIZE");
+            uart2_newline();
+            return 1;
+        }
+
+        size = (uint16_t)((size << 3) + (size << 1) + nibble);
+
+        digits++;
+        cmd++;
+    }
+
+    if (digits == 0u || *cmd != ' ' || size == 0u)
+    {
+        uart2_puts("ERR IMAGE SIZE");
+        uart2_newline();
+        return 1;
+    }
+
+    cmd++;
+
+
+    for (i = 0; i < 8u; i++)
+    {
+        c = cmd[i];
+
+        if (c >= '0' && c <= '9')
+            nibble = (uint8_t)(c - '0');
+        else if (c >= 'A' && c <= 'F')
+            nibble = (uint8_t)(c - 'A' + 10);
+        else if (c >= 'a' && c <= 'f')
+            nibble = (uint8_t)(c - 'a' + 10);
+        else
+        {
+            uart2_puts("ERR BAD UPLOAD CRC");
+            uart2_newline();
+            return 1;
+        }
+
+        crc = (crc << 4) | (uint32_t)nibble;
+    }
+
+
+    if (size > 0xF000U)
+    {
+        uart2_puts("ERR IMAGE SIZE");
+        uart2_newline();
+        return 1;
+    }
+
+
+    if (cmd[8] != '\0')
+    {
+        uart2_puts("ERR BAD UPLOAD FORMAT");
+        uart2_newline();
+        return 1;
+    }
+
+
+    if (upload_active)
+    {
+        uart2_puts("ERR UPLOAD BUSY");
+        uart2_newline();
+        return 1;
+    }
+
+
+    upload_size = size;
+    upload_expected_crc = crc;
+    upload_received = 0;
+    upload_sequence = 0;
+
+    upload_crc32 = 0xFFFFFFFFUL;
+    upload_have_frame = 0;
+
+    flash_row_address = 0x1000u;
+    flash_row_fill = 0;
+
+    for (i = 0; i < 64u; i++)
+        flash_row_buffer[i] = 0xFF;
+
+    upload_active = 1;
+
+    uart2_puts("READY");
+    uart2_newline();
+
+    return 1;
+}
+# 728 "main.c"
 static void jump_to_application(void)
 {
 
@@ -21375,30 +21950,33 @@ static void jump_to_application(void)
     INTCONbits.PEIE = 0;
     STKPTR = 0;
 
-    __asm("GOTO 0x0800");
+    __asm("GOTO 0x1000");
 
 
 }
-
+# 774 "main.c"
 static void process_command(const char *cmd)
 {
-    if (cmd[0] == 'I' && cmd[1] == 'N' && cmd[2] == 'F' &&
-        cmd[3] == 'O' && cmd[4] == '\0') {
-        uart2_puts("PIC18F66K80 BOOTLOADER STAGE1");
+    if (parse_upload_command(cmd))
+        return;
+
+    if (cmd[0] == 'I' && cmd[1] == '\0') {
+        uart2_puts("PIC18F66K80");
         uart2_newline();
-        uart2_puts("XC8 2.46; FOSC=64000000; UART2=115200 8N1");
+        uart2_puts("64MHz; UART2=115200");
         uart2_newline();
-    } else if (cmd[0] == 'B' && cmd[1] == 'O' && cmd[2] == 'O' &&
-               cmd[3] == 'T' && cmd[4] == '\0') {
-        uart2_puts("BOOT MODE READY; FLASH UPDATE NOT IMPLEMENTED");
+
+    } else if (cmd[0] == 'B' && cmd[1] == '\0') {
+        uart2_puts("BOOT");
         uart2_newline();
-    } else if (cmd[0] == 'R' && cmd[1] == 'U' && cmd[2] == 'N' &&
-               cmd[3] == '\0') {
-        uart2_puts("RUN: STARTING APPLICATION");
+
+    } else if (cmd[0] == 'R' && cmd[1] == '\0') {
+        uart2_puts("RUN");
         uart2_newline();
         jump_to_application();
+
     } else {
-        uart2_puts("ERR UNKNOWN COMMAND");
+        uart2_puts("ERR");
         uart2_newline();
     }
 }
@@ -21416,9 +21994,9 @@ void main(void)
     uart2_init();
 
     uart2_newline();
-    uart2_puts("PIC18F66K80 BOOTLOADER STAGE1 READY");
+    uart2_puts("PIC18F66K80 BOOTLOADER READY");
     uart2_newline();
-    uart2_puts("Commands: INFO, BOOT, RUN");
+    uart2_puts("Commands: I, B, R, UPLOAD");
     uart2_newline();
 
     for (;;) {
@@ -21429,6 +22007,10 @@ void main(void)
                 if (count != 0u) {
                     line[count] = '\0';
                     process_command(line);
+                    if (upload_active)
+                    {
+                        receive_upload_data();
+                    }
                     count = 0;
                 }
             } else if (ch >= 32u && ch <= 126u) {
