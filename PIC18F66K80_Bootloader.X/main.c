@@ -15,12 +15,27 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+/*
 #pragma config FOSC = HS1, PLLCFG = ON
 #pragma config IESO = OFF, FCMEN = OFF
 #pragma config PWRTEN = ON, BORV = 3, BOREN = ON
 #pragma config WDTEN = ON, WDTPS = 128
 #pragma config MCLRE = ON, MSSPMSK = MSK7, T0CKMX = PORTB, T3CKMX = PORTB, CANMX = PORTB
 #pragma config STVREN = ON, DEBUG = OFF, XINST = OFF
+*/
+#pragma config FOSC = HS1 ,PLLCFG = ON
+#pragma config IESO = OFF, FCMEN = OFF
+#pragma config PWRTEN = ON, BORV = 3, BOREN = ON
+#pragma config WDTEN = ON, WDTPS = 128
+#pragma config MCLRE = ON, MSSPMSK = MSK7, T0CKMX = PORTB, T3CKMX = PORTB, CANMX = PORTB
+#pragma config STVREN = ON, DEBUG = OFF, XINST = OFF, BBSIZ = BB1K
+#pragma config CP0 = OFF, CP1 = OFF, CP2 = OFF, CP3 = OFF
+#pragma config CPB = OFF, CPD = OFF
+#pragma config WRT0 = OFF, WRT1 = OFF, WRT2 = OFF, WRT3 = OFF
+#pragma config WRTC = OFF, WRTB = ON, WRTD = OFF
+#pragma config EBTR0 = OFF, EBTR1 = OFF, EBTR2 = OFF, EBTR3 = OFF
+#pragma config EBTRB = OFF
+#pragma warning disable 1510
 
 /*
  * IMPORTANT:
