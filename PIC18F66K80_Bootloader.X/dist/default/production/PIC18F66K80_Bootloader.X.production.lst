@@ -1,7 +1,7 @@
 
 
 Microchip MPLAB XC8 Assembler V2.46 build 20240104201356 
-                                                                                               Thu Oct 29 15:44:39 2026
+                                                                                               Fri Oct 30 11:49:28 2026
 
 Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og1 
      1                           	processor	18F66K80
@@ -1382,11 +1382,11 @@ Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og1
   1329                           ;	Stack Overflow Reset
   1330                           ;	STVREN = ON, Enabled
   1331                           ;	Boot Block Size
-  1332                           ;	BBSIZ = 0x1, unprogrammed default
+  1332                           ;	BBSIZ = BB1K, 1K word Boot Block size
   1333                           ;	Background Debugger
   1334                           ;	DEBUG = OFF, Background Debugger disabled
   1335   300006                     	org	3145734
-  1336   300006  91                 	db	145
+  1336   300006  81                 	db	129
   1337                           
   1338                           ; Padding undefined space
   1339   300007                     	org	3145735
@@ -1709,7 +1709,7 @@ SFR                  0      0       0     200        0.0%
 
 
 Microchip Technology PIC18 Macro Assembler V2.46 build 20240104201356 
-Symbol Table                                                                                   Thu Oct 29 15:44:39 2026
+Symbol Table                                                                                   Fri Oct 30 11:49:28 2026
 
                          l32 03E0                           l41 0498                           l33 03DC  
                          l50 04B4                           l35 03EE                           l61 0450  
