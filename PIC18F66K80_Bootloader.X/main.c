@@ -59,11 +59,27 @@ asm("GOTO 0x0808");
 
 #define MAX_APP_SIZE  0xF800U
 
+#define SOF             0x02u
+#define ACK             0x06u
+#define NAK             0x15u
+#define EOT             0x04u
+#define BLOCK_SIZE      48u
+
+#define FRAME_NONE      0u
+#define FRAME_VALID     1u
+#define FRAME_INVALID  2u
+#define FRAME_TIMEOUT  3u
+#define FRAME_EOT       4u
+
+#define UART_TIMEOUT_COUNT  60000u
+
 static uint32_t upload_size;
 static uint32_t upload_expected_crc;
 static uint32_t upload_received;
 static uint16_t upload_sequence;
 static bool upload_active = false;
+
+static uint8_t frame_payload[BLOCK_SIZE];
 
 static void uart2_init(void)
 {
@@ -122,6 +138,21 @@ static bool uart2_try_getc(uint8_t *out)
     return true;
 }
 
+static bool uart2_getc_timeout(uint8_t *out)
+{
+    uint16_t timeout = UART_TIMEOUT_COUNT;
+
+    while (timeout != 0u)
+    {
+        if (uart2_try_getc(out))
+            return true;
+
+        CLRWDT();
+        timeout--;
+    }
+
+    return false;
+}
 
 /* Set PIC18F66K80 program memory table pointer */
 static void flash_set_pointer(uint16_t address)
@@ -286,6 +317,76 @@ static uint16_t crc16_update(uint16_t crc, uint8_t data)
     return crc;
 }
 
+static uint8_t receive_upload_frame(
+    uint16_t *sequence,
+    uint8_t *length)
+{
+    uint8_t ch;
+    uint8_t i;
+    uint16_t received_crc;
+    uint16_t calculated_crc;
+
+    uint8_t seq_hi;
+    uint8_t seq_lo;
+    uint8_t len_hi;
+    uint8_t len_lo;
+
+    /* Wait for SOF, without blocking the main loop */
+    if (!uart2_try_getc(&ch))
+        return FRAME_NONE;
+
+    if (ch == EOT)
+        return FRAME_EOT;
+
+    if (ch != SOF)
+        return FRAME_NONE;
+
+    /* Sequence */
+    if (!uart2_getc_timeout(&seq_hi) ||
+        !uart2_getc_timeout(&seq_lo))
+        return FRAME_TIMEOUT;
+
+    /* Payload length */
+    if (!uart2_getc_timeout(&len_hi) ||
+        !uart2_getc_timeout(&len_lo))
+        return FRAME_TIMEOUT;
+
+    *sequence = ((uint16_t)seq_hi << 8) | seq_lo;
+    *length = ((uint16_t)len_hi << 8) | len_lo;
+
+    if (*length == 0u || *length > BLOCK_SIZE)
+        return FRAME_INVALID;
+
+    calculated_crc = 0xFFFFu;
+
+    calculated_crc = crc16_update(calculated_crc, seq_hi);
+    calculated_crc = crc16_update(calculated_crc, seq_lo);
+    calculated_crc = crc16_update(calculated_crc, len_hi);
+    calculated_crc = crc16_update(calculated_crc, len_lo);
+
+    /* Payload */
+    for (i = 0; i < *length; i++)
+    {
+        if (!uart2_getc_timeout(&frame_payload[i]))
+            return FRAME_TIMEOUT;
+
+        calculated_crc =
+            crc16_update(calculated_crc, frame_payload[i]);
+    }
+
+    /* Received CRC16 */
+    if (!uart2_getc_timeout(&seq_hi) ||
+        !uart2_getc_timeout(&seq_lo))
+        return FRAME_TIMEOUT;
+
+    received_crc = ((uint16_t)seq_hi << 8) | seq_lo;
+
+    if (received_crc != calculated_crc)
+        return FRAME_INVALID;
+
+    return FRAME_VALID;
+}
+
 /* CRC32 compatible with Python zlib.crc32()
  * Init:   0xFFFFFFFF
  * Poly:   0xEDB88320 (reflected)
@@ -436,14 +537,15 @@ static bool parse_upload_command(const char *cmd)
         nibble = (uint8_t)(*cmd - '0');
 
         if (digits >= 5u ||
-            size > (uint16_t)((MAX_APP_SIZE - nibble) / 10u))
+            size > 6553u ||
+            (size == 6553u && nibble > 5u))
         {
             uart2_puts("ERR IMAGE SIZE");
             uart2_newline();
             return true;
         }
 
-        size = (uint16_t)(size * 10u + nibble);
+        size = (uint16_t)((size << 3) + (size << 1) + nibble);
 
         digits++;
         cmd++;
