@@ -53,6 +53,18 @@ asm("GOTO 0x0808");
 #define UART2_BAUD       115200UL
 #define RX_LINE_MAX      24u
 
+#define APP_START       0x0800u
+#define APP_END         0xFFFFu
+#define FLASH_ROW_SIZE  64u
+
+#define MAX_APP_SIZE  0xF800UL
+
+static uint32_t upload_size;
+static uint32_t upload_expected_crc;
+static uint32_t upload_received;
+static uint16_t upload_sequence;
+static bool upload_active = false;
+
 static void uart2_init(void)
 {
     /* Preserve the pin direction setup used on the target board. */
@@ -110,6 +122,297 @@ static bool uart2_try_getc(uint8_t *out)
     return true;
 }
 
+
+/* Set PIC18F66K80 program memory table pointer */
+static void flash_set_pointer(uint16_t address)
+{
+    TBLPTRU = 0;
+    TBLPTRH = (uint8_t)(address >> 8);
+    TBLPTRL = (uint8_t)address;
+}
+
+/* Check that address is a valid application Flash row */
+static bool flash_valid_row(uint16_t address)
+{
+    if (address < APP_START)
+        return false;
+
+    if (address > (APP_END - (FLASH_ROW_SIZE - 1u)))
+        return false;
+
+    if ((address & (FLASH_ROW_SIZE - 1u)) != 0u)
+        return false;
+
+    return true;
+}
+
+/* Erase one 64-byte Flash row */
+static bool flash_erase_row(uint16_t address)
+{
+    uint8_t gie_state;
+
+    if (!flash_valid_row(address))
+        return false;
+
+    flash_set_pointer(address);
+
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+    EECON1bits.WREN = 1;
+    EECON1bits.FREE = 1;
+
+    gie_state = INTCONbits.GIE;
+    INTCONbits.GIE = 0;
+
+    EECON2 = 0x55;
+    EECON2 = 0xAA;
+    EECON1bits.WR = 1;
+
+    INTCONbits.GIE = gie_state;
+
+    while (EECON1bits.WR)
+        CLRWDT();
+
+    EECON1bits.WREN = 0;
+    EECON1bits.FREE = 0;
+
+    return true;
+}
+
+/* Read and verify one 64-byte Flash row */
+static bool flash_verify_row(uint16_t address,
+                             const uint8_t *buffer)
+{
+    uint8_t i;
+
+    if (!flash_valid_row(address))
+        return false;
+
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+
+    flash_set_pointer(address);
+
+    for (i = 0; i < FLASH_ROW_SIZE; i++)
+    {
+        asm("TBLRD*+");
+
+        if (TABLAT != buffer[i])
+            return false;
+    }
+
+    return true;
+}
+
+/* Write one 64-byte Flash row.
+   The row must have been erased first. */
+static bool flash_write_row(uint16_t address,
+                            const uint8_t *buffer)
+{
+    uint8_t i;
+    uint8_t gie_state;
+
+    if (!flash_valid_row(address))
+        return false;
+
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+
+    flash_set_pointer(address);
+
+    /* Load all 64 Flash holding registers */
+    for (i = 0; i < FLASH_ROW_SIZE; i++)
+    {
+        TABLAT = buffer[i];
+        asm("TBLWT*+");
+    }
+
+    /* Restore pointer to the beginning of this row */
+    flash_set_pointer(address);
+
+    EECON1bits.WREN = 1;
+    EECON1bits.FREE = 0;
+
+    gie_state = INTCONbits.GIE;
+    INTCONbits.GIE = 0;
+
+    EECON2 = 0x55;
+    EECON2 = 0xAA;
+    EECON1bits.WR = 1;
+
+    INTCONbits.GIE = gie_state;
+
+    while (EECON1bits.WR)
+        CLRWDT();
+
+    EECON1bits.WREN = 0;
+
+    /* Verify the actual Flash contents */
+    return flash_verify_row(address, buffer);
+}
+
+/* Complete erase + write + verification operation */
+static bool flash_program_row(uint16_t address,
+                              const uint8_t *buffer)
+{
+    if (!flash_erase_row(address))
+        return false;
+
+    return flash_write_row(address, buffer);
+}
+//////
+
+/* CRC16-CCITT-FALSE
+ * Init:   0xFFFF
+ * Poly:   0x1021
+ * RefIn:  false
+ * RefOut: false
+ * XorOut: 0x0000
+ */
+static uint16_t crc16_update(uint16_t crc, uint8_t data)
+{
+    uint8_t i;
+
+    crc ^= (uint16_t)data << 8;
+
+    for (i = 0; i < 8u; i++)
+    {
+        if (crc & 0x8000u)
+            crc = (uint16_t)((crc << 1) ^ 0x1021u);
+        else
+            crc <<= 1;
+    }
+
+    return crc;
+}
+
+/* CRC32 compatible with Python zlib.crc32()
+ * Init:   0xFFFFFFFF
+ * Poly:   0xEDB88320 (reflected)
+ * XorOut: 0xFFFFFFFF
+ */
+static uint32_t crc32_update(uint32_t crc, uint8_t data)
+{
+    uint8_t i;
+
+    crc ^= data;
+
+    for (i = 0; i < 8u; i++)
+    {
+        if (crc & 1u)
+            crc = (crc >> 1) ^ 0xEDB88320UL;
+        else
+            crc >>= 1;
+    }
+
+    return crc;
+}
+
+static bool parse_upload_command(const char *cmd)
+{
+    uint32_t size = 0;
+    uint32_t crc = 0;
+    uint8_t digits = 0;
+    uint8_t i;
+    char c;
+
+    /* Verificam prefixul UPLOAD */
+    if (cmd[0] != 'U' || cmd[1] != 'P' ||
+        cmd[2] != 'L' || cmd[3] != 'O' ||
+        cmd[4] != 'A' || cmd[5] != 'D')
+    {
+        return false;
+    }
+
+    /* Comanda trebuie sa fie UPLOAD urmata de spatiu */
+    if (cmd[6] != ' ')
+    {
+        return false;
+    }
+
+    cmd += 7;
+
+    /* Citim dimensiunea in zecimal */
+    while (*cmd >= '0' && *cmd <= '9')
+    {
+        if (digits >= 5u)
+        {
+            uart2_puts("ERR BAD UPLOAD SIZE");
+            uart2_newline();
+            return true;
+        }
+
+        size = size * 10UL + (uint32_t)(*cmd - '0');
+        digits++;
+        cmd++;
+    }
+
+    if (digits == 0u || *cmd != ' ')
+    {
+        uart2_puts("ERR BAD UPLOAD SIZE");
+        uart2_newline();
+        return true;
+    }
+
+    if (size == 0u || size > MAX_APP_SIZE)
+    {
+        uart2_puts("ERR IMAGE SIZE");
+        uart2_newline();
+        return true;
+    }
+
+    cmd++;
+
+    /* Citim CRC32 hexadecimal: exact 8 caractere */
+    for (i = 0; i < 8u; i++)
+    {
+        c = cmd[i];
+
+        if (c >= '0' && c <= '9')
+            crc = (crc << 4) | (uint32_t)(c - '0');
+        else if (c >= 'A' && c <= 'F')
+            crc = (crc << 4) | (uint32_t)(c - 'A' + 10);
+        else if (c >= 'a' && c <= 'f')
+            crc = (crc << 4) | (uint32_t)(c - 'a' + 10);
+        else
+        {
+            uart2_puts("ERR BAD UPLOAD CRC");
+            uart2_newline();
+            return true;
+        }
+    }
+
+    /* Nu acceptam caractere suplimentare */
+    if (cmd[8] != '\0')
+    {
+        uart2_puts("ERR BAD UPLOAD FORMAT");
+        uart2_newline();
+        return true;
+    }
+
+    /* Nu permitem pornirea unui al doilea transfer */
+    if (upload_active)
+    {
+        uart2_puts("ERR UPLOAD BUSY");
+        uart2_newline();
+        return true;
+    }
+
+    /* Initializam transferul */
+    upload_size = size;
+    upload_expected_crc = crc;
+    upload_received = 0;
+    upload_sequence = 0;
+
+    upload_active = true;
+
+    uart2_puts("READY");
+    uart2_newline();
+
+    return true;
+}
+
+/////////////
 /*
  * Launch the application linked at 0x0800.
  *
@@ -140,6 +443,9 @@ static void jump_to_application(void)
 
 static void process_command(const char *cmd)
 {
+    if (parse_upload_command(cmd))
+    return; 
+    
     if (cmd[0] == 'I' && cmd[1] == 'N' && cmd[2] == 'F' &&
         cmd[3] == 'O' && cmd[4] == '\0') {
         uart2_puts("PIC18F66K80 BOOTLOADER STAGE1");
