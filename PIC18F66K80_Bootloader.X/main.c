@@ -57,7 +57,7 @@ asm("GOTO 0x0808");
 #define APP_END         0xFFFFu
 #define FLASH_ROW_SIZE  64u
 
-#define MAX_APP_SIZE  0xF800UL
+#define MAX_APP_SIZE  0xF800U
 
 static uint32_t upload_size;
 static uint32_t upload_expected_crc;
@@ -307,16 +307,16 @@ static uint32_t crc32_update(uint32_t crc, uint8_t data)
 
     return crc;
 }
-
+/*
 static bool parse_upload_command(const char *cmd)
 {
-    uint32_t size = 0;
-    uint32_t crc = 0;
+    uint16_t size = 0;
+    uint16_t crc = 0;
     uint8_t digits = 0;
     uint8_t i;
     char c;
 
-    /* Verificam prefixul UPLOAD */
+    // Verificam prefixul UPLOAD 
     if (cmd[0] != 'U' || cmd[1] != 'P' ||
         cmd[2] != 'L' || cmd[3] != 'O' ||
         cmd[4] != 'A' || cmd[5] != 'D')
@@ -324,7 +324,7 @@ static bool parse_upload_command(const char *cmd)
         return false;
     }
 
-    /* Comanda trebuie sa fie UPLOAD urmata de spatiu */
+    // Comanda trebuie sa fie UPLOAD urmata de spatiu 
     if (cmd[6] != ' ')
     {
         return false;
@@ -332,7 +332,7 @@ static bool parse_upload_command(const char *cmd)
 
     cmd += 7;
 
-    /* Citim dimensiunea in zecimal */
+    // Citim dimensiunea in zecimal
     while (*cmd >= '0' && *cmd <= '9')
     {
         if (digits >= 5u)
@@ -363,7 +363,7 @@ static bool parse_upload_command(const char *cmd)
 
     cmd++;
 
-    /* Citim CRC32 hexadecimal: exact 8 caractere */
+    // Citim CRC32 hexadecimal: exact 8 caractere 
     for (i = 0; i < 8u; i++)
     {
         c = cmd[i];
@@ -382,7 +382,7 @@ static bool parse_upload_command(const char *cmd)
         }
     }
 
-    /* Nu acceptam caractere suplimentare */
+    // Nu acceptam caractere suplimentare 
     if (cmd[8] != '\0')
     {
         uart2_puts("ERR BAD UPLOAD FORMAT");
@@ -390,7 +390,7 @@ static bool parse_upload_command(const char *cmd)
         return true;
     }
 
-    /* Nu permitem pornirea unui al doilea transfer */
+    // Nu permitem pornirea unui al doilea transfer 
     if (upload_active)
     {
         uart2_puts("ERR UPLOAD BUSY");
@@ -398,7 +398,7 @@ static bool parse_upload_command(const char *cmd)
         return true;
     }
 
-    /* Initializam transferul */
+    // Initializam transferul 
     upload_size = size;
     upload_expected_crc = crc;
     upload_received = 0;
@@ -411,7 +411,99 @@ static bool parse_upload_command(const char *cmd)
 
     return true;
 }
+*/
+static bool parse_upload_command(const char *cmd)
+{
+    uint16_t size = 0;
+    uint32_t crc = 0;
+    uint8_t digits = 0;
+    uint8_t i;
+    uint8_t nibble;
+    char c;
 
+    /* Check command */
+    if (cmd[0] != 'U' || cmd[1] != 'P' ||
+        cmd[2] != 'L' || cmd[3] != 'O' ||
+        cmd[4] != 'A' || cmd[5] != 'D' ||
+        cmd[6] != ' ')
+        return false;
+
+    cmd += 7;
+
+    /* Parse image size */
+    while (*cmd >= '0' && *cmd <= '9')
+    {
+        nibble = (uint8_t)(*cmd - '0');
+
+        if (digits >= 5u ||
+            size > (uint16_t)((MAX_APP_SIZE - nibble) / 10u))
+        {
+            uart2_puts("ERR IMAGE SIZE");
+            uart2_newline();
+            return true;
+        }
+
+        size = (uint16_t)(size * 10u + nibble);
+
+        digits++;
+        cmd++;
+    }
+
+    if (digits == 0u || *cmd != ' ' || size == 0u)
+    {
+        uart2_puts("ERR IMAGE SIZE");
+        uart2_newline();
+        return true;
+    }
+
+    cmd++;
+
+    /* Parse CRC32 - exactly 8 hexadecimal digits */
+    for (i = 0; i < 8u; i++)
+    {
+        c = cmd[i];
+
+        if (c >= '0' && c <= '9')
+            nibble = (uint8_t)(c - '0');
+        else if (c >= 'A' && c <= 'F')
+            nibble = (uint8_t)(c - 'A' + 10);
+        else if (c >= 'a' && c <= 'f')
+            nibble = (uint8_t)(c - 'a' + 10);
+        else
+        {
+            uart2_puts("ERR BAD UPLOAD CRC");
+            uart2_newline();
+            return true;
+        }
+
+        crc = (crc << 4) | (uint32_t)nibble;
+    }
+
+    if (cmd[8] != '\0')
+    {
+        uart2_puts("ERR BAD UPLOAD FORMAT");
+        uart2_newline();
+        return true;
+    }
+
+    if (upload_active)
+    {
+        uart2_puts("ERR UPLOAD BUSY");
+        uart2_newline();
+        return true;
+    }
+
+    upload_size = size;
+    upload_expected_crc = crc;
+    upload_received = 0;
+    upload_sequence = 0;
+    upload_active = true;
+
+    uart2_puts("READY");
+    uart2_newline();
+
+    return true;
+}
 /////////////
 /*
  * Launch the application linked at 0x0800.
