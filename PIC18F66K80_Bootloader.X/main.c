@@ -14,20 +14,13 @@
 #include <xc.h>
 #include <stdint.h>
 #include <stdbool.h>
-/*
-#pragma config FOSC = HS1, PLLCFG = ON
-#pragma config IESO = OFF, FCMEN = OFF
-#pragma config PWRTEN = ON, BORV = 3, BOREN = ON
-#pragma config WDTEN = ON, WDTPS = 128
-#pragma config MCLRE = ON, MSSPMSK = MSK7, T0CKMX = PORTB, T3CKMX = PORTB, CANMX = PORTB
-#pragma config STVREN = ON, DEBUG = OFF, XINST = OFF
-*/
+
 #pragma config FOSC = HS1 ,PLLCFG = ON
 #pragma config IESO = OFF, FCMEN = OFF
 #pragma config PWRTEN = ON, BORV = 3, BOREN = ON
 #pragma config WDTEN = ON, WDTPS = 128
 #pragma config MCLRE = ON, MSSPMSK = MSK7, T0CKMX = PORTB, T3CKMX = PORTB, CANMX = PORTB
-#pragma config STVREN = ON, DEBUG = OFF, XINST = OFF, BBSIZ = BB1K
+#pragma config STVREN = ON, DEBUG = OFF, XINST = OFF, BBSIZ = BB2K
 #pragma config CP0 = OFF, CP1 = OFF, CP2 = OFF, CP3 = OFF
 #pragma config CPB = OFF, CPD = OFF
 #pragma config WRT0 = OFF, WRT1 = OFF, WRT2 = OFF, WRT3 = OFF
@@ -53,11 +46,11 @@ asm("GOTO 0x0808");
 #define UART2_BAUD       115200UL
 #define RX_LINE_MAX      24u
 
-#define APP_START       0x0800u
+#define APP_START       0x1000u
 #define APP_END         0xFFFFu
 #define FLASH_ROW_SIZE  64u
 
-#define MAX_APP_SIZE  0xF800U
+#define MAX_APP_SIZE  0xF000U
 
 #define SOF             0x02u
 #define ACK             0x06u
