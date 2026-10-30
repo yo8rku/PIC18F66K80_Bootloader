@@ -325,6 +325,7 @@ static uint8_t receive_upload_frame(
     uint8_t i;
     uint16_t received_crc;
     uint16_t calculated_crc;
+    uint16_t frame_len;
 
     uint8_t seq_hi;
     uint8_t seq_lo;
@@ -352,10 +353,13 @@ static uint8_t receive_upload_frame(
         return FRAME_TIMEOUT;
 
     *sequence = ((uint16_t)seq_hi << 8) | seq_lo;
-    *length = ((uint16_t)len_hi << 8) | len_lo;
 
-    if (*length == 0u || *length > BLOCK_SIZE)
+    frame_len = ((uint16_t)len_hi << 8) | len_lo;
+
+    if (frame_len == 0u || frame_len > BLOCK_SIZE)
         return FRAME_INVALID;
+
+    *length = (uint8_t)frame_len;
 
     calculated_crc = 0xFFFFu;
 
@@ -634,7 +638,7 @@ static void jump_to_application(void)
 
     /* Not reached. */
 }
-
+/* old...
 static void process_command(const char *cmd)
 {
     if (parse_upload_command(cmd))
@@ -660,6 +664,32 @@ static void process_command(const char *cmd)
         uart2_newline();
     }
 }
+*/
+static void process_command(const char *cmd)
+{
+    if (parse_upload_command(cmd))
+        return;
+
+    if (cmd[0] == 'I' && cmd[1] == '\0') {
+        uart2_puts("PIC18F66K80");
+        uart2_newline();
+        uart2_puts("64MHz; UART2=115200");
+        uart2_newline();
+
+    } else if (cmd[0] == 'B' && cmd[1] == '\0') {
+        uart2_puts("BOOT");
+        uart2_newline();
+
+    } else if (cmd[0] == 'R' && cmd[1] == '\0') {
+        uart2_puts("RUN");
+        uart2_newline();
+        jump_to_application();
+
+    } else {
+        uart2_puts("ERR");
+        uart2_newline();
+    }
+}
 
 void main(void)
 {
@@ -674,9 +704,9 @@ void main(void)
     uart2_init();
 
     uart2_newline();
-    uart2_puts("PIC18F66K80 BOOTLOADER STAGE1 READY");
+    uart2_puts("PIC18F66K80 BOOTLOADER READY");
     uart2_newline();
-    uart2_puts("Commands: INFO, BOOT, RUN");
+    uart2_puts("Commands: I, B, R, UPLOAD");
     uart2_newline();
 
     for (;;) {
