@@ -33,47 +33,49 @@
 [v _uart2_putc uart2_putc `(v  1 s 1 uart2_putc ]
 "118
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
-"125
+"126
+[v _uart2_puthex32 uart2_puthex32 `(v  1 s 1 uart2_puthex32 ]
+"139
 [v _uart2_newline uart2_newline `(v  1 s 1 uart2_newline ]
-"131
+"145
 [v _uart2_try_getc uart2_try_getc `(a  1 s 1 uart2_try_getc ]
-"146
+"160
 [v _uart2_getc_timeout uart2_getc_timeout `(a  1 s 1 uart2_getc_timeout ]
-"163
+"177
 [v _flash_set_pointer flash_set_pointer `(v  1 s 1 flash_set_pointer ]
-"171
+"185
 [v _flash_valid_row flash_valid_row `(a  1 s 1 flash_valid_row ]
-"186
+"200
 [v _flash_erase_row flash_erase_row `(a  1 s 1 flash_erase_row ]
-"219
+"248
 [v _flash_verify_row flash_verify_row `(a  1 s 1 flash_verify_row ]
-"244
+"273
 [v _flash_read_row flash_read_row `(a  1 s 1 flash_read_row ]
-"267
-[v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
 "296
+[v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
+"325
 [v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
-"331
+"360
 [v _flash_write_row flash_write_row `(a  1 s 1 flash_write_row ]
-"377
+"406
 [v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
-"387
+"416
 [v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
-"418
+"447
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
-"435
+"464
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
-"510
+"539
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
-"682
+"712
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
-"699
+"729
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
-"837
+"867
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
-"857
+"887
 [v _process_command process_command `(v  1 s 1 process_command ]
-"891
+"921
 [v _main main `(v  1 e 1 0 ]
 "30045 C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h
 [v _TXREG2 TXREG2 `VEuc  1 e 1 @3961 ]
@@ -283,16 +285,16 @@
 [v _upload_crc32 upload_crc32 `ul  1 s 4 upload_crc32 ]
 "83
 [v _upload_have_frame upload_have_frame `a  1 s 1 upload_have_frame ]
-"891
+"921
 [v _main main `(v  1 e 1 0 ]
 {
-"893
+"923
 [v main@line line `[24]uc  1 a 24 65 ]
-"895
+"925
 [v main@ch ch `uc  1 a 1 90 ]
-"894
+"924
 [v main@count count `uc  1 a 1 89 ]
-"934
+"963
 } 0
 "89
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
@@ -301,162 +303,173 @@
 [v uart2_init@dummy dummy `VEuc  1 a 1 0 ]
 "108
 } 0
-"510
+"539
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
 {
-"566
+"595
 [v receive_upload_data@j j `uc  1 a 1 91 ]
-"542
-[v receive_upload_data@data data `uc  1 a 1 89 ]
-"516
-[v receive_upload_data@final_crc final_crc `ul  1 a 4 85 ]
-"512
+"571
+[v receive_upload_data@data data `uc  1 a 1 85 ]
+"545
+[v receive_upload_data@final_crc final_crc `ul  1 a 4 87 ]
+"541
 [v receive_upload_data@sequence sequence `us  1 a 2 93 ]
-"513
+"542
 [v receive_upload_data@length length `uc  1 a 1 92 ]
-"515
-[v receive_upload_data@i i `uc  1 a 1 90 ]
-"514
+"544
+[v receive_upload_data@i i `uc  1 a 1 86 ]
+"543
 [v receive_upload_data@result result `uc  1 a 1 84 ]
-"674
+"704
 } 0
-"435
+"126
+[v _uart2_puthex32 uart2_puthex32 `(v  1 s 1 uart2_puthex32 ]
+{
+"129
+[v uart2_puthex32@shift shift `uc  1 a 1 9 ]
+"126
+[v uart2_puthex32@value value `ul  1 p 4 1 ]
+"128
+[v uart2_puthex32@hex hex `C[17]uc  1 s 17 hex ]
+"137
+} 0
+"464
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
 {
-"442
+"471
 [v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 20 ]
-"443
+"472
 [v receive_upload_frame@frame_len frame_len `us  1 a 2 12 ]
-"441
+"470
 [v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
-"446
+"475
 [v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 19 ]
-"445
+"474
 [v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 18 ]
-"448
+"477
 [v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
-"447
+"476
 [v receive_upload_frame@len_hi len_hi `uc  1 a 1 16 ]
-"440
+"469
 [v receive_upload_frame@i i `uc  1 a 1 15 ]
-"439
+"468
 [v receive_upload_frame@ch ch `uc  1 a 1 14 ]
-"436
+"465
 [v receive_upload_frame@sequence sequence `*.30us  1 p 1 6 ]
-"437
+"466
 [v receive_upload_frame@length length `*.30uc  1 p 1 7 ]
-"508
+"537
 } 0
-"146
+"160
 [v _uart2_getc_timeout uart2_getc_timeout `(a  1 s 1 uart2_getc_timeout ]
 {
-"148
+"162
 [v uart2_getc_timeout@timeout timeout `us  1 a 2 2 ]
-"146
-[v uart2_getc_timeout@out out `*.30uc  1 p 1 1 ]
 "160
+[v uart2_getc_timeout@out out `*.30uc  1 p 1 1 ]
+"174
 } 0
-"131
+"145
 [v _uart2_try_getc uart2_try_getc `(a  1 s 1 uart2_try_getc ]
 {
 [v uart2_try_getc@out out `*.30uc  1 p 1 0 ]
-"144
+"158
 } 0
-"418
+"447
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
 {
-"420
+"449
 [v crc16_update@i i `uc  1 a 1 5 ]
-"418
+"447
 [v crc16_update@crc crc `us  1 p 2 0 ]
 [v crc16_update@data data `uc  1 p 1 2 ]
-"433
+"462
 } 0
-"387
+"416
 [v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
 {
-"389
+"418
 [v flash_flush_row@i i `uc  1 a 1 20 ]
-"409
+"438
 } 0
-"682
+"712
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
 {
-"684
+"714
 [v crc32_update@i i `uc  1 a 1 9 ]
-"682
+"712
 [v crc32_update@crc crc `ul  1 p 4 0 ]
 [v crc32_update@data data `uc  1 p 1 4 ]
-"697
+"727
 } 0
-"296
+"325
 [v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
 {
-"298
+"327
 [v application_marker_write@marker marker `[64]uc  1 a 64 0 ]
-"299
+"328
 [v application_marker_write@i i `uc  1 a 1 64 ]
-"296
+"325
 [v application_marker_write@size size `us  1 p 2 76 ]
 [v application_marker_write@crc crc `ul  1 p 4 78 ]
-"327
+"356
 } 0
-"377
+"406
 [v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
 {
 [v flash_program_row@address address `us  1 p 2 16 ]
-"378
+"407
 [v flash_program_row@buffer buffer `*.39Cuc  1 p 2 18 ]
-"384
+"413
 } 0
-"331
+"360
 [v _flash_write_row flash_write_row `(a  1 s 1 flash_write_row ]
 {
-"334
+"363
 [v flash_write_row@i i `uc  1 a 1 15 ]
-"335
+"364
 [v flash_write_row@gie_state gie_state `uc  1 a 1 14 ]
-"331
+"360
 [v flash_write_row@address address `us  1 p 2 10 ]
-"332
+"361
 [v flash_write_row@buffer buffer `*.39Cuc  1 p 2 12 ]
-"374
+"403
 } 0
-"219
+"248
 [v _flash_verify_row flash_verify_row `(a  1 s 1 flash_verify_row ]
 {
-"222
+"251
 [v flash_verify_row@i i `uc  1 a 1 9 ]
-"219
+"248
 [v flash_verify_row@address address `us  1 p 2 4 ]
-"220
+"249
 [v flash_verify_row@buffer buffer `*.39Cuc  1 p 2 6 ]
-"241
+"270
 } 0
-"857
+"887
 [v _process_command process_command `(v  1 s 1 process_command ]
 {
 [v process_command@cmd cmd `*.30Cuc  1 p 1 76 ]
-"889
+"919
 } 0
-"699
+"729
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
 {
-"702
-[v parse_upload_command@crc crc `ul  1 a 4 14 ]
-"701
-[v parse_upload_command@size size `us  1 a 2 21 ]
-"706
-[v parse_upload_command@c c `uc  1 a 1 23 ]
-"704
-[v parse_upload_command@i i `uc  1 a 1 20 ]
-"705
-[v parse_upload_command@nibble nibble `uc  1 a 1 19 ]
-"703
-[v parse_upload_command@digits digits `uc  1 a 1 18 ]
-"699
-[v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 7 ]
-"827
+"732
+[v parse_upload_command@crc crc `ul  1 a 4 15 ]
+"731
+[v parse_upload_command@size size `us  1 a 2 22 ]
+"736
+[v parse_upload_command@c c `uc  1 a 1 24 ]
+"734
+[v parse_upload_command@i i `uc  1 a 1 21 ]
+"735
+[v parse_upload_command@nibble nibble `uc  1 a 1 20 ]
+"733
+[v parse_upload_command@digits digits `uc  1 a 1 19 ]
+"729
+[v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 8 ]
+"857
 } 0
 "118
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
@@ -464,10 +477,10 @@
 [v uart2_puts@s s `*.32Cuc  1 p 2 1 ]
 "123
 } 0
-"125
+"139
 [v _uart2_newline uart2_newline `(v  1 s 1 uart2_newline ]
 {
-"129
+"143
 } 0
 "110
 [v _uart2_putc uart2_putc `(v  1 s 1 uart2_putc ]
@@ -477,48 +490,50 @@
 [v uart2_putc@c c `uc  1 a 1 0 ]
 "116
 } 0
-"186
+"200
 [v _flash_erase_row flash_erase_row `(a  1 s 1 flash_erase_row ]
 {
-"188
+"235
+[v flash_erase_row@i i `uc  1 a 1 7 ]
+"202
 [v flash_erase_row@gie_state gie_state `uc  1 a 1 6 ]
-"186
+"200
 [v flash_erase_row@address address `us  1 p 2 4 ]
-"216
+"245
 } 0
-"837
+"867
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
 {
-"855
+"885
 } 0
-"267
+"296
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
 {
-"269
+"298
 [v application_marker_valid@marker marker `[64]uc  1 a 64 10 ]
-"284
+"313
 [v application_marker_valid@size size `us  1 a 2 74 ]
-"292
+"321
 } 0
-"244
+"273
 [v _flash_read_row flash_read_row `(a  1 s 1 flash_read_row ]
 {
-"246
+"275
 [v flash_read_row@i i `uc  1 a 1 7 ]
-"244
+"273
 [v flash_read_row@address address `us  1 p 2 4 ]
 [v flash_read_row@buffer buffer `*.30uc  1 p 1 6 ]
-"263
+"292
 } 0
-"171
+"185
 [v _flash_valid_row flash_valid_row `(a  1 s 1 flash_valid_row ]
 {
 [v flash_valid_row@address address `us  1 p 2 0 ]
-"183
+"197
 } 0
-"163
+"177
 [v _flash_set_pointer flash_set_pointer `(v  1 s 1 flash_set_pointer ]
 {
 [v flash_set_pointer@address address `us  1 p 2 0 ]
-"168
+"182
 } 0
