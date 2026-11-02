@@ -924,7 +924,6 @@ void main(void)
     uint8_t count = 0;
     uint8_t ch;
 
-    /* No interrupts in Stage 1. */
     INTCONbits.GIE = 0;
     INTCONbits.PEIE = 0;
 
