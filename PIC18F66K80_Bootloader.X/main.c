@@ -48,9 +48,10 @@ asm("GOTO 0x1008");
 
 #define APP_START       0x1000u
 #define APP_END         0xFFFFu
+#define APP_MARKER_ADDR 0xFFC0u
 #define FLASH_ROW_SIZE  64u
 
-#define MAX_APP_SIZE  0xF000U
+#define MAX_APP_SIZE    (APP_MARKER_ADDR - APP_START)
 
 #define SOF             0x02u
 #define ACK             0x06u
@@ -81,8 +82,9 @@ static uint16_t flash_row_address = APP_START;
 static uint32_t upload_crc32 = 0xFFFFFFFFUL;
 static bool upload_have_frame = false;
 
-//prototype functions
+// Function prototypes
 static uint32_t crc32_update(uint32_t crc, uint8_t data);
+static bool flash_program_row(uint16_t address, const uint8_t *buffer);
 
 static void uart2_init(void)
 {
@@ -236,6 +238,91 @@ static bool flash_verify_row(uint16_t address,
     }
 
     return true;
+}
+
+/* Read one 64-byte Flash row */
+static bool flash_read_row(uint16_t address, uint8_t *buffer)
+{
+    uint8_t i;
+
+    if (!flash_valid_row(address))
+        return false;
+
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+
+    flash_set_pointer(address);
+
+    for (i = 0; i < FLASH_ROW_SIZE; i++)
+    {
+        asm("TBLRD*+");
+        buffer[i] = TABLAT;
+    }
+
+    return true;
+}
+
+
+/* Check application validity marker */
+static bool application_marker_valid(void)
+{
+    uint8_t marker[FLASH_ROW_SIZE];
+
+    if (!flash_read_row(APP_MARKER_ADDR, marker))
+        return false;
+
+    if (marker[0] != 'A' ||
+        marker[1] != 'P' ||
+        marker[2] != 'P' ||
+        marker[3] != '1')
+        return false;
+
+    /* Image size must be non-zero and within application area */
+    uint32_t size =
+        (uint32_t)marker[4] |
+        ((uint32_t)marker[5] << 8) |
+        ((uint32_t)marker[6] << 16) |
+        ((uint32_t)marker[7] << 24);
+
+    if (size == 0u || size > MAX_APP_SIZE)
+        return false;
+
+    return true;
+}
+
+
+/* Write application validity marker */
+static bool application_marker_write(uint32_t size, uint32_t crc)
+{
+    uint8_t marker[FLASH_ROW_SIZE];
+    uint8_t i;
+
+    if (size == 0u || size > MAX_APP_SIZE)
+        return false;
+
+    for (i = 0; i < FLASH_ROW_SIZE; i++)
+        marker[i] = 0xFF;
+
+    marker[0] = 'A';
+    marker[1] = 'P';
+    marker[2] = 'P';
+    marker[3] = '1';
+
+    marker[4] = (uint8_t)size;
+    marker[5] = (uint8_t)(size >> 8);
+    marker[6] = (uint8_t)(size >> 16);
+    marker[7] = (uint8_t)(size >> 24);
+
+    marker[8]  = (uint8_t)crc;
+    marker[9]  = (uint8_t)(crc >> 8);
+    marker[10] = (uint8_t)(crc >> 16);
+    marker[11] = (uint8_t)(crc >> 24);
+
+    if (!flash_program_row(APP_MARKER_ADDR, marker))
+        return false;
+
+    /* Verify marker after programming */
+    return application_marker_valid();
 }
 
 /* Write one 64-byte Flash row.
@@ -559,6 +646,14 @@ static void receive_upload_data(void)
 
                 if (final_crc == upload_expected_crc)
                 {
+                    /* Write application marker only after successful CRC32 */
+                    if (!application_marker_write(upload_size, final_crc))
+                    {
+                        uart2_puts("ERR MARKER WRITE");
+                        uart2_newline();
+                        break;
+                    }
+
                     uart2_puts("RX END");
                     uart2_newline();
 
@@ -649,10 +744,17 @@ static bool parse_upload_command(const char *cmd)
 
     cmd++;
 
-    /* Parse CRC32 - exactly 8 hexadecimal digits */
+    /* CRC32 - exactly 8 hexadecimal digits */
     for (i = 0; i < 8u; i++)
     {
         c = cmd[i];
+
+        if (c == '\0')
+        {
+            uart2_puts("ERR BAD UPLOAD CRC");
+            uart2_newline();
+            return true;
+        }
 
         if (c >= '0' && c <= '9')
             nibble = (uint8_t)(c - '0');
@@ -670,18 +772,18 @@ static bool parse_upload_command(const char *cmd)
         crc = (crc << 4) | (uint32_t)nibble;
     }
 
-    /* Check maximum application size */
-    if (size > MAX_APP_SIZE)
-    {
-        uart2_puts("ERR IMAGE SIZE");
-        uart2_newline();
-        return true;
-    }
-
     /* Check command termination */
     if (cmd[8] != '\0')
     {
         uart2_puts("ERR BAD UPLOAD FORMAT");
+        uart2_newline();
+        return true;
+    }
+
+    /* Check maximum application size */
+    if (size > MAX_APP_SIZE)
+    {
+        uart2_puts("ERR IMAGE SIZE");
         uart2_newline();
         return true;
     }
@@ -694,6 +796,14 @@ static bool parse_upload_command(const char *cmd)
         return true;
     }
 
+    /* Invalidate previous application */
+    if (!flash_erase_row(APP_MARKER_ADDR))
+    {
+        uart2_puts("ERR MARKER ERASE");
+        uart2_newline();
+        return true;
+    }
+
     /* Initialize upload */
     upload_size = size;
     upload_expected_crc = crc;
@@ -702,7 +812,7 @@ static bool parse_upload_command(const char *cmd)
 
     upload_crc32 = 0xFFFFFFFFUL;
     upload_have_frame = false;
-    
+
     flash_row_address = APP_START;
     flash_row_fill = 0;
 
@@ -744,33 +854,7 @@ static void jump_to_application(void)
 
     /* Not reached. */
 }
-/* old...
-static void process_command(const char *cmd)
-{
-    if (parse_upload_command(cmd))
-    return; 
-    
-    if (cmd[0] == 'I' && cmd[1] == 'N' && cmd[2] == 'F' &&
-        cmd[3] == 'O' && cmd[4] == '\0') {
-        uart2_puts("PIC18F66K80 BOOTLOADER STAGE1");
-        uart2_newline();
-        uart2_puts("XC8 2.46; FOSC=64000000; UART2=115200 8N1");
-        uart2_newline();
-    } else if (cmd[0] == 'B' && cmd[1] == 'O' && cmd[2] == 'O' &&
-               cmd[3] == 'T' && cmd[4] == '\0') {
-        uart2_puts("BOOT MODE READY; FLASH UPDATE NOT IMPLEMENTED");
-        uart2_newline();
-    } else if (cmd[0] == 'R' && cmd[1] == 'U' && cmd[2] == 'N' &&
-               cmd[3] == '\0') {
-        uart2_puts("RUN: STARTING APPLICATION");
-        uart2_newline();
-        jump_to_application();
-    } else {
-        uart2_puts("ERR UNKNOWN COMMAND");
-        uart2_newline();
-    }
-}
-*/
+
 static void process_command(const char *cmd)
 {
     if (parse_upload_command(cmd))
@@ -787,9 +871,17 @@ static void process_command(const char *cmd)
         uart2_newline();
 
     } else if (cmd[0] == 'R' && cmd[1] == '\0') {
-        uart2_puts("RUN");
-        uart2_newline();
-        jump_to_application();
+        if (application_marker_valid())
+        {
+            uart2_puts("RUN");
+            uart2_newline();
+            jump_to_application();
+        }
+        else
+        {
+            uart2_puts("ERR NO VALID APP");
+            uart2_newline();
+        }
 
     } else {
         uart2_puts("ERR");
