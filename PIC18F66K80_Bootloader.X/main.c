@@ -68,9 +68,9 @@ asm("GOTO 0x1008");
 
 #define UART_TIMEOUT_COUNT  60000u
 
-static uint32_t upload_size;
+static uint16_t upload_size;
 static uint32_t upload_expected_crc;
-static uint32_t upload_received;
+static uint16_t upload_received;
 static uint16_t upload_sequence;
 static bool upload_active = false;
 
@@ -278,11 +278,12 @@ static bool application_marker_valid(void)
         return false;
 
     /* Image size must be non-zero and within application area */
-    uint32_t size =
-        (uint32_t)marker[4] |
-        ((uint32_t)marker[5] << 8) |
-        ((uint32_t)marker[6] << 16) |
-        ((uint32_t)marker[7] << 24);
+    if (marker[6] != 0u || marker[7] != 0u)
+    return false;
+
+    uint16_t size =
+        (uint16_t)marker[4] |
+        ((uint16_t)marker[5] << 8);
 
     if (size == 0u || size > MAX_APP_SIZE)
         return false;
@@ -292,7 +293,7 @@ static bool application_marker_valid(void)
 
 
 /* Write application validity marker */
-static bool application_marker_write(uint32_t size, uint32_t crc)
+static bool application_marker_write(uint16_t size, uint32_t crc)
 {
     uint8_t marker[FLASH_ROW_SIZE];
     uint8_t i;
@@ -310,8 +311,8 @@ static bool application_marker_write(uint32_t size, uint32_t crc)
 
     marker[4] = (uint8_t)size;
     marker[5] = (uint8_t)(size >> 8);
-    marker[6] = (uint8_t)(size >> 16);
-    marker[7] = (uint8_t)(size >> 24);
+    marker[6] = 0;
+    marker[7] = 0;
 
     marker[8]  = (uint8_t)crc;
     marker[9]  = (uint8_t)(crc >> 8);
@@ -527,9 +528,7 @@ static void receive_upload_data(void)
                 if (sequence == upload_sequence)
                 {
                     /* Check image boundaries */
-                    if ((upload_received > upload_size) ||
-                        ((uint32_t)length >
-                         (upload_size - upload_received)))
+                    if ((upload_received > upload_size) || (length > (upload_size - upload_received)))
                     {
                         uart2_puts("ERR IMAGE SIZE");
                         uart2_newline();
