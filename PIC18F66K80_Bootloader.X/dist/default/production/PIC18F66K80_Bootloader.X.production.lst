@@ -1,7 +1,7 @@
 
 
 Microchip MPLAB XC8 Assembler V2.46 build 20240104201356 
-                                                                                               Mon Nov 02 15:48:37 2026
+                                                                                               Tue Nov 03 00:27:13 2026
 
 Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og1 
      1                           	processor	18F66K80
@@ -902,31 +902,31 @@ Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og1
    891   000990  6FB9               	movwf	main@count& (0+255),b
    892                           
    893                           ; BSR set to: 0
-   894                           ;main.c: 925:     uint8_t ch;;main.c: 928:     INTCONbits.GIE = 0;
+   894                           ;main.c: 925:     uint8_t ch;;main.c: 927:     INTCONbits.GIE = 0;
    895   000992  9EF2               	bcf	242,7,c	;volatile
    896                           
    897                           ; BSR set to: 0
-   898                           ;main.c: 929:     INTCONbits.PEIE = 0;
+   898                           ;main.c: 928:     INTCONbits.PEIE = 0;
    899   000994  9CF2               	bcf	242,6,c	;volatile
    900                           
    901                           ; BSR set to: 0
-   902                           ;main.c: 931:     uart2_init();
+   902                           ;main.c: 930:     uart2_init();
    903   000996  EC84  F007         	call	_uart2_init	;wreg free
    904                           
-   905                           ;main.c: 933:     uart2_newline();
+   905                           ;main.c: 932:     uart2_newline();
    906   00099A  ECD6  F007         	call	_uart2_newline	;wreg free
    907                           
-   908                           ;main.c: 934:     uart2_puts("PIC18F66K80 BOOTLOADER READY");
+   908                           ;main.c: 933:     uart2_puts("PIC18F66K80 BOOTLOADER READY");
    909   00099E  0E22               	movlw	low STR_25
    910   0009A0  6E02               	movwf	uart2_puts@s^0,c
    911   0009A2  0E00               	movlw	high STR_25
    912   0009A4  6E03               	movwf	(uart2_puts@s+1)^0,c
    913   0009A6  EC99  F007         	call	_uart2_puts	;wreg free
    914                           
-   915                           ;main.c: 935:     uart2_newline();
+   915                           ;main.c: 934:     uart2_newline();
    916   0009AA  ECD6  F007         	call	_uart2_newline	;wreg free
    917                           
-   918                           ;main.c: 936:     uart2_puts("Commands: I, B, R, UPLOAD");
+   918                           ;main.c: 935:     uart2_puts("Commands: I, B, R, UPLOAD");
    919   0009AE  0E3F               	movlw	low STR_26
    920   0009B0  6E02               	movwf	uart2_puts@s^0,c
    921   0009B2  0E00               	movlw	high STR_26
@@ -934,12 +934,12 @@ Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og1
    923   0009B6  EC99  F007         	call	_uart2_puts	;wreg free
    924   0009BA                     l3116:
    925                           
-   926                           ;main.c: 937:     uart2_newline();
+   926                           ;main.c: 936:     uart2_newline();
    927   0009BA  ECD6  F007         	call	_uart2_newline	;wreg free
    928   0009BE                     l310:
    929   0009BE  0004               	clrwdt		;# 
    930                           
-   931                           ;main.c: 941:         if (uart2_try_getc(&ch)) {
+   931                           ;main.c: 940:         if (uart2_try_getc(&ch)) {
    932   0009C0  0EBA               	movlw	low main@ch
    933   0009C2  6E01               	movwf	uart2_try_getc@out^0,c
    934   0009C4  ECBF  F007         	call	_uart2_try_getc	;wreg free
@@ -947,7 +947,7 @@ Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og1
    936   0009CA  B4D8               	btfsc	status,2,c
    937   0009CC  D7F8               	goto	l310
    938                           
-   939                           ;main.c: 942:             if (ch == '\r' || ch == '\n') {
+   939                           ;main.c: 941:             if (ch == '\r' || ch == '\n') {
    940   0009CE  0E0D               	movlw	13
    941   0009D0  0100               	movlb	0	; () banked
    942   0009D2  19BA               	xorwf	main@ch& (0+255),w,b
@@ -962,13 +962,13 @@ Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og1
    951   0009E0                     u2840:
    952                           
    953                           ; BSR set to: 0
-   954                           ;main.c: 943:                 if (count != 0u) {
+   954                           ;main.c: 942:                 if (count != 0u) {
    955   0009E0  51B9               	movf	main@count& (0+255),w,b
    956   0009E2  B4D8               	btfsc	status,2,c
    957   0009E4  D7EC               	goto	l310
    958                           
    959                           ; BSR set to: 0
-   960                           ;main.c: 944:                     line[count] = '\0';
+   960                           ;main.c: 943:                     line[count] = '\0';
    961   0009E6  51B9               	movf	main@count& (0+255),w,b
    962   0009E8  0FA1               	addlw	low main@line
    963   0009EA  6ED9               	movwf	fsr2l,c
@@ -976,22 +976,22 @@ Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og1
    965   0009EE  6ADF               	clrf	indf2,c
    966                           
    967                           ; BSR set to: 0
-   968                           ;main.c: 945:                     process_command(line);
+   968                           ;main.c: 944:                     process_command(line);
    969   0009F0  0EA1               	movlw	low main@line
    970   0009F2  6E4D               	movwf	process_command@cmd^0,c
    971   0009F4  EC5A  F004         	call	_process_command	;wreg free
    972                           
-   973                           ;main.c: 946:                     if (upload_active)
+   973                           ;main.c: 945:                     if (upload_active)
    974   0009F8  0100               	movlb	0	; () banked
    975   0009FA  51C7               	movf	_upload_active& (0+255),w,b
    976   0009FC  A4D8               	btfss	status,2,c
    977                           
    978                           ; BSR set to: 0
-   979                           ;main.c: 947:                     {;main.c: 948:                         receive_upload_
+   979                           ;main.c: 946:                     {;main.c: 947:                         receive_upload_
       +                          data();
    980   0009FE  EC2E  F002         	call	_receive_upload_data	;wreg free
    981                           
-   982                           ;main.c: 950:                     count = 0;
+   982                           ;main.c: 949:                     count = 0;
    983   000A02  0E00               	movlw	0
    984   000A04  0100               	movlb	0	; () banked
    985   000A06  6FB9               	movwf	main@count& (0+255),b
@@ -1009,13 +1009,13 @@ Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og1
    997   000A14  D7D4               	goto	l310
    998                           
    999                           ; BSR set to: 0
-  1000                           ;main.c: 953:                 if (count < (24u - 1u)) {
+  1000                           ;main.c: 952:                 if (count < (24u - 1u)) {
   1001   000A16  0E17               	movlw	23
   1002   000A18  61B9               	cpfslt	main@count& (0+255),b
   1003   000A1A  D008               	goto	l3146
   1004                           
   1005                           ; BSR set to: 0
-  1006                           ;main.c: 954:                     line[count++] = (char)ch;
+  1006                           ;main.c: 953:                     line[count++] = (char)ch;
   1007   000A1C  51B9               	movf	main@count& (0+255),w,b
   1008   000A1E  0FA1               	addlw	low main@line
   1009   000A20  6ED9               	movwf	fsr2l,c
@@ -1025,17 +1025,17 @@ Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og1
   1013                           ; BSR set to: 0
   1014   000A28  2BB9               	incf	main@count& (0+255),f,b
   1015                           
-  1016                           ;main.c: 955:                 } else {
+  1016                           ;main.c: 954:                 } else {
   1017   000A2A  D7C9               	goto	l310
   1018   000A2C                     l3146:
   1019                           
   1020                           ; BSR set to: 0
-  1021                           ;main.c: 956:                     count = 0;
+  1021                           ;main.c: 955:                     count = 0;
   1022   000A2C  0E00               	movlw	0
   1023   000A2E  6FB9               	movwf	main@count& (0+255),b
   1024                           
   1025                           ; BSR set to: 0
-  1026                           ;main.c: 957:                     uart2_puts("ERR LINE TOO LONG");
+  1026                           ;main.c: 956:                     uart2_puts("ERR LINE TOO LONG");
   1027   000A30  0E96               	movlw	low STR_27
   1028   000A32  6E02               	movwf	uart2_puts@s^0,c
   1029   000A34  0E00               	movlw	high STR_27
@@ -5147,7 +5147,7 @@ CODE                 0      0       0       0        0.0%
 
 
 Microchip Technology PIC18 Macro Assembler V2.46 build 20240104201356 
-Symbol Table                                                                                   Mon Nov 02 15:48:37 2026
+Symbol Table                                                                                   Tue Nov 03 00:27:13 2026
 
              uart2_getc_timeout@out 0002                                  l70 0F2C  
                                 l71 0F28                                  l76 0FA2  

@@ -294,7 +294,7 @@
 [v main@ch ch `uc  1 a 1 90 ]
 "924
 [v main@count count `uc  1 a 1 89 ]
-"963
+"962
 } 0
 "89
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
