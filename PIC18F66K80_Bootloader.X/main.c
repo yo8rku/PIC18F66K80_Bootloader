@@ -196,7 +196,7 @@ static bool flash_valid_row(uint16_t address)
     return true;
 }
 
-/* Erase one 64-byte Flash row */
+/* Erase one 64-byte Flash row //
 static bool flash_erase_row(uint16_t address)
 {
     uint8_t gie_state;
@@ -226,7 +226,7 @@ static bool flash_erase_row(uint16_t address)
     EECON1bits.WREN = 0;
     EECON1bits.FREE = 0;
 
-    /* Do not report success unless every byte is actually erased. */
+    // Do not report success unless every byte is actually erased. 
     EECON1bits.EEPGD = 1;
     EECON1bits.CFGS = 0;
     flash_set_pointer(address);
@@ -242,7 +242,63 @@ static bool flash_erase_row(uint16_t address)
     }
 
     return true;
+}*/
+static bool flash_erase_row(uint16_t address)
+{
+    uint8_t gie_state;
+    uint8_t status;
+
+    if (!flash_valid_row(address))
+        return false;
+
+    flash_set_pointer(address);
+
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+    EECON1bits.WREN = 1;
+    EECON1bits.FREE = 1;
+
+    gie_state = INTCONbits.GIE;
+    INTCONbits.GIE = 0;
+
+    EECON2 = 0x55;
+    EECON2 = 0xAA;
+    EECON1bits.WR = 1;
+
+    INTCONbits.GIE = gie_state;
+
+    status = EECON1;
+
+    EECON1bits.WREN = 0;
+
+    if (status & 0x08)
+        return false;   // WRERR
+
+    if (status & 0x10)
+        return false;   // FREE nu a fost ?ters
+
+    if (status & 0x02)
+        return false;   // WR înc? setat
+
+    flash_set_pointer(address);
+
+    {
+        uint8_t i;
+
+        for (i = 0; i < FLASH_ROW_SIZE; i++)
+        {
+            asm("TBLRD*+");
+
+            if (TABLAT != 0xFFu)
+                return false;
+        }
+    }
+
+    return true;
 }
+
+
+
 
 /* Read and verify one 64-byte Flash row */
 static bool flash_verify_row(uint16_t address,
@@ -826,7 +882,10 @@ static bool parse_upload_command(const char *cmd)
     }
 
     /* Invalidate previous application */
-    if (!flash_erase_row(APP_MARKER_ADDR))
+    uart2_puts("ss");
+    uart2_newline();
+    //if (!flash_erase_row(APP_MARKER_ADDR))
+    if (!flash_erase_row(0xFF80))
     {
         uart2_puts("ERR MARKER ERASE");
         uart2_newline();
