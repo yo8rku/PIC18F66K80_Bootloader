@@ -226,6 +226,21 @@ static bool flash_erase_row(uint16_t address)
     EECON1bits.WREN = 0;
     EECON1bits.FREE = 0;
 
+    /* Do not report success unless every byte is actually erased. */
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+    flash_set_pointer(address);
+
+    {
+        uint8_t i;
+        for (i = 0; i < FLASH_ROW_SIZE; i++)
+        {
+            asm("TBLRD*+");
+            if (TABLAT != 0xFFu)
+                return false;
+        }
+    }
+
     return true;
 }
 
