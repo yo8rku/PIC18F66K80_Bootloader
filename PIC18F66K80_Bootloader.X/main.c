@@ -938,7 +938,6 @@ void main(void)
 
     for (;;) {
         CLRWDT();
-
         if (uart2_try_getc(&ch)) {
             if (ch == '\r' || ch == '\n') {
                 if (count != 0u) {
