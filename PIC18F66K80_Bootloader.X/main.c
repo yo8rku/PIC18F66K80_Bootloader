@@ -122,6 +122,20 @@ static void uart2_puts(const char *s)
     }
 }
 
+/* Send a 32-bit value as exactly 8 uppercase hexadecimal digits. */
+static void uart2_puthex32(uint32_t value)
+{
+    static const char hex[] = "0123456789ABCDEF";
+    uint8_t shift;
+
+    for (shift = 28u; ; shift -= 4u)
+    {
+        uart2_putc(hex[(value >> shift) & 0x0Fu]);
+        if (shift == 0u)
+            break;
+    }
+}
+
 static void uart2_newline(void)
 {
     uart2_putc('\r');
@@ -653,10 +667,11 @@ static void receive_upload_data(void)
                         break;
                     }
 
-                    uart2_puts("RX END");
-                    uart2_newline();
-
-                    uart2_puts("CRC32 OK");
+                    /* Match the uploader's expected final response:
+                     * OK followed by the 8-digit uppercase image CRC32.
+                     */
+                    uart2_puts("OK ");
+                    uart2_puthex32(final_crc);
                     uart2_newline();
                 }
                 else
