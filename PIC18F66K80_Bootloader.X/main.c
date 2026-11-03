@@ -1,9 +1,9 @@
 /*
- * PIC18F66K80 UART2 Bootloader - Stage 1
+ * PIC18F66K80 UART2 Bootloader - Dual Image
  * MPLAB X + XC8 v2.46
  *
- * UART2 bootloader with application launch and Flash erase/program support.
- * Firmware upload currently supports the Flash image; EEPROM update is next.
+ * UART2 bootloader with application launch and dual Flash/EEPROM update.
+ * The application marker is written only after both images are verified.
  *
  * Hardware:
  *   Fosc = 64 MHz (16 MHz crystal + PLL x4)
