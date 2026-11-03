@@ -446,13 +446,18 @@ static bool flash_flush_row(void)
     if (flash_row_fill == 0u)
         return true;
 
-    /* Pad the last incomplete row with erased Flash value */
+    /* Pad the last incomplete row with erased Flash value.
+     * Use FSR2 post-increment to avoid recalculating the buffer address.
+     */
     {
-        uint8_t *p = &flash_row_buffer[flash_row_fill];
-        uint8_t *end = &flash_row_buffer[FLASH_ROW_SIZE];
+        uint16_t address = (uint16_t)&flash_row_buffer[flash_row_fill];
+        uint8_t remaining = (uint8_t)(FLASH_ROW_SIZE - flash_row_fill);
 
-        while (p < end)
-            *p++ = 0xFF;
+        FSR2L = (uint8_t)address;
+        FSR2H = (uint8_t)(address >> 8);
+
+        while (remaining--)
+            POSTINC2 = 0xFF;
     }
 
     if (!flash_program_row(flash_row_address, flash_row_buffer))
@@ -462,8 +467,11 @@ static bool flash_flush_row(void)
     flash_row_fill = 0u;
     flash_row_address += FLASH_ROW_SIZE;
 
+    FSR2L = (uint8_t)(uint16_t)flash_row_buffer;
+    FSR2H = (uint8_t)((uint16_t)flash_row_buffer >> 8);
+
     for (i = 0; i < FLASH_ROW_SIZE; i++)
-        flash_row_buffer[i] = 0xFF;
+        POSTINC2 = 0xFF;
 
     return true;
 }
@@ -619,11 +627,13 @@ static void receive_upload_data(void)
                             flash_row_address += FLASH_ROW_SIZE;
 
                             {
-                                uint8_t *p = flash_row_buffer;
                                 uint8_t j;
 
+                                FSR2L = (uint8_t)(uint16_t)flash_row_buffer;
+                                FSR2H = (uint8_t)((uint16_t)flash_row_buffer >> 8);
+
                                 for (j = 0; j < FLASH_ROW_SIZE; j++)
-                                    *p++ = 0xFF;
+                                    POSTINC2 = 0xFF;
                             }
                         }
                     }
