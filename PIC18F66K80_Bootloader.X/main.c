@@ -83,6 +83,7 @@ static uint16_t eeprom_upload_size;
 static uint32_t eeprom_upload_expected_crc;
 static uint32_t flash_final_crc;
 static uint8_t upload_phase = UPLOAD_PHASE_FLASH;
+static uint8_t uart2_rx_byte;
 
 static uint8_t frame_payload[BLOCK_SIZE];
 static uint8_t flash_row_buffer[FLASH_ROW_SIZE];
@@ -166,7 +167,7 @@ static void uart2_error(char code)
     uart2_newline();
 }
 
-static bool uart2_try_getc(uint8_t *out)
+static bool uart2_try_getc(void)
 {
     if (RCSTA2bits.OERR) {
         RCSTA2bits.CREN = 0;
@@ -174,20 +175,20 @@ static bool uart2_try_getc(uint8_t *out)
     }
 
     if (PIR3bits.RC2IF) {
-        *out = RCREG2;
+        uart2_rx_byte = RCREG2;
         return true;
     }
 
     return false;
 }
 
-static bool uart2_getc_timeout(uint8_t *out)
+static bool uart2_getc_timeout(void)
 {
     uint16_t timeout = UART_TIMEOUT_COUNT;
 
     while (timeout != 0u)
     {
-        if (uart2_try_getc(out))
+        if (uart2_try_getc())
             return true;
 
         CLRWDT();
@@ -617,9 +618,10 @@ static uint8_t receive_upload_frame(
     uint8_t len_lo;
 
     /* Wait for SOF, without blocking the main loop */
-    if (!uart2_try_getc(&ch))
+    if (!uart2_try_getc())
         return FRAME_NONE;
 
+    ch = uart2_rx_byte;
     if (ch == EOT)
         return FRAME_EOT;
 
@@ -627,14 +629,20 @@ static uint8_t receive_upload_frame(
         return FRAME_NONE;
 
     /* Sequence */
-    if (!uart2_getc_timeout(&seq_hi) ||
-        !uart2_getc_timeout(&seq_lo))
+    if (!uart2_getc_timeout())
         return FRAME_TIMEOUT;
+    seq_hi = uart2_rx_byte;
+    if (!uart2_getc_timeout())
+        return FRAME_TIMEOUT;
+    seq_lo = uart2_rx_byte;
 
     /* Payload length */
-    if (!uart2_getc_timeout(&len_hi) ||
-        !uart2_getc_timeout(&len_lo))
+    if (!uart2_getc_timeout())
         return FRAME_TIMEOUT;
+    len_hi = uart2_rx_byte;
+    if (!uart2_getc_timeout())
+        return FRAME_TIMEOUT;
+    len_lo = uart2_rx_byte;
 
     *sequence = ((uint16_t)seq_hi << 8) | seq_lo;
 
@@ -654,17 +662,21 @@ static uint8_t receive_upload_frame(
     /* Payload */
     for (i = 0; i < *length; i++)
     {
-        if (!uart2_getc_timeout(&frame_payload[i]))
+        if (!uart2_getc_timeout())
             return FRAME_TIMEOUT;
+        frame_payload[i] = uart2_rx_byte;
 
         calculated_crc =
             crc16_update(calculated_crc, frame_payload[i]);
     }
 
     /* Received CRC16 */
-    if (!uart2_getc_timeout(&seq_hi) ||
-        !uart2_getc_timeout(&seq_lo))
+    if (!uart2_getc_timeout())
         return FRAME_TIMEOUT;
+    seq_hi = uart2_rx_byte;
+    if (!uart2_getc_timeout())
+        return FRAME_TIMEOUT;
+    seq_lo = uart2_rx_byte;
 
     received_crc = ((uint16_t)seq_hi << 8) | seq_lo;
 
@@ -1130,7 +1142,8 @@ void main(void)
 
     for (;;) {
         CLRWDT();
-        if (uart2_try_getc(&ch)) {
+        if (uart2_try_getc()) {
+            ch = uart2_rx_byte;
             if (ch == '\r' || ch == '\n') {
                 if (count != 0u) {
                     line[count] = '\0';
