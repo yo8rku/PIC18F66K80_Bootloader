@@ -196,53 +196,7 @@ static bool flash_valid_row(uint16_t address)
     return true;
 }
 
-/* Erase one 64-byte Flash row //
-static bool flash_erase_row(uint16_t address)
-{
-    uint8_t gie_state;
-
-    if (!flash_valid_row(address))
-        return false;
-
-    flash_set_pointer(address);
-
-    EECON1bits.EEPGD = 1;
-    EECON1bits.CFGS = 0;
-    EECON1bits.WREN = 1;
-    EECON1bits.FREE = 1;
-
-    gie_state = INTCONbits.GIE;
-    INTCONbits.GIE = 0;
-
-    EECON2 = 0x55;
-    EECON2 = 0xAA;
-    EECON1bits.WR = 1;
-
-    INTCONbits.GIE = gie_state;
-
-    while (EECON1bits.WR)
-        CLRWDT();
-
-    EECON1bits.WREN = 0;
-    EECON1bits.FREE = 0;
-
-    // Do not report success unless every byte is actually erased. 
-    EECON1bits.EEPGD = 1;
-    EECON1bits.CFGS = 0;
-    flash_set_pointer(address);
-
-    {
-        uint8_t i;
-        for (i = 0; i < FLASH_ROW_SIZE; i++)
-        {
-            asm("TBLRD*+");
-            if (TABLAT != 0xFFu)
-                return false;
-        }
-    }
-
-    return true;
-}*/
+// Erase one 64-byte Flash row //
 static bool flash_erase_row(uint16_t address)
 {
     uint8_t gie_state;
@@ -291,10 +245,6 @@ static bool flash_erase_row(uint16_t address)
 
             if (TABLAT != 0xFFu)
                 return false;
-            
-            //if (i < (FLASH_ROW_SIZE - 1u))
-            //if (i != (FLASH_ROW_SIZE - 1u))
-                //asm("TBLRD*+");
         }
         asm("TBLRD*");
 
@@ -309,8 +259,7 @@ static bool flash_erase_row(uint16_t address)
 
 
 /* Read and verify one 64-byte Flash row */
-static bool flash_verify_row(uint16_t address,
-                             const uint8_t *buffer)
+static bool flash_verify_row(uint16_t address, const uint8_t *buffer)
 {
     uint8_t i;
 
@@ -322,13 +271,20 @@ static bool flash_verify_row(uint16_t address,
 
     flash_set_pointer(address);
 
-    for (i = 0; i < FLASH_ROW_SIZE; i++)
+    // Verificam primii 63 de octeti.
+    for (i = 0; i < FLASH_ROW_SIZE - 1u; i++)
     {
         asm("TBLRD*+");
 
         if (TABLAT != buffer[i])
             return false;
     }
+
+    // Ultimul octet fara incrementarea TBLPTR.
+    asm("TBLRD*");
+
+    if (TABLAT != buffer[FLASH_ROW_SIZE - 1u])
+        return false;
 
     return true;
 }
@@ -346,11 +302,16 @@ static bool flash_read_row(uint16_t address, uint8_t *buffer)
 
     flash_set_pointer(address);
 
-    for (i = 0; i < FLASH_ROW_SIZE; i++)
+    // Citim primii 63 de octeti cu incrementare.
+    for (i = 0; i < FLASH_ROW_SIZE - 1u; i++)
     {
         asm("TBLRD*+");
         buffer[i] = TABLAT;
     }
+
+    // Ultimul octet se citeste fara incrementare.
+    asm("TBLRD*");
+    buffer[FLASH_ROW_SIZE - 1u] = TABLAT;
 
     return true;
 }
@@ -749,25 +710,9 @@ static void receive_upload_data(void)
                     /* Match the uploader's expected final response:
                      * OK followed by the 8-digit uppercase image CRC32.
                      */
-                    //uart2_puts("OK ");
-                    //uart2_puthex32(final_crc);
-                    uart2_putc('U');
-uart2_putc('P');
-uart2_putc('L');
-uart2_putc('O');
-uart2_putc('A');
-uart2_putc('D');
-uart2_putc(' ');
-uart2_putc('C');
-uart2_putc('O');
-uart2_putc('M');
-uart2_putc('P');
-uart2_putc('L');
-uart2_putc('E');
-uart2_putc('T');
-uart2_putc('E');
-uart2_newline();
-                    //uart2_newline();
+                    uart2_puts("OK ");
+                    uart2_puthex32(final_crc);
+                    uart2_newline();
                 }
                 else
                 {

@@ -21284,17 +21284,17 @@ unsigned char __t3rd16on(void);
 #pragma config CP0 = OFF, CP1 = OFF, CP2 = OFF, CP3 = OFF
 #pragma config CPB = OFF, CPD = OFF
 #pragma config WRT0 = OFF, WRT1 = OFF, WRT2 = OFF, WRT3 = OFF
-#pragma config WRTC = OFF, WRTB = ON, WRTD = OFF
+#pragma config WRTC = OFF, WRTB = OFF, WRTD = OFF
 #pragma config EBTR0 = OFF, EBTR1 = OFF, EBTR2 = OFF, EBTR3 = OFF
 #pragma config EBTRB = OFF
 #pragma warning disable 1510
 # 42 "main.c"
 __asm("PSECT intcode");
 __asm("GOTO 0x1008");
-# 70 "main.c"
-static uint32_t upload_size;
+# 71 "main.c"
+static uint16_t upload_size;
 static uint32_t upload_expected_crc;
-static uint32_t upload_received;
+static uint16_t upload_received;
 static uint16_t upload_sequence;
 static _Bool upload_active = 0;
 
@@ -21308,6 +21308,7 @@ static _Bool upload_have_frame = 0;
 
 
 static uint32_t crc32_update(uint32_t crc, uint8_t data);
+static _Bool flash_program_row(uint16_t address, const uint8_t *buffer);
 
 static void uart2_init(void)
 {
@@ -21342,6 +21343,20 @@ static void uart2_puts(const char *s)
 {
     while (*s != '\0') {
         uart2_putc(*s++);
+    }
+}
+
+
+static void uart2_puthex32(uint32_t value)
+{
+    static const char hex[] = "0123456789ABCDEF";
+    uint8_t shift;
+
+    for (shift = 28u; ; shift -= 4u)
+    {
+        uart2_putc(hex[(value >> shift) & 0x0Fu]);
+        if (shift == 0u)
+            break;
     }
 }
 
@@ -21409,6 +21424,7 @@ static _Bool flash_valid_row(uint16_t address)
 static _Bool flash_erase_row(uint16_t address)
 {
     uint8_t gie_state;
+    uint8_t status;
 
     if (!flash_valid_row(address))
         return 0;
@@ -21429,18 +21445,45 @@ static _Bool flash_erase_row(uint16_t address)
 
     INTCONbits.GIE = gie_state;
 
-    while (EECON1bits.WR)
-        __asm(" clrwdt");
+    status = EECON1;
 
     EECON1bits.WREN = 0;
-    EECON1bits.FREE = 0;
+
+    if (status & 0x08)
+        return 0;
+
+    if (status & 0x10)
+        return 0;
+
+    if (status & 0x02)
+        return 0;
+
+    flash_set_pointer(address);
+
+    {
+        uint8_t i;
+
+        for (i = 0; i < 64u - 1u; i++)
+        {
+            __asm("TBLRD*+");
+
+            if (TABLAT != 0xFFu)
+                return 0;
+        }
+        __asm("TBLRD*");
+
+        if (TABLAT != 0xFFu)
+            return 0;
+    }
 
     return 1;
 }
 
 
-static _Bool flash_verify_row(uint16_t address,
-                             const uint8_t *buffer)
+
+
+
+static _Bool flash_verify_row(uint16_t address, const uint8_t *buffer)
 {
     uint8_t i;
 
@@ -21452,7 +21495,8 @@ static _Bool flash_verify_row(uint16_t address,
 
     flash_set_pointer(address);
 
-    for (i = 0; i < 64u; i++)
+
+    for (i = 0; i < 64u - 1u; i++)
     {
         __asm("TBLRD*+");
 
@@ -21460,7 +21504,104 @@ static _Bool flash_verify_row(uint16_t address,
             return 0;
     }
 
+
+    __asm("TBLRD*");
+
+    if (TABLAT != buffer[64u - 1u])
+        return 0;
+
     return 1;
+}
+
+
+static _Bool flash_read_row(uint16_t address, uint8_t *buffer)
+{
+    uint8_t i;
+
+    if (!flash_valid_row(address))
+        return 0;
+
+    EECON1bits.EEPGD = 1;
+    EECON1bits.CFGS = 0;
+
+    flash_set_pointer(address);
+
+
+    for (i = 0; i < 64u - 1u; i++)
+    {
+        __asm("TBLRD*+");
+        buffer[i] = TABLAT;
+    }
+
+
+    __asm("TBLRD*");
+    buffer[64u - 1u] = TABLAT;
+
+    return 1;
+}
+
+
+
+static _Bool application_marker_valid(void)
+{
+    uint8_t marker[64u];
+
+    if (!flash_read_row(0xFFC0u, marker))
+        return 0;
+
+    if (marker[0] != 'A' ||
+        marker[1] != 'P' ||
+        marker[2] != 'P' ||
+        marker[3] != '1')
+        return 0;
+
+
+    if (marker[6] != 0u || marker[7] != 0u)
+    return 0;
+
+    uint16_t size =
+        (uint16_t)marker[4] |
+        ((uint16_t)marker[5] << 8);
+
+    if (size == 0u || size > (0xFFC0u - 0x1000u))
+        return 0;
+
+    return 1;
+}
+
+
+
+static _Bool application_marker_write(uint16_t size, uint32_t crc)
+{
+    uint8_t marker[64u];
+    uint8_t i;
+
+    if (size == 0u || size > (0xFFC0u - 0x1000u))
+        return 0;
+
+    for (i = 0; i < 64u; i++)
+        marker[i] = 0xFF;
+
+    marker[0] = 'A';
+    marker[1] = 'P';
+    marker[2] = 'P';
+    marker[3] = '1';
+
+    marker[4] = (uint8_t)size;
+    marker[5] = (uint8_t)(size >> 8);
+    marker[6] = 0;
+    marker[7] = 0;
+
+    marker[8] = (uint8_t)crc;
+    marker[9] = (uint8_t)(crc >> 8);
+    marker[10] = (uint8_t)(crc >> 16);
+    marker[11] = (uint8_t)(crc >> 24);
+
+    if (!flash_program_row(0xFFC0u, marker))
+        return 0;
+
+
+    return application_marker_valid();
 }
 
 
@@ -21544,7 +21685,7 @@ static _Bool flash_flush_row(void)
 
     return 1;
 }
-# 330 "main.c"
+# 472 "main.c"
 static uint16_t crc16_update(uint16_t crc, uint8_t data)
 {
     uint8_t i;
@@ -21658,9 +21799,7 @@ static void receive_upload_data(void)
                 if (sequence == upload_sequence)
                 {
 
-                    if ((upload_received > upload_size) ||
-                        ((uint32_t)length >
-                         (upload_size - upload_received)))
+                    if ((upload_received > upload_size) || (length > (upload_size - upload_received)))
                     {
                         uart2_puts("ERR IMAGE SIZE");
                         uart2_newline();
@@ -21777,10 +21916,19 @@ static void receive_upload_data(void)
 
                 if (final_crc == upload_expected_crc)
                 {
-                    uart2_puts("RX END");
-                    uart2_newline();
 
-                    uart2_puts("CRC32 OK");
+                    if (!application_marker_write(upload_size, final_crc))
+                    {
+                        uart2_puts("ERR MARKER WRITE");
+                        uart2_newline();
+                        break;
+                    }
+
+
+
+
+                    uart2_puts("OK ");
+                    uart2_puthex32(final_crc);
                     uart2_newline();
                 }
                 else
@@ -21872,6 +22020,13 @@ static _Bool parse_upload_command(const char *cmd)
     {
         c = cmd[i];
 
+        if (c == '\0')
+        {
+            uart2_puts("ERR BAD UPLOAD CRC");
+            uart2_newline();
+            return 1;
+        }
+
         if (c >= '0' && c <= '9')
             nibble = (uint8_t)(c - '0');
         else if (c >= 'A' && c <= 'F')
@@ -21889,14 +22044,6 @@ static _Bool parse_upload_command(const char *cmd)
     }
 
 
-    if (size > 0xF000U)
-    {
-        uart2_puts("ERR IMAGE SIZE");
-        uart2_newline();
-        return 1;
-    }
-
-
     if (cmd[8] != '\0')
     {
         uart2_puts("ERR BAD UPLOAD FORMAT");
@@ -21905,9 +22052,25 @@ static _Bool parse_upload_command(const char *cmd)
     }
 
 
+    if (size > (0xFFC0u - 0x1000u))
+    {
+        uart2_puts("ERR IMAGE SIZE");
+        uart2_newline();
+        return 1;
+    }
+
+
     if (upload_active)
     {
         uart2_puts("ERR UPLOAD BUSY");
+        uart2_newline();
+        return 1;
+    }
+
+
+    if (!flash_erase_row(0xFFC0u))
+    {
+        uart2_puts("ERR MARKER ERASE");
         uart2_newline();
         return 1;
     }
@@ -21934,7 +22097,7 @@ static _Bool parse_upload_command(const char *cmd)
 
     return 1;
 }
-# 728 "main.c"
+# 892 "main.c"
 static void jump_to_application(void)
 {
 
@@ -21954,7 +22117,7 @@ static void jump_to_application(void)
 
 
 }
-# 774 "main.c"
+
 static void process_command(const char *cmd)
 {
     if (parse_upload_command(cmd))
@@ -21971,9 +22134,17 @@ static void process_command(const char *cmd)
         uart2_newline();
 
     } else if (cmd[0] == 'R' && cmd[1] == '\0') {
-        uart2_puts("RUN");
-        uart2_newline();
-        jump_to_application();
+        if (application_marker_valid())
+        {
+            uart2_puts("RUN");
+            uart2_newline();
+            jump_to_application();
+        }
+        else
+        {
+            uart2_puts("ERR NO VALID APP");
+            uart2_newline();
+        }
 
     } else {
         uart2_puts("ERR");
@@ -21986,7 +22157,6 @@ void main(void)
     char line[24u];
     uint8_t count = 0;
     uint8_t ch;
-
 
     INTCONbits.GIE = 0;
     INTCONbits.PEIE = 0;
@@ -22001,7 +22171,6 @@ void main(void)
 
     for (;;) {
         __asm(" clrwdt");
-
         if (uart2_try_getc(&ch)) {
             if (ch == '\r' || ch == '\n') {
                 if (count != 0u) {
