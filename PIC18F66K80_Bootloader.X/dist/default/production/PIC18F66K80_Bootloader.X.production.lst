@@ -1,7 +1,7 @@
 
 
 Microchip MPLAB XC8 Assembler V2.46 build 20240104201356 
-                                                                                               Tue Nov 03 15:09:42 2026
+                                                                                               Tue Nov 03 15:14:58 2026
 
 Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og9 
      1                           	processor	18F66K80
@@ -2868,10 +2868,10 @@ Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og9
   2767                           ;main.c: 496:     EECON1bits.CFGS = 0;
   2768   00108C  9C7F               	bcf	127,6,c	;volsfr
   2769                           
-  2770                           ;main.c: 497:     EEADRH = address >> 8;
+  2770                           ;main.c: 497:     EEADRH = (uint8_t)(address >> 8);
   2771   00108E  C002  FF75         	movff	eeprom_read_byte@address+1,3957	;volatile
   2772                           
-  2773                           ;main.c: 498:     EEADR = address;
+  2773                           ;main.c: 498:     EEADR = (uint8_t) address;
   2774   001092  C001  FF74         	movff	eeprom_read_byte@address,3956	;volatile
   2775                           
   2776                           ;main.c: 499:     EECON1bits.RD = 1;
@@ -5094,10 +5094,10 @@ Microchip MPLAB XC8 C Compiler v2.46 (Free license) build 20240104201356 Og9
   4885   0010AE  0E00               	movlw	0
   4886   0010B0  6EF8               	movwf	248,c	;volatile
   4887                           
-  4888                           ;main.c: 202:     TBLPTRH = address >> 8;
+  4888                           ;main.c: 202:     TBLPTRH = (uint8_t)(address >> 8);
   4889   0010B2  C002  FFF7         	movff	flash_set_pointer@address+1,tblptrh	;volatile
   4890                           
-  4891                           ;main.c: 203:     TBLPTRL = address;
+  4891                           ;main.c: 203:     TBLPTRL = (uint8_t) address;
   4892   0010B6  C001  FFF6         	movff	flash_set_pointer@address,tblptrl	;volatile
   4893   0010BA  0012               	return		;funcret
   4894   0010BC                     __end_of_flash_set_pointer:
@@ -5703,7 +5703,7 @@ CODE                 0      0       0       0        0.0%
 
 
 Microchip Technology PIC18 Macro Assembler V2.46 build 20240104201356 
-Symbol Table                                                                                   Tue Nov 03 15:09:42 2026
+Symbol Table                                                                                   Tue Nov 03 15:14:58 2026
 
             __end_of_parse_crc32_hex 09D8           ??_eeprom_write_verify_byte 0006  
                                  l98 1008                                   l99 1004  
