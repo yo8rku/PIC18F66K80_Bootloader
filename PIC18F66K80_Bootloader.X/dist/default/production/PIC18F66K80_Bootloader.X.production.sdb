@@ -23,8 +23,6 @@
 [v ___fldiv __fldiv `(d  1 e 4 0 ]
 "8 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
-"15 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul16.c
-[v ___wmul __wmul `(ui  1 e 2 0 ]
 "15 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul32.c
 [v ___lmul __lmul `(ul  1 e 4 0 ]
 "91 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul64.c
@@ -81,15 +79,15 @@
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
 "900
 [v _parse_decimal_u16 parse_decimal_u16 `(a  1 s 1 parse_decimal_u16 ]
-"926
+"928
 [v _parse_crc32_hex parse_crc32_hex `(a  1 s 1 parse_crc32_hex ]
-"957
+"959
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
-"1066
+"1068
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
-"1086
+"1088
 [v _process_command process_command `(v  1 s 1 process_command ]
-"1118
+"1120
 [v _main main `(v  1 e 1 0 ]
 "29709 C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h
 [v _EEDATA EEDATA `VEuc  1 e 1 @3955 ]
@@ -337,16 +335,16 @@
 [v _upload_crc32 upload_crc32 `ul  1 s 4 upload_crc32 ]
 "96
 [v _upload_have_frame upload_have_frame `a  1 s 1 upload_have_frame ]
-"1118
+"1120
 [v _main main `(v  1 e 1 0 ]
 {
-"1120
-[v main@line line `[40]uc  1 a 40 65 ]
 "1122
+[v main@line line `[40]uc  1 a 40 65 ]
+"1124
 [v main@ch ch `uc  1 a 1 106 ]
-"1121
+"1123
 [v main@count count `uc  1 a 1 105 ]
-"1152
+"1154
 } 0
 "105
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
@@ -520,32 +518,32 @@
 [v flash_verify_row@buffer buffer `*.39Cuc  1 p 2 4 ]
 "310
 } 0
-"1086
+"1088
 [v _process_command process_command `(v  1 s 1 process_command ]
 {
 [v process_command@cmd cmd `*.30Cuc  1 p 1 75 ]
-"1116
+"1118
 } 0
-"957
+"959
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
 {
-"1041
+"1043
 [v parse_upload_command@i i `uc  1 a 1 24 ]
-"963
+"965
 [v parse_upload_command@new_eeprom_crc new_eeprom_crc `ul  1 a 4 19 ]
-"962
-[v parse_upload_command@new_flash_crc new_flash_crc `ul  1 a 4 15 ]
-"960
-[v parse_upload_command@new_flash_size new_flash_size `us  1 a 2 27 ]
-"961
-[v parse_upload_command@new_eeprom_size new_eeprom_size `us  1 a 2 25 ]
-"959
-[v parse_upload_command@p p `*.30Cuc  1 a 1 29 ]
 "964
+[v parse_upload_command@new_flash_crc new_flash_crc `ul  1 a 4 15 ]
+"962
+[v parse_upload_command@new_flash_size new_flash_size `us  1 a 2 27 ]
+"963
+[v parse_upload_command@new_eeprom_size new_eeprom_size `us  1 a 2 25 ]
+"961
+[v parse_upload_command@p p `*.30Cuc  1 a 1 29 ]
+"966
 [v parse_upload_command@error error `uc  1 a 1 23 ]
-"957
+"959
 [v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 13 ]
-"1054
+"1056
 } 0
 "134
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
@@ -579,41 +577,31 @@
 [v _parse_decimal_u16 parse_decimal_u16 `(a  1 s 1 parse_decimal_u16 ]
 {
 "902
-[v parse_decimal_u16@accumulator accumulator `us  1 a 2 11 ]
+[v parse_decimal_u16@accumulator accumulator `us  1 a 2 10 ]
 "904
-[v parse_decimal_u16@digit digit `uc  1 a 1 10 ]
+[v parse_decimal_u16@digit digit `uc  1 a 1 9 ]
 "903
-[v parse_decimal_u16@digits digits `uc  1 a 1 9 ]
+[v parse_decimal_u16@digits digits `uc  1 a 1 8 ]
 "900
-[v parse_decimal_u16@cursor cursor `*.30*.30Cuc  1 p 1 6 ]
-[v parse_decimal_u16@value value `*.30us  1 p 1 7 ]
-"924
+[v parse_decimal_u16@cursor cursor `*.30*.30Cuc  1 p 1 0 ]
+[v parse_decimal_u16@value value `*.30us  1 p 1 1 ]
+"926
 } 0
-"15 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul16.c
-[v ___wmul __wmul `(ui  1 e 2 0 ]
-{
-"17
-[v ___wmul@product product `ui  1 a 2 4 ]
-"15
-[v ___wmul@multiplier multiplier `ui  1 p 2 0 ]
-[v ___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
-"53
-} 0
-"926 C:\Users\marius.ciobanu\OneDrive - Vodafone Group\Desktop\PA_Controler_YO6RK - final\PIC18F66K80_Bootloader\PIC18F66K80_Bootloader.X\main.c
+"928
 [v _parse_crc32_hex parse_crc32_hex `(a  1 s 1 parse_crc32_hex ]
 {
-"931
+"933
 [v parse_crc32_hex@crc crc `ul  1 a 4 7 ]
-"930
+"932
 [v parse_crc32_hex@c c `uc  1 a 1 12 ]
-"928
+"930
 [v parse_crc32_hex@i i `uc  1 a 1 11 ]
-"929
+"931
 [v parse_crc32_hex@nibble nibble `uc  1 a 1 6 ]
-"926
+"928
 [v parse_crc32_hex@cursor cursor `*.30*.30Cuc  1 p 1 0 ]
 [v parse_crc32_hex@value value `*.30ul  1 p 1 1 ]
-"951
+"953
 } 0
 "223
 [v _flash_erase_row flash_erase_row `(a  1 s 1 flash_erase_row ]
@@ -628,10 +616,10 @@
 [v flash_erase_row@address address `us  1 p 2 3 ]
 "280
 } 0
-"1066
+"1068
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
 {
-"1084
+"1086
 } 0
 "341
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
