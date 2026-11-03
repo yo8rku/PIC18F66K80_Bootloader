@@ -1079,8 +1079,7 @@ static void process_command(const char *cmd)
     } else if (cmd[0] == 'R' && cmd[1] == '\0') {
         if (application_marker_valid())
         {
-            uart2_puts("RUN");
-            uart2_puts("\r\n");
+            uart2_puts("RUN\r\n");
             jump_to_application();
         }
         else
