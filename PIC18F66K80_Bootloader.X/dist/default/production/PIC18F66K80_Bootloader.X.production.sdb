@@ -69,17 +69,17 @@
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
 "490
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
-"565
+"562
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
-"730
+"727
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
-"747
+"744
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
-"873
+"870
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
-"893
+"890
 [v _process_command process_command `(v  1 s 1 process_command ]
-"925
+"922
 [v _main main `(v  1 e 1 0 ]
 "30045 C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h
 [v _TXREG2 TXREG2 `VEuc  1 e 1 @3961 ]
@@ -291,16 +291,16 @@
 [v _upload_crc32 upload_crc32 `ul  1 s 4 upload_crc32 ]
 "83
 [v _upload_have_frame upload_have_frame `a  1 s 1 upload_have_frame ]
-"925
+"922
 [v _main main `(v  1 e 1 0 ]
 {
-"927
+"924
 [v main@line line `[40]uc  1 a 40 65 ]
-"929
+"926
 [v main@ch ch `uc  1 a 1 106 ]
-"928
+"925
 [v main@count count `uc  1 a 1 105 ]
-"959
+"956
 } 0
 "89
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
@@ -309,24 +309,24 @@
 [v uart2_init@dummy dummy `VEuc  1 a 1 0 ]
 "108
 } 0
-"565
+"562
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
 {
-"619
+"616
 [v receive_upload_data@j j `uc  1 a 1 91 ]
-"596
+"593
 [v receive_upload_data@data data `uc  1 a 1 85 ]
-"571
-[v receive_upload_data@final_crc final_crc `ul  1 a 4 87 ]
-"567
-[v receive_upload_data@sequence sequence `us  1 a 2 93 ]
 "568
+[v receive_upload_data@final_crc final_crc `ul  1 a 4 87 ]
+"564
+[v receive_upload_data@sequence sequence `us  1 a 2 93 ]
+"565
 [v receive_upload_data@length length `uc  1 a 1 92 ]
-"570
+"567
 [v receive_upload_data@i i `uc  1 a 1 86 ]
-"569
+"566
 [v receive_upload_data@result result `uc  1 a 1 84 ]
-"722
+"719
 } 0
 "126
 [v _uart2_puthex32 uart2_puthex32 `(v  1 s 1 uart2_puthex32 ]
@@ -343,28 +343,26 @@
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
 {
 "497
-[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 20 ]
-"498
-[v receive_upload_frame@frame_len frame_len `us  1 a 2 12 ]
+[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 18 ]
 "496
 [v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
-"501
-[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 19 ]
-"500
-[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 18 ]
-"503
-[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
 "502
-[v receive_upload_frame@len_hi len_hi `uc  1 a 1 16 ]
+[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
+"500
+[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 16 ]
+"499
+[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 15 ]
+"501
+[v receive_upload_frame@len_hi len_hi `uc  1 a 1 14 ]
 "495
-[v receive_upload_frame@i i `uc  1 a 1 15 ]
+[v receive_upload_frame@i i `uc  1 a 1 13 ]
 "494
-[v receive_upload_frame@ch ch `uc  1 a 1 14 ]
+[v receive_upload_frame@ch ch `uc  1 a 1 12 ]
 "491
 [v receive_upload_frame@sequence sequence `*.30us  1 p 1 6 ]
 "492
 [v receive_upload_frame@length length `*.30uc  1 p 1 7 ]
-"563
+"560
 } 0
 "168
 [v _uart2_getc_timeout uart2_getc_timeout `(a  1 s 1 uart2_getc_timeout ]
@@ -398,15 +396,15 @@
 [v flash_flush_row@i i `uc  1 a 1 18 ]
 "464
 } 0
-"730
+"727
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
 {
-"732
+"729
 [v crc32_update@i i `uc  1 a 1 9 ]
-"730
+"727
 [v crc32_update@crc crc `ul  1 p 4 0 ]
 [v crc32_update@data data `uc  1 p 1 4 ]
-"745
+"742
 } 0
 "354
 [v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
@@ -451,32 +449,32 @@
 [v flash_verify_row@buffer buffer `*.39Cuc  1 p 2 4 ]
 "294
 } 0
-"893
+"890
 [v _process_command process_command `(v  1 s 1 process_command ]
 {
 [v process_command@cmd cmd `*.30Cuc  1 p 1 76 ]
-"923
+"920
 } 0
-"747
+"744
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
 {
-"750
-[v parse_upload_command@crc crc `ul  1 a 4 14 ]
-"749
-[v parse_upload_command@size size `us  1 a 2 21 ]
-"754
-[v parse_upload_command@c c `uc  1 a 1 24 ]
-"752
-[v parse_upload_command@i i `uc  1 a 1 23 ]
-"753
-[v parse_upload_command@nibble nibble `uc  1 a 1 20 ]
-"755
-[v parse_upload_command@error error `uc  1 a 1 19 ]
-"751
-[v parse_upload_command@digits digits `uc  1 a 1 18 ]
 "747
+[v parse_upload_command@crc crc `ul  1 a 4 14 ]
+"746
+[v parse_upload_command@size size `us  1 a 2 22 ]
+"751
+[v parse_upload_command@c c `uc  1 a 1 24 ]
+"749
+[v parse_upload_command@i i `uc  1 a 1 21 ]
+"750
+[v parse_upload_command@nibble nibble `uc  1 a 1 20 ]
+"752
+[v parse_upload_command@error error `uc  1 a 1 19 ]
+"748
+[v parse_upload_command@digits digits `uc  1 a 1 18 ]
+"744
 [v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 9 ]
-"861
+"858
 } 0
 "118
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
@@ -529,10 +527,10 @@
 [v ___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
 "53
 } 0
-"873 C:\Users\marius.ciobanu\OneDrive - Vodafone Group\Desktop\PA_Controler_YO6RK - final\PIC18F66K80_Bootloader\PIC18F66K80_Bootloader.X\main.c
+"870 C:\Users\marius.ciobanu\OneDrive - Vodafone Group\Desktop\PA_Controler_YO6RK - final\PIC18F66K80_Bootloader\PIC18F66K80_Bootloader.X\main.c
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
 {
-"891
+"888
 } 0
 "325
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
