@@ -173,12 +173,12 @@ static bool uart2_try_getc(uint8_t *out)
         RCSTA2bits.CREN = 1;
     }
 
-    if (!PIR3bits.RC2IF) {
-        return false;
+    if (PIR3bits.RC2IF) {
+        *out = RCREG2;
+        return true;
     }
 
-    *out = RCREG2;
-    return true;
+    return false;
 }
 
 static bool uart2_getc_timeout(uint8_t *out)
