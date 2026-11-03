@@ -447,8 +447,13 @@ static bool flash_flush_row(void)
         return true;
 
     /* Pad the last incomplete row with erased Flash value */
-    for (i = flash_row_fill; i < FLASH_ROW_SIZE; i++)
-        flash_row_buffer[i] = 0xFF;
+    {
+        uint8_t *p = &flash_row_buffer[flash_row_fill];
+        uint8_t *end = &flash_row_buffer[FLASH_ROW_SIZE];
+
+        while (p < end)
+            *p++ = 0xFF;
+    }
 
     if (!flash_program_row(flash_row_address, flash_row_buffer))
         return false;
@@ -613,8 +618,13 @@ static void receive_upload_data(void)
                             flash_row_fill = 0u;
                             flash_row_address += FLASH_ROW_SIZE;
 
-                            for (uint8_t j = 0; j < FLASH_ROW_SIZE; j++)
-                                flash_row_buffer[j] = 0xFF;
+                            {
+                                uint8_t *p = flash_row_buffer;
+                                uint8_t j;
+
+                                for (j = 0; j < FLASH_ROW_SIZE; j++)
+                                    *p++ = 0xFF;
+                            }
                         }
                     }
 
