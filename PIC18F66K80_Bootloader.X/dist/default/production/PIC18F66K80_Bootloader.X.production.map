@@ -7,11 +7,11 @@ Linker command line:
   -cn -h+dist/default/production\PIC18F66K80_Bootloader.X.production.sym \
   --cmf=dist/default/production\PIC18F66K80_Bootloader.X.production.cmf -z \
   -Q18F66K80 \
-  -oC:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs16bk.\driver_tmp_3.o \
+  -oC:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsuq0.\driver_tmp_3.o \
   --defsym=__MPLAB_BUILD=1 -ACODE=00h-0FFFh -ACONST=00h-0FFFh \
   -AMEDIUMCONST=00h-0FFFh -ASMALLCONST=00h-0FFFh --fixupoverflow=error \
   -Mdist/default/production/PIC18F66K80_Bootloader.X.production.map \
-  --md=C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs16bk.\driver_tmp_0.dat \
+  --md=C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsuq0.\driver_tmp_0.dat \
   -E1 -ver=XC8 Compiler --acfsm=1493 -ACOMRAM=01h-05Fh -AABS1=00h-0E40h \
   -ABIGRAM=01h-0E40h -ARAM=060h-0FFh,0100h-01FFhx13,0E00h-0E40h \
   -ABANK0=060h-0FFh -ABANK1=0100h-01FFh -ABANK2=0200h-02FFh \
@@ -29,7 +29,7 @@ Linker command line:
   -pfarbss=FARRAM,fardata=FARRAM,nvFARRAM=FARRAM \
   -pintsave_regs=BIGRAM,bigbss=BIGRAM,bigdata=BIGRAM -pbss=RAM \
   -pidata=CODE,irdata=CODE,ibigdata=CODE,ifardata=CODE -prparam=COMRAM \
-  C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs16bk.\driver_tmp_9.o \
+  C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsuq0.\driver_tmp_9.o \
   dist/default/production\PIC18F66K80_Bootloader.X.production.o 
 
 Object code version is 3.11
@@ -39,7 +39,7 @@ Machine type is 18F66K80
 
 
                 Name                               Link     Load   Length Selector   Space Scale
-C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs16bk.\driver_tmp_9.o
+C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsuq0.\driver_tmp_9.o
                 config                           300000   300000        E        0       4
                 init                                  C        C        4        4       0
                 reset_vec                             0        0        4        0       0
@@ -47,75 +47,75 @@ dist/default/production\PIC18F66K80_Bootloader.X.production.o
                 intcode                               8        8        4        4       0
                 config                           300000   300000        E        0       4
                 smallconst                           10       10       42        8       0
-                text26                              E32      E32        E       29       0
-                text25                              CEA      CEA       30       29       0
-                text24                              B88      B88       54       29       0
-                text23                              A58      A58       6A       29       0
-                text22                              DBE      DBE       22       29       0
-                text21                              D98      D98       26       29       0
-                text20                              8DA      8DA       88       29       0
-                text19                              E14      E14       10       29       0
-                text18                              E24      E24        E       29       0
-                text17                              E00      E00       14       29       0
-                text16                              D70      D70       28       29       0
+                text26                              E0A      E0A        E       29       0
+                text25                              CC2      CC2       30       29       0
+                text24                              B10      B10       54       29       0
+                text23                              A42      A42       6A       29       0
+                text22                              D96      D96       22       29       0
+                text21                              D70      D70       26       29       0
+                text20                              848      848       88       29       0
+                text19                              DEC      DEC       10       29       0
+                text18                              DFC      DFC        E       29       0
+                text17                              DD8      DD8       14       29       0
+                text16                              D48      D48       28       29       0
                 text15                              2D4      2D4      27C       29       0
                 text14                              702      702       BC       29       0
-                text13                              B26      B26       62       29       0
-                text12                              7BE      7BE       92       29       0
-                text11                              D1A      D1A       2C       29       0
-                text10                              962      962       80       29       0
-                text9                               AC2      AC2       64       29       0
-                text8                               9E2      9E2       76       29       0
-                text7                               C2A      C2A       4A       29       0
-                text6                               DE0      DE0       20       29       0
-                text5                               CB6      CB6       34       29       0
+                text13                              B64      B64       50       29       0
+                text12                              950      950       7C       29       0
+                text11                              CF2      CF2       2C       29       0
+                text10                              8D0      8D0       80       29       0
+                text9                               AAC      AAC       64       29       0
+                text8                               9CC      9CC       76       29       0
+                text7                               C02      C02       4A       29       0
+                text6                               DB8      DB8       20       29       0
+                text5                               C8E      C8E       34       29       0
                 text4                               550      550      1B2       29       0
-                text3                               BDC      BDC       4E       29       0
+                text3                               BB4      BB4       4E       29       0
                 text2                                52       52      282       29       0
-                text1                               D46      D46       2A       29       0
-                text0                               850      850       8A       29       0
+                text1                               D1E      D1E       2A       29       0
+                text0                               7BE      7BE       8A       29       0
                 cstackCOMRAM                          1        1       5F        1       1
                 cstackBANK0                          60       60       6B       60       1
                 bssBANK1                            100      100       70      100       1
                 dataBANK0                            D8       D8        6       60       1
                 bssBANK0                             CB       CB        D       60       1
-                cinit                               C74      C74       42       29       0
-                idataBANK0                          E40      E40        6       29       0
+                cinit                               C4C      C4C       42       29       0
+                idataBANK0                          E18      E18        6       29       0
 
 TOTAL           Name                               Link     Load   Length     Space
         CLASS   CODE           
                 intcode                               8        8        4         0
                 init                                  C        C        4         0
                 reset_vec                             0        0        4         0
-                text26                              E32      E32        E         0
-                text25                              CEA      CEA       30         0
-                text24                              B88      B88       54         0
-                text23                              A58      A58       6A         0
-                text22                              DBE      DBE       22         0
-                text21                              D98      D98       26         0
-                text20                              8DA      8DA       88         0
-                text19                              E14      E14       10         0
-                text18                              E24      E24        E         0
-                text17                              E00      E00       14         0
-                text16                              D70      D70       28         0
+                text26                              E0A      E0A        E         0
+                text25                              CC2      CC2       30         0
+                text24                              B10      B10       54         0
+                text23                              A42      A42       6A         0
+                text22                              D96      D96       22         0
+                text21                              D70      D70       26         0
+                text20                              848      848       88         0
+                text19                              DEC      DEC       10         0
+                text18                              DFC      DFC        E         0
+                text17                              DD8      DD8       14         0
+                text16                              D48      D48       28         0
                 text15                              2D4      2D4      27C         0
                 text14                              702      702       BC         0
-                text13                              B26      B26       62         0
-                text12                              7BE      7BE       92         0
-                text11                              D1A      D1A       2C         0
-                text10                              962      962       80         0
-                text9                               AC2      AC2       64         0
-                text8                               9E2      9E2       76         0
-                text7                               C2A      C2A       4A         0
-                text6                               DE0      DE0       20         0
-                text5                               CB6      CB6       34         0
+                text13                              B64      B64       50         0
+                text12                              950      950       7C         0
+                text11                              CF2      CF2       2C         0
+                text10                              8D0      8D0       80         0
+                text9                               AAC      AAC       64         0
+                text8                               9CC      9CC       76         0
+                text7                               C02      C02       4A         0
+                text6                               DB8      DB8       20         0
+                text5                               C8E      C8E       34         0
                 text4                               550      550      1B2         0
-                text3                               BDC      BDC       4E         0
+                text3                               BB4      BB4       4E         0
                 text2                                52       52      282         0
-                text1                               D46      D46       2A         0
-                text0                               850      850       8A         0
-                cinit                               C74      C74       42         0
-                idataBANK0                          E40      E40        6         0
+                text1                               D1E      D1E       2A         0
+                text0                               7BE      7BE       8A         0
+                cinit                               C4C      C4C       42         0
+                idataBANK0                          E18      E18        6         0
 
         CLASS   CONST          
 
@@ -192,7 +192,7 @@ SEGMENTS        Name                           Load    Length   Top    Selector 
                 cstackCOMRAM                   000001  00005F  000060         1       1  COMRAM  
                 intcode                        000008  000008  000010         4       0  CODE    
                 smallconst                     000010  000042  000052         8       0  SMALLCON
-                text2                          000052  000DF4  000E46        29       0  CODE    
+                text2                          000052  000DCC  000E1E        29       0  CODE    
                 cstackBANK0                    000060  00007E  0000DE        60       1  BANK0   
                 bssBANK1                       000100  000070  000170       100       1  BANK1   
 
@@ -219,18 +219,18 @@ UNUSED ADDRESS RANGES
                          000170-000E40              CD1
         BIGSFR           000E41-000FFF              1BF
         CODE             000004-000007                4
-                         000E46-000FFF              1BA
+                         000E1E-000FFF              1E2
         CONST            000004-000007                4
-                         000E46-000FFF              1BA
+                         000E1E-000FFF              1E2
         EEDATA           F00000-F003FF              400
         IDLOC            200000-200007                8
         MEDIUMCONST      000004-000007                4
-                         000E46-000FFF              1BA
+                         000E1E-000FFF              1E2
         RAM              0000DE-0000FF               22
                          000170-000E40              100
         SFR              000E41-000FFF               BF
         SMALLCONST       000004-000007                4
-                         000E46-000FFF              1BA
+                         000E1E-000FFF              1E2
 
                                   Symbol Table
 
@@ -464,7 +464,7 @@ __Ltext6                            text6        000000
 __Ltext7                            text7        000000
 __Ltext8                            text8        000000
 __Ltext9                            text9        000000
-__S0                                (abs)        000E46
+__S0                                (abs)        000E1E
 __S1                                (abs)        000170
 __S4                                (abs)        000000
 __S5                                (abs)        000000
@@ -481,110 +481,110 @@ ___rparam_used                      (abs)        000001
 ___sp                               stack        000000
 ___stack_hi                         stack        000000
 ___stack_lo                         stack        000000
-___wmul                             text21       000D98
+___wmul                             text21       000D70
 ___wmul@multiplicand                cstackCOMRAM 000003
 ___wmul@multiplier                  cstackCOMRAM 000001
 ___wmul@product                     cstackCOMRAM 000005
 __accesstop                         (abs)        000060
 __activetblptr                      (abs)        000002
-__end_of___wmul                     text21       000DBE
-__end_of__initialization            cinit        000CAC
-__end_of_application_marker_valid   text23       000AC2
-__end_of_application_marker_write   text10       0009E2
-__end_of_crc16_update               text7        000C74
-__end_of_crc32_update               text9        000B26
-__end_of_flash_erase_row            text20       000962
-__end_of_flash_flush_row            text8        000A58
-__end_of_flash_program_row          text11       000D46
-__end_of_flash_read_row             text24       000BDC
-__end_of_flash_set_pointer          text26       000E40
-__end_of_flash_valid_row            text25       000D1A
-__end_of_flash_verify_row           text13       000B88
-__end_of_flash_write_row            text12       000850
-__end_of_jump_to_application        text22       000DE0
-__end_of_main                       text0        0008DA
+__end_of___wmul                     text21       000D96
+__end_of__initialization            cinit        000C84
+__end_of_application_marker_valid   text23       000AAC
+__end_of_application_marker_write   text10       000950
+__end_of_crc16_update               text7        000C4C
+__end_of_crc32_update               text9        000B10
+__end_of_flash_erase_row            text20       0008D0
+__end_of_flash_flush_row            text8        000A42
+__end_of_flash_program_row          text11       000D1E
+__end_of_flash_read_row             text24       000B64
+__end_of_flash_set_pointer          text26       000E18
+__end_of_flash_valid_row            text25       000CF2
+__end_of_flash_verify_row           text13       000BB4
+__end_of_flash_write_row            text12       0009CC
+__end_of_jump_to_application        text22       000DB8
+__end_of_main                       text0        000848
 __end_of_parse_upload_command       text15       000550
 __end_of_process_command            text14       0007BE
 __end_of_receive_upload_data        text2        0002D4
 __end_of_receive_upload_frame       text4        000702
-__end_of_uart2_error                text17       000E14
-__end_of_uart2_getc_timeout         text5        000CEA
-__end_of_uart2_init                 text1        000D70
-__end_of_uart2_newline              text18       000E32
-__end_of_uart2_putc                 text19       000E24
-__end_of_uart2_puthex32             text3        000C2A
-__end_of_uart2_puts                 text16       000D98
-__end_of_uart2_try_getc             text6        000E00
+__end_of_uart2_error                text17       000DEC
+__end_of_uart2_getc_timeout         text5        000CC2
+__end_of_uart2_init                 text1        000D48
+__end_of_uart2_newline              text18       000E0A
+__end_of_uart2_putc                 text19       000DFC
+__end_of_uart2_puthex32             text3        000C02
+__end_of_uart2_puts                 text16       000D70
+__end_of_uart2_try_getc             text6        000DD8
 __end_ofuart2_puthex32@hex          smallconst   000022
-__initialization                    cinit        000C74
+__initialization                    cinit        000C4C
 __mediumconst                       mediumconst  000000
 __pbssBANK0                         bssBANK0     0000CB
 __pbssBANK1                         bssBANK1     000100
-__pcinit                            cinit        000C74
+__pcinit                            cinit        000C4C
 __pcstackBANK0                      cstackBANK0  000060
 __pcstackCOMRAM                     cstackCOMRAM 000001
 __pdataBANK0                        dataBANK0    0000D8
-__pidataBANK0                       idataBANK0   000E40
+__pidataBANK0                       idataBANK0   000E18
 __psmallconst                       smallconst   000010
-__ptext0                            text0        000850
-__ptext1                            text1        000D46
-__ptext10                           text10       000962
-__ptext11                           text11       000D1A
-__ptext12                           text12       0007BE
-__ptext13                           text13       000B26
+__ptext0                            text0        0007BE
+__ptext1                            text1        000D1E
+__ptext10                           text10       0008D0
+__ptext11                           text11       000CF2
+__ptext12                           text12       000950
+__ptext13                           text13       000B64
 __ptext14                           text14       000702
 __ptext15                           text15       0002D4
-__ptext16                           text16       000D70
-__ptext17                           text17       000E00
-__ptext18                           text18       000E24
-__ptext19                           text19       000E14
+__ptext16                           text16       000D48
+__ptext17                           text17       000DD8
+__ptext18                           text18       000DFC
+__ptext19                           text19       000DEC
 __ptext2                            text2        000052
-__ptext20                           text20       0008DA
-__ptext21                           text21       000D98
-__ptext22                           text22       000DBE
-__ptext23                           text23       000A58
-__ptext24                           text24       000B88
-__ptext25                           text25       000CEA
-__ptext26                           text26       000E32
-__ptext3                            text3        000BDC
+__ptext20                           text20       000848
+__ptext21                           text21       000D70
+__ptext22                           text22       000D96
+__ptext23                           text23       000A42
+__ptext24                           text24       000B10
+__ptext25                           text25       000CC2
+__ptext26                           text26       000E0A
+__ptext3                            text3        000BB4
 __ptext4                            text4        000550
-__ptext5                            text5        000CB6
-__ptext6                            text6        000DE0
-__ptext7                            text7        000C2A
-__ptext8                            text8        0009E2
-__ptext9                            text9        000AC2
+__ptext5                            text5        000C8E
+__ptext6                            text6        000DB8
+__ptext7                            text7        000C02
+__ptext8                            text8        0009CC
+__ptext9                            text9        000AAC
 __ramtop                            ramtop       000F00
 __smallconst                        smallconst   000010
-_application_marker_valid           text23       000A58
-_application_marker_write           text10       000962
-_crc16_update                       text7        000C2A
-_crc32_update                       text9        000AC2
-_flash_erase_row                    text20       0008DA
-_flash_flush_row                    text8        0009E2
-_flash_program_row                  text11       000D1A
-_flash_read_row                     text24       000B88
+_application_marker_valid           text23       000A42
+_application_marker_write           text10       0008D0
+_crc16_update                       text7        000C02
+_crc32_update                       text9        000AAC
+_flash_erase_row                    text20       000848
+_flash_flush_row                    text8        0009CC
+_flash_program_row                  text11       000CF2
+_flash_read_row                     text24       000B10
 _flash_row_address                  dataBANK0    0000DC
 _flash_row_buffer                   bssBANK1     000100
 _flash_row_fill                     bssBANK0     0000D6
-_flash_set_pointer                  text26       000E32
-_flash_valid_row                    text25       000CEA
-_flash_verify_row                   text13       000B26
-_flash_write_row                    text12       0007BE
+_flash_set_pointer                  text26       000E0A
+_flash_valid_row                    text25       000CC2
+_flash_verify_row                   text13       000B64
+_flash_write_row                    text12       000950
 _frame_payload                      bssBANK1     000140
-_jump_to_application                text22       000DBE
-_main                               text0        000850
+_jump_to_application                text22       000D96
+_main                               text0        0007BE
 _parse_upload_command               text15       0002D4
 _process_command                    text14       000702
 _receive_upload_data                text2        000052
 _receive_upload_frame               text4        000550
-_uart2_error                        text17       000E00
-_uart2_getc_timeout                 text5        000CB6
-_uart2_init                         text1        000D46
-_uart2_newline                      text18       000E24
-_uart2_putc                         text19       000E14
-_uart2_puthex32                     text3        000BDC
-_uart2_puts                         text16       000D70
-_uart2_try_getc                     text6        000DE0
+_uart2_error                        text17       000DD8
+_uart2_getc_timeout                 text5        000C8E
+_uart2_init                         text1        000D1E
+_uart2_newline                      text18       000DFC
+_uart2_putc                         text19       000DEC
+_uart2_puthex32                     text3        000BB4
+_uart2_puts                         text16       000D48
+_uart2_try_getc                     text6        000DB8
 _upload_active                      bssBANK0     0000D7
 _upload_crc32                       dataBANK0    0000D8
 _upload_expected_crc                bssBANK0     0000CB
@@ -604,26 +604,26 @@ crc16_update@i                      cstackCOMRAM 000006
 crc32_update@crc                    cstackCOMRAM 000001
 crc32_update@data                   cstackCOMRAM 000005
 crc32_update@i                      cstackCOMRAM 00000A
-end_of_initialization               cinit        000CAC
+end_of_initialization               cinit        000C84
 flash_erase_row@address             cstackCOMRAM 000005
 flash_erase_row@gie_state           cstackCOMRAM 000007
 flash_erase_row@i                   cstackCOMRAM 000009
 flash_erase_row@status              cstackCOMRAM 000008
-flash_flush_row@i                   cstackCOMRAM 000015
-flash_program_row@address           cstackCOMRAM 000011
-flash_program_row@buffer            cstackCOMRAM 000013
+flash_flush_row@i                   cstackCOMRAM 000013
+flash_program_row@address           cstackCOMRAM 00000F
+flash_program_row@buffer            cstackCOMRAM 000011
 flash_read_row@address              cstackCOMRAM 000005
 flash_read_row@buffer               cstackCOMRAM 000007
 flash_read_row@i                    cstackCOMRAM 000008
 flash_set_pointer@address           cstackCOMRAM 000001
 flash_valid_row@address             cstackCOMRAM 000001
-flash_verify_row@address            cstackCOMRAM 000005
-flash_verify_row@buffer             cstackCOMRAM 000007
-flash_verify_row@i                  cstackCOMRAM 00000A
-flash_write_row@address             cstackCOMRAM 00000B
-flash_write_row@buffer              cstackCOMRAM 00000D
-flash_write_row@gie_state           cstackCOMRAM 00000F
-flash_write_row@i                   cstackCOMRAM 000010
+flash_verify_row@address            cstackCOMRAM 000003
+flash_verify_row@buffer             cstackCOMRAM 000005
+flash_verify_row@i                  cstackCOMRAM 000008
+flash_write_row@address             cstackCOMRAM 000009
+flash_write_row@buffer              cstackCOMRAM 00000B
+flash_write_row@gie_state           cstackCOMRAM 00000D
+flash_write_row@i                   cstackCOMRAM 00000E
 intlevel0                           text         000000
 intlevel1                           text         000000
 intlevel2                           text         000000
@@ -663,7 +663,7 @@ receive_upload_frame@sequence       cstackCOMRAM 000007
 stackhi                             (abs)        000000
 stacklo                             (abs)        000000
 start                               init         00000C
-start_initialization                cinit        000C74
+start_initialization                cinit        000C4C
 uart2_error@code                    cstackCOMRAM 000002
 uart2_getc_timeout@out              cstackCOMRAM 000003
 uart2_getc_timeout@timeout          cstackCOMRAM 000005
@@ -680,43 +680,43 @@ MODULE INFORMATION
 
 Module		Function		Class		Link	Load	Size
 shared
-		__initialization		CODE           	0C74	0000	56
+		__initialization		CODE           	0C4C	0000	56
 		uart2_puthex32@hex		SMALLCONST     	0011	0000	17
 
 shared estimated size: 73
 
 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul16.c
-		___wmul        		CODE           	0D98	0000	38
+		___wmul        		CODE           	0D70	0000	38
 
 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul16.c estimated size: 38
 
 main.c
-		_application_marker_write		CODE           	0962	0000	128
-		_jump_to_application		CODE           	0DBE	0000	34
-		_crc32_update  		CODE           	0AC2	0000	100
-		_uart2_error   		CODE           	0E00	0000	20
-		_flash_erase_row		CODE           	08DA	0000	136
-		_main          		CODE           	0850	0000	138
+		_application_marker_write		CODE           	08D0	0000	128
+		_jump_to_application		CODE           	0D96	0000	34
+		_crc32_update  		CODE           	0AAC	0000	100
+		_uart2_error   		CODE           	0DD8	0000	20
+		_flash_erase_row		CODE           	0848	0000	136
+		_main          		CODE           	07BE	0000	138
 		_receive_upload_frame		CODE           	0550	0000	434
 		_receive_upload_data		CODE           	0052	0000	642
-		_uart2_getc_timeout		CODE           	0CB6	0000	52
-		_uart2_newline 		CODE           	0E24	0000	14
+		_uart2_getc_timeout		CODE           	0C8E	0000	52
+		_uart2_newline 		CODE           	0DFC	0000	14
 		_parse_upload_command		CODE           	02D4	0000	636
-		_application_marker_valid		CODE           	0A58	0000	106
-		_flash_verify_row		CODE           	0B26	0000	98
-		_crc16_update  		CODE           	0C2A	0000	74
-		_flash_write_row		CODE           	07BE	0000	146
-		_flash_set_pointer		CODE           	0E32	0000	14
+		_application_marker_valid		CODE           	0A42	0000	106
+		_flash_verify_row		CODE           	0B64	0000	80
+		_crc16_update  		CODE           	0C02	0000	74
+		_flash_write_row		CODE           	0950	0000	124
+		_flash_set_pointer		CODE           	0E0A	0000	14
 		_process_command		CODE           	0702	0000	188
-		_flash_program_row		CODE           	0D1A	0000	44
-		_uart2_putc    		CODE           	0E14	0000	16
-		_uart2_puts    		CODE           	0D70	0000	40
-		_uart2_try_getc		CODE           	0DE0	0000	32
-		_uart2_puthex32		CODE           	0BDC	0000	78
-		_uart2_init    		CODE           	0D46	0000	42
-		_flash_read_row		CODE           	0B88	0000	84
-		_flash_flush_row		CODE           	09E2	0000	118
-		_flash_valid_row		CODE           	0CEA	0000	48
+		_flash_program_row		CODE           	0CF2	0000	44
+		_uart2_putc    		CODE           	0DEC	0000	16
+		_uart2_puts    		CODE           	0D48	0000	40
+		_uart2_try_getc		CODE           	0DB8	0000	32
+		_uart2_puthex32		CODE           	0BB4	0000	78
+		_uart2_init    		CODE           	0D1E	0000	42
+		_flash_read_row		CODE           	0B10	0000	84
+		_flash_flush_row		CODE           	09CC	0000	118
+		_flash_valid_row		CODE           	0CC2	0000	48
 
-main.c estimated size: 3462
+main.c estimated size: 3422
 

@@ -53,33 +53,33 @@
 [v _flash_erase_row flash_erase_row `(a  1 s 1 flash_erase_row ]
 "269
 [v _flash_verify_row flash_verify_row `(a  1 s 1 flash_verify_row ]
-"300
+"297
 [v _flash_read_row flash_read_row `(a  1 s 1 flash_read_row ]
-"328
+"325
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
-"357
+"354
 [v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
-"392
+"389
 [v _flash_write_row flash_write_row `(a  1 s 1 flash_write_row ]
-"438
+"432
 [v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
-"448
+"442
 [v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
-"479
+"473
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
-"496
+"490
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
-"571
+"565
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
-"736
+"730
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
-"753
+"747
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
-"879
+"873
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
-"899
+"893
 [v _process_command process_command `(v  1 s 1 process_command ]
-"931
+"925
 [v _main main `(v  1 e 1 0 ]
 "30045 C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h
 [v _TXREG2 TXREG2 `VEuc  1 e 1 @3961 ]
@@ -291,16 +291,16 @@
 [v _upload_crc32 upload_crc32 `ul  1 s 4 upload_crc32 ]
 "83
 [v _upload_have_frame upload_have_frame `a  1 s 1 upload_have_frame ]
-"931
+"925
 [v _main main `(v  1 e 1 0 ]
 {
-"933
+"927
 [v main@line line `[40]uc  1 a 40 65 ]
-"935
+"929
 [v main@ch ch `uc  1 a 1 106 ]
-"934
+"928
 [v main@count count `uc  1 a 1 105 ]
-"965
+"959
 } 0
 "89
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
@@ -309,24 +309,24 @@
 [v uart2_init@dummy dummy `VEuc  1 a 1 0 ]
 "108
 } 0
-"571
+"565
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
 {
-"625
+"619
 [v receive_upload_data@j j `uc  1 a 1 91 ]
-"602
+"596
 [v receive_upload_data@data data `uc  1 a 1 85 ]
-"577
+"571
 [v receive_upload_data@final_crc final_crc `ul  1 a 4 87 ]
-"573
+"567
 [v receive_upload_data@sequence sequence `us  1 a 2 93 ]
-"574
+"568
 [v receive_upload_data@length length `uc  1 a 1 92 ]
-"576
+"570
 [v receive_upload_data@i i `uc  1 a 1 86 ]
-"575
+"569
 [v receive_upload_data@result result `uc  1 a 1 84 ]
-"728
+"722
 } 0
 "126
 [v _uart2_puthex32 uart2_puthex32 `(v  1 s 1 uart2_puthex32 ]
@@ -339,32 +339,32 @@
 [v uart2_puthex32@hex hex `C[17]uc  1 s 17 hex ]
 "137
 } 0
-"496
+"490
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
 {
-"503
-[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 20 ]
-"504
-[v receive_upload_frame@frame_len frame_len `us  1 a 2 12 ]
-"502
-[v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
-"507
-[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 19 ]
-"506
-[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 18 ]
-"509
-[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
-"508
-[v receive_upload_frame@len_hi len_hi `uc  1 a 1 16 ]
-"501
-[v receive_upload_frame@i i `uc  1 a 1 15 ]
-"500
-[v receive_upload_frame@ch ch `uc  1 a 1 14 ]
 "497
-[v receive_upload_frame@sequence sequence `*.30us  1 p 1 6 ]
+[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 20 ]
 "498
+[v receive_upload_frame@frame_len frame_len `us  1 a 2 12 ]
+"496
+[v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
+"501
+[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 19 ]
+"500
+[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 18 ]
+"503
+[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
+"502
+[v receive_upload_frame@len_hi len_hi `uc  1 a 1 16 ]
+"495
+[v receive_upload_frame@i i `uc  1 a 1 15 ]
+"494
+[v receive_upload_frame@ch ch `uc  1 a 1 14 ]
+"491
+[v receive_upload_frame@sequence sequence `*.30us  1 p 1 6 ]
+"492
 [v receive_upload_frame@length length `*.30uc  1 p 1 7 ]
-"569
+"563
 } 0
 "168
 [v _uart2_getc_timeout uart2_getc_timeout `(a  1 s 1 uart2_getc_timeout ]
@@ -381,102 +381,102 @@
 [v uart2_try_getc@out out `*.39uc  1 p 2 0 ]
 "166
 } 0
-"479
+"473
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
 {
-"481
+"475
 [v crc16_update@i i `uc  1 a 1 5 ]
-"479
+"473
 [v crc16_update@crc crc `us  1 p 2 0 ]
 [v crc16_update@data data `uc  1 p 1 2 ]
-"494
+"488
 } 0
-"448
+"442
 [v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
 {
-"450
-[v flash_flush_row@i i `uc  1 a 1 20 ]
-"470
+"444
+[v flash_flush_row@i i `uc  1 a 1 18 ]
+"464
 } 0
-"736
+"730
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
 {
-"738
+"732
 [v crc32_update@i i `uc  1 a 1 9 ]
-"736
+"730
 [v crc32_update@crc crc `ul  1 p 4 0 ]
 [v crc32_update@data data `uc  1 p 1 4 ]
-"751
+"745
 } 0
-"357
+"354
 [v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
 {
-"359
+"356
 [v application_marker_write@marker marker `[64]uc  1 a 64 0 ]
-"360
-[v application_marker_write@i i `uc  1 a 1 64 ]
 "357
+[v application_marker_write@i i `uc  1 a 1 64 ]
+"354
 [v application_marker_write@size size `us  1 p 2 76 ]
 [v application_marker_write@crc crc `ul  1 p 4 78 ]
-"388
+"385
 } 0
-"438
+"432
 [v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
 {
-[v flash_program_row@address address `us  1 p 2 16 ]
+[v flash_program_row@address address `us  1 p 2 14 ]
+"433
+[v flash_program_row@buffer buffer `*.39Cuc  1 p 2 16 ]
 "439
-[v flash_program_row@buffer buffer `*.39Cuc  1 p 2 18 ]
-"445
 } 0
-"392
+"389
 [v _flash_write_row flash_write_row `(a  1 s 1 flash_write_row ]
 {
-"395
-[v flash_write_row@i i `uc  1 a 1 15 ]
-"396
-[v flash_write_row@gie_state gie_state `uc  1 a 1 14 ]
 "392
-[v flash_write_row@address address `us  1 p 2 10 ]
+[v flash_write_row@i i `uc  1 a 1 13 ]
 "393
-[v flash_write_row@buffer buffer `*.39Cuc  1 p 2 12 ]
-"435
+[v flash_write_row@gie_state gie_state `uc  1 a 1 12 ]
+"389
+[v flash_write_row@address address `us  1 p 2 8 ]
+"390
+[v flash_write_row@buffer buffer `*.39Cuc  1 p 2 10 ]
+"429
 } 0
 "269
 [v _flash_verify_row flash_verify_row `(a  1 s 1 flash_verify_row ]
 {
 "271
-[v flash_verify_row@i i `uc  1 a 1 9 ]
+[v flash_verify_row@i i `uc  1 a 1 7 ]
 "269
-[v flash_verify_row@address address `us  1 p 2 4 ]
-[v flash_verify_row@buffer buffer `*.39Cuc  1 p 2 6 ]
-"297
+[v flash_verify_row@address address `us  1 p 2 2 ]
+[v flash_verify_row@buffer buffer `*.39Cuc  1 p 2 4 ]
+"294
 } 0
-"899
+"893
 [v _process_command process_command `(v  1 s 1 process_command ]
 {
 [v process_command@cmd cmd `*.30Cuc  1 p 1 76 ]
-"929
+"923
 } 0
-"753
+"747
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
 {
-"756
+"750
 [v parse_upload_command@crc crc `ul  1 a 4 14 ]
-"755
+"749
 [v parse_upload_command@size size `us  1 a 2 21 ]
-"760
+"754
 [v parse_upload_command@c c `uc  1 a 1 24 ]
-"758
+"752
 [v parse_upload_command@i i `uc  1 a 1 23 ]
-"759
-[v parse_upload_command@nibble nibble `uc  1 a 1 20 ]
-"761
-[v parse_upload_command@error error `uc  1 a 1 19 ]
-"757
-[v parse_upload_command@digits digits `uc  1 a 1 18 ]
 "753
+[v parse_upload_command@nibble nibble `uc  1 a 1 20 ]
+"755
+[v parse_upload_command@error error `uc  1 a 1 19 ]
+"751
+[v parse_upload_command@digits digits `uc  1 a 1 18 ]
+"747
 [v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 9 ]
-"867
+"861
 } 0
 "118
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
@@ -529,29 +529,29 @@
 [v ___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
 "53
 } 0
-"879 C:\Users\marius.ciobanu\OneDrive - Vodafone Group\Desktop\PA_Controler_YO6RK - final\PIC18F66K80_Bootloader\PIC18F66K80_Bootloader.X\main.c
+"873 C:\Users\marius.ciobanu\OneDrive - Vodafone Group\Desktop\PA_Controler_YO6RK - final\PIC18F66K80_Bootloader\PIC18F66K80_Bootloader.X\main.c
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
 {
-"897
+"891
 } 0
-"328
+"325
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
 {
-"330
+"327
 [v application_marker_valid@marker marker `[64]uc  1 a 64 10 ]
-"345
+"342
 [v application_marker_valid@size size `us  1 a 2 74 ]
-"353
+"350
 } 0
-"300
+"297
 [v _flash_read_row flash_read_row `(a  1 s 1 flash_read_row ]
 {
-"302
+"299
 [v flash_read_row@i i `uc  1 a 1 7 ]
-"300
+"297
 [v flash_read_row@address address `us  1 p 2 4 ]
 [v flash_read_row@buffer buffer `*.30uc  1 p 1 6 ]
-"324
+"321
 } 0
 "193
 [v _flash_valid_row flash_valid_row `(a  1 s 1 flash_valid_row ]
