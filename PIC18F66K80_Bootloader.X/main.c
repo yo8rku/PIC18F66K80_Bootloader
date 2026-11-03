@@ -152,18 +152,12 @@ static void uart2_puthex32(uint32_t value)
     }
 }
 
-static void uart2_newline(void)
-{
-    uart2_putc('\r');
-    uart2_putc('\n');
-}
-
 /* Compact two-character protocol error: !X followed by CR/LF. */
 static void uart2_error(char code)
 {
     uart2_putc('!');
     uart2_putc(code);
-    uart2_newline();
+    uart2_puts("\r\n");
 }
 
 static bool uart2_try_getc(uint8_t *out)
@@ -836,7 +830,7 @@ static void receive_upload_data(void)
                     upload_have_frame = false;
 
                     uart2_puts("E");
-                    uart2_newline();
+                    uart2_puts("\r\n");
                 }
                 else
                 {
@@ -864,7 +858,7 @@ static void receive_upload_data(void)
                     uart2_puthex32(flash_final_crc);
                     uart2_putc(' ');
                     uart2_puthex32(final_crc);
-                    uart2_newline();
+                    uart2_puts("\r\n");
                 }
 
                 break;
@@ -1047,7 +1041,7 @@ static bool parse_upload_command(const char *cmd)
 
     upload_active = true;
     uart2_puts("R");
-    uart2_newline();
+    uart2_puts("\r\n");
     return true;
 
 upload_command_error:
@@ -1092,19 +1086,19 @@ static void process_command(const char *cmd)
 
     if (cmd[0] == 'I' && cmd[1] == '\0') {
         uart2_puts("PIC18F66K80");
-        uart2_newline();
+        uart2_puts("\r\n");
         uart2_puts("64MHz; UART2=115200");
-        uart2_newline();
+        uart2_puts("\r\n");
 
     } else if (cmd[0] == 'B' && cmd[1] == '\0') {
         uart2_puts("BOOT");
-        uart2_newline();
+        uart2_puts("\r\n");
 
     } else if (cmd[0] == 'R' && cmd[1] == '\0') {
         if (application_marker_valid())
         {
             uart2_puts("RUN");
-            uart2_newline();
+            uart2_puts("\r\n");
             jump_to_application();
         }
         else
