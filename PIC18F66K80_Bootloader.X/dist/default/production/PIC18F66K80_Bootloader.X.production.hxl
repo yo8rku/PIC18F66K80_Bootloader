@@ -1,7 +1,7 @@
 ### HEXMate logfile and output summary ###
 
 ### Command-line arguments ###
- C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAss5g.\driver_tmp_3.o
+ C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs16bk.\driver_tmp_3.o
  -Odist/default/production\PIC18F66K80_Bootloader.X.production.hex
  -logfile=dist/default/production\PIC18F66K80_Bootloader.X.production.hxl
  -addressing=1
@@ -9,19 +9,19 @@
 
 ### Memory Usage ###
  Input file ranges:
-  0h - 3h		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAss5g.\driver_tmp_3.o)
-  8h - 50h		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAss5g.\driver_tmp_3.o)
-  52h - E41h		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAss5g.\driver_tmp_3.o)
-  300000h - 30000Dh		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAss5g.\driver_tmp_3.o)
+  0h - 3h		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs16bk.\driver_tmp_3.o)
+  8h - 50h		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs16bk.\driver_tmp_3.o)
+  52h - E45h		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs16bk.\driver_tmp_3.o)
+  300000h - 30000Dh		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs16bk.\driver_tmp_3.o)
  Unused ranges:
   4h - 7h
   51h - 51h
-  E42h - 2FFFFFh
+  E46h - 2FFFFFh
 
 ### Hex Memory Map ###
  Legend:
   -- = Unused memory
-  H1 = Input file             (C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAss5g.\driver_tmp_3.o)
+  H1 = Input file             (C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs16bk.\driver_tmp_3.o)
 ----------------------------------------------------------
          | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 ----------------------------------------------------------
@@ -253,7 +253,7 @@
 00000E10 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00000E20 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00000E30 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00000E40 | H1 H1 -- -- -- -- -- -- -- -- -- -- -- -- -- --
+00000E40 | H1 H1 H1 H1 H1 H1 -- -- -- -- -- -- -- -- -- --
 ----------------------------------------------------------
 00300000 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- --
 00300010 | --
