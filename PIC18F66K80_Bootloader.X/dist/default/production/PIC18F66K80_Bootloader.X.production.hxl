@@ -1,7 +1,7 @@
 ### HEXMate logfile and output summary ###
 
 ### Command-line arguments ###
- C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs57s.\driver_tmp_3.o
+ C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsoio.\driver_tmp_3.o
  -Odist/default/production\PIC18F66K80_Bootloader.X.production.hex
  -logfile=dist/default/production\PIC18F66K80_Bootloader.X.production.hxl
  -addressing=1
@@ -9,17 +9,17 @@
 
 ### Memory Usage ###
  Input file ranges:
-  0h - 3h		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs57s.\driver_tmp_3.o)
-  8h - FD7h		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs57s.\driver_tmp_3.o)
-  300000h - 30000Dh		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs57s.\driver_tmp_3.o)
+  0h - 3h		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsoio.\driver_tmp_3.o)
+  8h - FE9h		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsoio.\driver_tmp_3.o)
+  300000h - 30000Dh		(C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsoio.\driver_tmp_3.o)
  Unused ranges:
   4h - 7h
-  FD8h - 2FFFFFh
+  FEAh - 2FFFFFh
 
 ### Hex Memory Map ###
  Legend:
   -- = Unused memory
-  H1 = Input file             (C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAs57s.\driver_tmp_3.o)
+  H1 = Input file             (C:\Users\MARIUS~1.CIO\AppData\Local\Temp\xcAsoio.\driver_tmp_3.o)
 ----------------------------------------------------------
          | 00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 ----------------------------------------------------------
@@ -276,7 +276,8 @@
 00000FA0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00000FB0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
 00000FC0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
-00000FD0 | H1 H1 H1 H1 H1 H1 H1 H1 -- -- -- -- -- -- -- --
+00000FD0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1
+00000FE0 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- -- -- -- -- --
 ----------------------------------------------------------
 00300000 | H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 H1 -- --
 00300010 | --

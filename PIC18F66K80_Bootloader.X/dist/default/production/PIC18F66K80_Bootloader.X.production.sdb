@@ -83,11 +83,11 @@
 [v _parse_crc32_hex parse_crc32_hex `(a  1 s 1 parse_crc32_hex ]
 "923
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
-"1021
+"1023
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
-"1041
+"1043
 [v _process_command process_command `(v  1 s 1 process_command ]
-"1068
+"1070
 [v _main main `(v  1 e 1 0 ]
 "29709 C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h
 [v _EEDATA EEDATA `VEuc  1 e 1 @3955 ]
@@ -345,16 +345,16 @@
 [v _parsed_flash_crc parsed_flash_crc `ul  1 s 4 parsed_flash_crc ]
 "121
 [v _parsed_eeprom_crc parsed_eeprom_crc `ul  1 s 4 parsed_eeprom_crc ]
-"1068
+"1070
 [v _main main `(v  1 e 1 0 ]
 {
-"1070
-[v main@line line `[36]uc  1 a 36 11 ]
 "1072
+[v main@line line `[36]uc  1 a 36 11 ]
+"1074
 [v main@ch ch `uc  1 a 1 48 ]
-"1071
+"1073
 [v main@count count `uc  1 a 1 47 ]
-"1107
+"1109
 } 0
 "130
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
@@ -531,11 +531,11 @@
 [v flash_verify_row@buffer buffer `*.39Cuc  1 p 2 4 ]
 "324
 } 0
-"1041
+"1043
 [v _process_command process_command `(v  1 s 1 process_command ]
 {
 [v process_command@cmd cmd `*.30Cuc  1 p 1 17 ]
-"1066
+"1068
 } 0
 "923
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
@@ -546,7 +546,7 @@
 [v parse_upload_command@error error `uc  1 a 1 15 ]
 "923
 [v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 13 ]
-"1009
+"1011
 } 0
 "159
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
@@ -633,10 +633,10 @@
 [v flash_valid_row@address address `us  1 p 2 0 ]
 "237
 } 0
-"1021
+"1023
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
 {
-"1039
+"1041
 } 0
 "328
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
