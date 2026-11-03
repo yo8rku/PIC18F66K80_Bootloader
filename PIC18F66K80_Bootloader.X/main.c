@@ -820,8 +820,9 @@ static bool parse_upload_command(const char *cmd)
     uint8_t i;
     uint8_t nibble;
     char c;
+    char error = 0;
 
-    /* Check command */
+    /* Ignore commands that do not start with UPLOAD. */
     if (cmd[0] != 'U' || cmd[1] != 'P' ||
         cmd[2] != 'L' || cmd[3] != 'O' ||
         cmd[4] != 'A' || cmd[5] != 'D' ||
@@ -830,93 +831,77 @@ static bool parse_upload_command(const char *cmd)
 
     cmd += 7;
 
-    /* Parse image size */
+    /* Parse decimal image size, protecting the 16-bit accumulator. */
     while (*cmd >= '0' && *cmd <= '9')
     {
         nibble = (uint8_t)(*cmd - '0');
 
-        if (digits >= 5u ||
-            size > 6553u ||
+        if (digits == 5u || size > 6553u ||
             (size == 6553u && nibble > 5u))
         {
-            uart2_error('S');
-            return true;
+            error = 'S';
+            goto upload_command_error;
         }
 
-        size = (uint16_t)((size << 3) + (size << 1) + nibble);
-
+        size = (uint16_t)(size * 10u + nibble);
         digits++;
         cmd++;
     }
 
-    if (digits == 0u || *cmd != ' ' || size == 0u)
+    if (digits == 0u || *cmd++ != ' ' || size == 0u)
     {
-        uart2_error('S');
-        return true;
+        error = 'S';
+        goto upload_command_error;
     }
 
-    cmd++;
-
-    /* CRC32 - exactly 8 hexadecimal digits */
+    /* Parse exactly eight hexadecimal CRC32 digits. */
     for (i = 0; i < 8u; i++)
     {
         c = cmd[i];
 
-        if (c == '\0')
-        {
-            uart2_error('C');
-            return true;
-        }
-
         if (c >= '0' && c <= '9')
             nibble = (uint8_t)(c - '0');
         else if (c >= 'A' && c <= 'F')
-            nibble = (uint8_t)(c - 'A' + 10);
+            nibble = (uint8_t)(c - 'A' + 10u);
         else if (c >= 'a' && c <= 'f')
-            nibble = (uint8_t)(c - 'a' + 10);
+            nibble = (uint8_t)(c - 'a' + 10u);
         else
         {
-            uart2_error('C');
-            return true;
+            error = 'C';
+            goto upload_command_error;
         }
 
-        crc = (crc << 4) | (uint32_t)nibble;
+        crc = (crc << 4) | nibble;
     }
 
-    /* Check command termination */
     if (cmd[8] != '\0')
     {
-        uart2_error('P');
-        return true;
+        error = 'P';
+        goto upload_command_error;
     }
 
-    /* Check maximum application size */
     if (size > MAX_APP_SIZE)
     {
-        uart2_error('S');
-        return true;
+        error = 'S';
+        goto upload_command_error;
     }
 
-    /* Check if another upload is active */
     if (upload_active)
     {
-        uart2_error('B');
-        return true;
+        error = 'B';
+        goto upload_command_error;
     }
 
-    /* Invalidate previous application */
     if (!flash_erase_row(APP_MARKER_ADDR))
     {
-        uart2_error('M');
-        return true;
+        error = 'M';
+        goto upload_command_error;
     }
 
-    /* Initialize upload */
     upload_size = size;
     upload_expected_crc = crc;
     upload_received = 0;
     upload_sequence = 0;
-
     upload_crc32 = 0xFFFFFFFFUL;
     upload_have_frame = false;
 
@@ -927,10 +912,12 @@ static bool parse_upload_command(const char *cmd)
         flash_row_buffer[i] = 0xFF;
 
     upload_active = true;
-
     uart2_puts("R");
     uart2_newline();
+    return true;
 
+upload_command_error:
+    uart2_error(error);
     return true;
 }
 
