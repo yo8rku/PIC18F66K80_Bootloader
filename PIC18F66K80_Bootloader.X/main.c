@@ -653,8 +653,7 @@ static void receive_upload_data(void)
                     /* Check image boundaries */
                     if ((upload_received > upload_size) || (length > (upload_size - upload_received)))
                     {
-                        uart2_puts("!S");
-                        uart2_newline();
+                        uart2_error('S');
                         upload_active = false;
                         break;
                     }
@@ -755,8 +754,7 @@ static void receive_upload_data(void)
                 /* Program final partial row, if any */
                 if (!flash_flush_row())
                 {
-                    uart2_puts("!F");
-                    uart2_newline();
+                    uart2_error('F');
                     break;
                 }
 
@@ -853,8 +851,7 @@ static bool parse_upload_command(const char *cmd)
 
     if (digits == 0u || *cmd != ' ' || size == 0u)
     {
-        uart2_puts("!S");
-        uart2_newline();
+        uart2_error('S');
         return true;
     }
 
@@ -867,8 +864,7 @@ static bool parse_upload_command(const char *cmd)
 
         if (c == '\0')
         {
-            uart2_puts("!C");
-            uart2_newline();
+            uart2_error('C');
             return true;
         }
 
@@ -880,8 +876,7 @@ static bool parse_upload_command(const char *cmd)
             nibble = (uint8_t)(c - 'a' + 10);
         else
         {
-            uart2_puts("!C");
-            uart2_newline();
+            uart2_error('C');
             return true;
         }
 
@@ -898,8 +893,7 @@ static bool parse_upload_command(const char *cmd)
     /* Check maximum application size */
     if (size > MAX_APP_SIZE)
     {
-        uart2_puts("!S");
-        uart2_newline();
+        uart2_error('S');
         return true;
     }
 
