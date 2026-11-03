@@ -44,7 +44,7 @@ asm("GOTO 0x1008");
 
 #define _XTAL_FREQ       64000000UL
 #define UART2_BAUD       115200UL
-#define RX_LINE_MAX      24u
+#define RX_LINE_MAX      40u
 
 #define APP_START       0x1000u
 #define APP_END         0xFFFFu
@@ -235,7 +235,7 @@ while (EECON1bits.WR)
         return false;   // FREE nu a fost ?ters
 
     if (status & 0x02)
-        return false;   // WR înc? setat
+        return false;   // WR Ã®nc? setat
 
     flash_set_pointer(address);
 
@@ -645,7 +645,7 @@ static void receive_upload_data(void)
                     /* Check image boundaries */
                     if ((upload_received > upload_size) || (length > (upload_size - upload_received)))
                     {
-                        uart2_puts("ERR IMAGE SIZE");
+                        uart2_puts("!S");
                         uart2_newline();
                         upload_active = false;
                         break;
@@ -669,7 +669,7 @@ static void receive_upload_data(void)
                                     flash_row_address,
                                     flash_row_buffer))
                             {
-                                uart2_puts("ERR FLASH WRITE");
+                                uart2_puts("!F");
                                 uart2_newline();
                                 upload_active = false;
                                 break;
@@ -723,7 +723,7 @@ static void receive_upload_data(void)
 
             case FRAME_BAD_LENGTH:
 
-                uart2_puts("ERR FRAME LENGTH");
+                uart2_puts("!D");
                 uart2_newline();
                 upload_active = false;
 
@@ -731,7 +731,7 @@ static void receive_upload_data(void)
 
             case FRAME_TIMEOUT:
 
-                uart2_puts("ERR FRAME TIMEOUT");
+                uart2_puts("!T");
                 uart2_newline();
                 upload_active = false;
 
@@ -743,7 +743,7 @@ static void receive_upload_data(void)
 
                 if (upload_received != upload_size)
                 {
-                    uart2_puts("ERR IMAGE LENGTH");
+                    uart2_puts("!L");
                     uart2_newline();
                     break;
                 }
@@ -751,7 +751,7 @@ static void receive_upload_data(void)
                 /* Program final partial row, if any */
                 if (!flash_flush_row())
                 {
-                    uart2_puts("ERR FLASH WRITE");
+                    uart2_puts("!F");
                     uart2_newline();
                     break;
                 }
@@ -763,7 +763,7 @@ static void receive_upload_data(void)
                     /* Write application marker only after successful CRC32 */
                     if (!application_marker_write(upload_size, final_crc))
                     {
-                        uart2_puts("ERR MARKER WRITE");
+                        uart2_puts("!M");
                         uart2_newline();
                         break;
                     }
@@ -771,13 +771,13 @@ static void receive_upload_data(void)
                     /* Match the uploader's expected final response:
                      * OK followed by the 8-digit uppercase image CRC32.
                      */
-                    uart2_puts("OK ");
+                    uart2_puts("O ");
                     uart2_puthex32(final_crc);
                     uart2_newline();
                 }
                 else
                 {
-                    uart2_puts("ERR IMAGE CRC");
+                    uart2_puts("!C");
                     uart2_newline();
                 }
 
@@ -839,7 +839,7 @@ static bool parse_upload_command(const char *cmd)
             size > 6553u ||
             (size == 6553u && nibble > 5u))
         {
-            uart2_puts("ERR IMAGE SIZE");
+            uart2_puts("!S");
             uart2_newline();
             return true;
         }
@@ -852,7 +852,7 @@ static bool parse_upload_command(const char *cmd)
 
     if (digits == 0u || *cmd != ' ' || size == 0u)
     {
-        uart2_puts("ERR IMAGE SIZE");
+        uart2_puts("!S");
         uart2_newline();
         return true;
     }
@@ -866,7 +866,7 @@ static bool parse_upload_command(const char *cmd)
 
         if (c == '\0')
         {
-            uart2_puts("ERR BAD UPLOAD CRC");
+            uart2_puts("!C");
             uart2_newline();
             return true;
         }
@@ -879,7 +879,7 @@ static bool parse_upload_command(const char *cmd)
             nibble = (uint8_t)(c - 'a' + 10);
         else
         {
-            uart2_puts("ERR BAD UPLOAD CRC");
+            uart2_puts("!C");
             uart2_newline();
             return true;
         }
@@ -890,7 +890,7 @@ static bool parse_upload_command(const char *cmd)
     /* Check command termination */
     if (cmd[8] != '\0')
     {
-        uart2_puts("ERR BAD UPLOAD FORMAT");
+        uart2_puts("!P");
         uart2_newline();
         return true;
     }
@@ -898,7 +898,7 @@ static bool parse_upload_command(const char *cmd)
     /* Check maximum application size */
     if (size > MAX_APP_SIZE)
     {
-        uart2_puts("ERR IMAGE SIZE");
+        uart2_puts("!S");
         uart2_newline();
         return true;
     }
@@ -906,7 +906,7 @@ static bool parse_upload_command(const char *cmd)
     /* Check if another upload is active */
     if (upload_active)
     {
-        uart2_puts("ERR UPLOAD BUSY");
+        uart2_puts("!B");
         uart2_newline();
         return true;
     }
@@ -914,7 +914,7 @@ static bool parse_upload_command(const char *cmd)
     /* Invalidate previous application */
     if (!flash_erase_row(APP_MARKER_ADDR))
     {
-        uart2_puts("ERR MARKER ERASE");
+        uart2_puts("!M");
         uart2_newline();
         return true;
     }
@@ -936,7 +936,7 @@ static bool parse_upload_command(const char *cmd)
 
     upload_active = true;
 
-    uart2_puts("READY");
+    uart2_puts("R");
     uart2_newline();
 
     return true;
@@ -996,7 +996,7 @@ static void process_command(const char *cmd)
         }
         else
         {
-            uart2_puts("ERR NO VALID APP");
+            uart2_puts("!A");
             uart2_newline();
         }
 
@@ -1017,12 +1017,6 @@ void main(void)
 
     uart2_init();
 
-    uart2_newline();
-    uart2_puts("PIC18F66K80 BOOTLOADER READY");
-    uart2_newline();
-    uart2_puts("Commands: I, B, R, UPLOAD");
-    uart2_newline();
-
     for (;;) {
         CLRWDT();
         if (uart2_try_getc(&ch)) {
@@ -1041,7 +1035,7 @@ void main(void)
                     line[count++] = (char)ch;
                 } else {
                     count = 0;
-                    uart2_puts("ERR LINE TOO LONG");
+                    uart2_puts("!L");
                     uart2_newline();
                 }
             }
