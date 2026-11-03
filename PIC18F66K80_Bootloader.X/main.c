@@ -2,8 +2,8 @@
  * PIC18F66K80 UART2 Bootloader - Stage 1
  * MPLAB X + XC8 v2.46
  *
- * Stage 1 validates UART2 communications and can launch the application.
- * Flash erase/program operations are not implemented yet.
+ * UART2 bootloader with application launch and Flash erase/program support.
+ * Firmware upload currently supports the Flash image; EEPROM update is next.
  *
  * Hardware:
  *   Fosc = 64 MHz (16 MHz crystal + PLL x4)
@@ -204,7 +204,6 @@ static bool flash_valid_row(uint16_t address)
     return true;
 }
 
-/*/ Erase one 64-byte Flash row //
 static bool flash_erase_row(uint16_t address)
 {
     uint8_t gie_state;
@@ -291,7 +290,7 @@ static bool flash_erase_row(uint16_t address)
     INTCONbits.GIE = gie_state;
 
     while (EECON1bits.WR)
-        ;
+        CLRWDT();
 
     status = EECON1;
 
