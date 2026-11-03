@@ -549,6 +549,8 @@ static bool eeprom_write_verify_byte(uint16_t address, uint8_t value)
     while (EECON1bits.WR)
         CLRWDT();
 
+    /* The EEPROM write-complete flag is cleared in software. */
+    PIR4bits.EEIF = 0;
     EECON1bits.WREN = 0;
 
     if (EECON1bits.WRERR)
