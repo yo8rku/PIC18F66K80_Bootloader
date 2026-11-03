@@ -1074,8 +1074,7 @@ static void process_command(const char *cmd)
         uart2_puts("PIC18F66K80\r\n64MHz; UART2=115200\r\n");
 
     } else if (cmd[0] == 'B' && cmd[1] == '\0') {
-        uart2_puts("BOOT");
-        uart2_puts("\r\n");
+        uart2_puts("BOOT\r\n");
 
     } else if (cmd[0] == 'R' && cmd[1] == '\0') {
         if (application_marker_valid())
