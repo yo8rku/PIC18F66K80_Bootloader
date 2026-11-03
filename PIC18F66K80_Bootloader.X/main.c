@@ -444,13 +444,11 @@ static bool flash_program_row(uint16_t address,
 /* Program the current row and prepare the next one */
 static bool flash_flush_row(void)
 {
-    uint8_t i;
-
     if (flash_row_fill == 0u)
         return true;
 
     /* Pad the last incomplete row with erased Flash value.
-     * Use FSR2 post-increment to avoid recalculating the buffer address.
+     * Use FSR2 post-increment and an assembly countdown loop.
      */
     {
         uint16_t address = (uint16_t)&flash_row_buffer[flash_row_fill];
@@ -459,8 +457,11 @@ static bool flash_flush_row(void)
         FSR2L = (uint8_t)address;
         FSR2H = (uint8_t)(address >> 8);
 
-        while (remaining--)
-            POSTINC2 = 0xFF;
+        asm_clear_count = remaining;
+        asm("fill_row_loop:");
+        asm("SETF POSTINC2, c");
+        asm("DECFSZ _asm_clear_count, f, c");
+        asm("BRA fill_row_loop");
     }
 
     if (!flash_program_row(flash_row_address, flash_row_buffer))
@@ -473,8 +474,11 @@ static bool flash_flush_row(void)
     FSR2L = (uint8_t)(uint16_t)flash_row_buffer;
     FSR2H = (uint8_t)((uint16_t)flash_row_buffer >> 8);
 
-    for (i = 0; i < FLASH_ROW_SIZE; i++)
-        POSTINC2 = 0xFF;
+    asm_clear_count = FLASH_ROW_SIZE;
+    asm("clear_flash_buffer_loop:");
+    asm("SETF POSTINC2, c");
+    asm("DECFSZ _asm_clear_count, f, c");
+    asm("BRA clear_flash_buffer_loop");
 
     return true;
 }
