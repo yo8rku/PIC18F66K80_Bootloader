@@ -743,7 +743,7 @@ static void receive_upload_data(void)
 
                 if (upload_received != upload_size)
                 {
-                    uart2_puts("!L");
+                    uart2_puts("!X");
                     uart2_newline();
                     break;
                 }
@@ -1001,7 +1001,7 @@ static void process_command(const char *cmd)
         }
 
     } else {
-        uart2_puts("ERR");
+        uart2_puts("!U");
         uart2_newline();
     }
 }
