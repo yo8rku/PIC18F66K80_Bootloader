@@ -899,7 +899,7 @@ static uint32_t crc32_update(uint32_t crc, uint8_t data)
 
 static bool parse_decimal_u16(const char **cursor, uint16_t *value)
 {
-    uint32_t accumulator = 0;
+    uint16_t accumulator = 0;
     uint8_t digits = 0;
     uint8_t digit;
 
