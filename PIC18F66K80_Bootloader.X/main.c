@@ -911,7 +911,9 @@ static bool parse_decimal_u16(const char **cursor, uint16_t *value)
             (accumulator == 6553u && digit > 5u))
             return false;
 
-        accumulator = accumulator * 10u + digit;
+        accumulator = (uint16_t)((accumulator << 3) +
+                                 (accumulator << 1) +
+                                 digit);
         (*cursor)++;
         digits++;
     }
