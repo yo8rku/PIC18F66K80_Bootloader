@@ -44,7 +44,7 @@ asm("GOTO 0x1008");
 
 #define _XTAL_FREQ       64000000UL
 #define UART2_BAUD       115200UL
-#define RX_LINE_MAX      40u
+#define RX_LINE_MAX      36u
 
 #define APP_START       0x1000u
 #define APP_END         0xFFFFu
@@ -93,6 +93,24 @@ static uint16_t flash_row_address = APP_START;
 /* Dedicated counter used by the small Flash-row buffer clear routine. */
 static volatile uint8_t asm_clear_count;
 
+/* Fill a selected range of the Flash staging row with erased value 0xFF. */
+static void flash_fill_buffer(uint8_t offset, uint8_t count)
+{
+    uint16_t address;
+
+    if (count == 0u)
+        return;
+
+    address = (uint16_t)&flash_row_buffer[offset];
+    FSR2L = (uint8_t)address;
+    FSR2H = (uint8_t)(address >> 8);
+    asm_clear_count = count;
+    asm("flash_fill_loop:");
+    asm("SETF POSTINC2, c");
+    asm("DECFSZ _asm_clear_count, f, c");
+    asm("BRA flash_fill_loop");
+}
+
 static uint32_t upload_crc32 = 0xFFFFFFFFUL;
 static bool upload_have_frame = false;
 
@@ -133,7 +151,7 @@ static void uart2_init(void)
 static void uart2_putc(char c)
 {
     while (!PIR3bits.TX2IF) {
-        CLRWDT();
+        ;
     }
     TXREG2 = c;
 }
@@ -461,19 +479,8 @@ static bool flash_flush_row(void)
     /* Pad the last incomplete row with erased Flash value.
      * Use FSR2 post-increment and an assembly countdown loop.
      */
-    {
-        uint16_t address = (uint16_t)&flash_row_buffer[flash_row_fill];
-        uint8_t remaining = (uint8_t)(FLASH_ROW_SIZE - flash_row_fill);
-
-        FSR2L = (uint8_t)address;
-        FSR2H = (uint8_t)(address >> 8);
-
-        asm_clear_count = remaining;
-        asm("fill_row_loop:");
-        asm("SETF POSTINC2, c");
-        asm("DECFSZ _asm_clear_count, f, c");
-        asm("BRA fill_row_loop");
-    }
+    flash_fill_buffer(flash_row_fill,
+                      (uint8_t)(FLASH_ROW_SIZE - flash_row_fill));
 
     if (!flash_program_row(flash_row_address, flash_row_buffer))
         return false;
@@ -482,14 +489,7 @@ static bool flash_flush_row(void)
     flash_row_fill = 0u;
     flash_row_address += FLASH_ROW_SIZE;
 
-    FSR2L = (uint8_t)(uint16_t)flash_row_buffer;
-    FSR2H = (uint8_t)((uint16_t)flash_row_buffer >> 8);
-
-    asm_clear_count = FLASH_ROW_SIZE;
-    asm("clear_flash_buffer_loop:");
-    asm("SETF POSTINC2, c");
-    asm("DECFSZ _asm_clear_count, f, c");
-    asm("BRA clear_flash_buffer_loop");
+    flash_fill_buffer(0u, FLASH_ROW_SIZE);
 
     return true;
 }
@@ -706,15 +706,7 @@ static bool upload_store_payload(uint8_t length)
                 flash_row_fill = 0u;
                 flash_row_address += FLASH_ROW_SIZE;
 
-                FSR2L = (uint8_t)(uint16_t)flash_row_buffer;
-                FSR2H = (uint8_t)((uint16_t)flash_row_buffer >> 8);
-
-                asm("MOVLW 64");
-                asm("MOVWF _asm_clear_count, c");
-                asm("upload_clear_row:");
-                asm("SETF POSTINC2, c");
-                asm("DECFSZ _asm_clear_count, f, c");
-                asm("BRA upload_clear_row");
+                flash_fill_buffer(0u, FLASH_ROW_SIZE);
             }
         }
     }
@@ -839,8 +831,7 @@ static void receive_upload_data(void)
                 upload_crc32 = 0xFFFFFFFFUL;
                 upload_have_frame = false;
 
-                uart2_puts("E");
-                uart2_puts("\r\n");
+                uart2_puts("E\r\n");
             }
             else
             {
@@ -1033,15 +1024,10 @@ static bool parse_upload_command(const char *cmd)
     flash_row_address = APP_START;
     flash_row_fill = 0;
 
-    {
-        uint8_t i;
-        for (i = 0; i < FLASH_ROW_SIZE; i++)
-            flash_row_buffer[i] = 0xFF;
-    }
+    flash_fill_buffer(0u, FLASH_ROW_SIZE);
 
     upload_active = true;
-    uart2_puts("R");
-    uart2_puts("\r\n");
+    uart2_puts("R\r\n");
     return true;
 
 upload_command_error:
@@ -1085,10 +1071,7 @@ static void process_command(const char *cmd)
         return;
 
     if (cmd[0] == 'I' && cmd[1] == '\0') {
-        uart2_puts("PIC18F66K80");
-        uart2_puts("\r\n");
-        uart2_puts("64MHz; UART2=115200");
-        uart2_puts("\r\n");
+        uart2_puts("PIC18F66K80\r\n64MHz; UART2=115200\r\n");
 
     } else if (cmd[0] == 'B' && cmd[1] == '\0') {
         uart2_puts("BOOT");
