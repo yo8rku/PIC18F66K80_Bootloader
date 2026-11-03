@@ -285,13 +285,21 @@ static bool flash_erase_row(uint16_t address)
     {
         uint8_t i;
 
-        for (i = 0; i < FLASH_ROW_SIZE; i++)
+        for (i = 0; i < FLASH_ROW_SIZE - 1u; i++)
         {
             asm("TBLRD*+");
 
             if (TABLAT != 0xFFu)
                 return false;
+            
+            //if (i < (FLASH_ROW_SIZE - 1u))
+            //if (i != (FLASH_ROW_SIZE - 1u))
+                //asm("TBLRD*+");
         }
+        asm("TBLRD*");
+
+        if (TABLAT != 0xFFu)
+            return false;
     }
 
     return true;
@@ -882,10 +890,7 @@ static bool parse_upload_command(const char *cmd)
     }
 
     /* Invalidate previous application */
-    uart2_puts("ss");
-    uart2_newline();
-    //if (!flash_erase_row(APP_MARKER_ADDR))
-    if (!flash_erase_row(0xFF80))
+    if (!flash_erase_row(APP_MARKER_ADDR))
     {
         uart2_puts("ERR MARKER ERASE");
         uart2_newline();
