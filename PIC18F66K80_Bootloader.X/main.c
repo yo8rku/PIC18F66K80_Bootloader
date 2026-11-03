@@ -50,8 +50,12 @@ asm("GOTO 0x1008");
 #define APP_END         0xFFFFu
 #define APP_MARKER_ADDR 0xFFC0u
 #define FLASH_ROW_SIZE  64u
+#define EEPROM_SIZE     1024u
 
 #define MAX_APP_SIZE    (APP_MARKER_ADDR - APP_START)
+
+#define UPLOAD_PHASE_FLASH   0u
+#define UPLOAD_PHASE_EEPROM  1u
 
 #define SOF             0x02u
 #define ACK             0x06u
@@ -74,6 +78,12 @@ static uint16_t upload_received;
 static uint16_t upload_sequence;
 static bool upload_active = false;
 
+static uint16_t flash_upload_size;
+static uint16_t eeprom_upload_size;
+static uint32_t eeprom_upload_expected_crc;
+static uint32_t flash_final_crc;
+static uint8_t upload_phase = UPLOAD_PHASE_FLASH;
+
 static uint8_t frame_payload[BLOCK_SIZE];
 static uint8_t flash_row_buffer[FLASH_ROW_SIZE];
 static uint8_t flash_row_fill = 0;
@@ -88,6 +98,9 @@ static bool upload_have_frame = false;
 // Function prototypes
 static uint32_t crc32_update(uint32_t crc, uint8_t data);
 static bool flash_program_row(uint16_t address, const uint8_t *buffer);
+static uint8_t eeprom_read_byte(uint16_t address);
+static bool eeprom_write_verify_byte(uint16_t address, uint8_t value);
+static bool eeprom_clear_unused(uint16_t used_size);
 
 static void uart2_init(void)
 {
@@ -483,6 +496,86 @@ static bool flash_flush_row(void)
     return true;
 }
 
+/* Read one byte from the 1-Kbyte data EEPROM. */
+static uint8_t eeprom_read_byte(uint16_t address)
+{
+    EECON1bits.EEPGD = 0;
+    EECON1bits.CFGS = 0;
+
+    EEADRH = (uint8_t)(address >> 8);
+    EEADR = (uint8_t)address;
+
+    EECON1bits.RD = 1;
+    asm("NOP");
+
+    return EEDATA;
+}
+
+/*
+ * Write one EEPROM byte only when its value changes, then read it back.
+ * The unlock sequence is protected from interrupts as required by Microchip.
+ */
+static bool eeprom_write_verify_byte(uint16_t address, uint8_t value)
+{
+    uint8_t gie_state;
+
+    if (address >= EEPROM_SIZE)
+        return false;
+
+    if (eeprom_read_byte(address) == value)
+        return true;
+
+    EECON1bits.EEPGD = 0;
+    EECON1bits.CFGS = 0;
+    EECON1bits.FREE = 0;
+
+    EEADRH = (uint8_t)(address >> 8);
+    EEADR = (uint8_t)address;
+    EEDATA = value;
+
+    /* Clear a previous write-error indication before this new write. */
+    EECON1bits.WRERR = 0;
+    EECON1bits.WREN = 1;
+
+    gie_state = INTCONbits.GIE;
+    INTCONbits.GIE = 0;
+
+    EECON2 = 0x55;
+    EECON2 = 0xAA;
+    EECON1bits.WR = 1;
+
+    INTCONbits.GIE = gie_state;
+
+    while (EECON1bits.WR)
+        CLRWDT();
+
+    EECON1bits.WREN = 0;
+
+    if (EECON1bits.WRERR)
+        return false;
+
+    return (eeprom_read_byte(address) == value);
+}
+
+/* Set all EEPROM locations beyond the supplied image to erased value 0xFF. */
+static bool eeprom_clear_unused(uint16_t used_size)
+{
+    uint16_t address;
+
+    if (used_size > EEPROM_SIZE)
+        return false;
+
+    for (address = used_size; address < EEPROM_SIZE; address++)
+    {
+        CLRWDT();
+
+        if (!eeprom_write_verify_byte(address, 0xFFu))
+            return false;
+    }
+
+    return true;
+}
+
 /* CRC16-CCITT-FALSE
  * Init:   0xFFFF
  * Poly:   0x1021
@@ -599,54 +692,62 @@ static void receive_upload_data(void)
 
                 if (sequence == upload_sequence)
                 {
-                    /* Check image boundaries */
-                    if ((upload_received > upload_size) || (length > (upload_size - upload_received)))
+                    /* Reject a frame that would exceed the current image. */
+                    if ((upload_received > upload_size) ||
+                        (length > (upload_size - upload_received)))
                     {
                         uart2_error('S');
                         upload_active = false;
                         break;
                     }
 
-                    /* Process received data */
                     for (i = 0; i < length; i++)
                     {
                         uint8_t data = frame_payload[i];
 
-                        upload_crc32 =
-                            crc32_update(upload_crc32, data);
+                        upload_crc32 = crc32_update(upload_crc32, data);
 
-                        flash_row_buffer[flash_row_fill] = data;
-                        flash_row_fill++;
-
-                        /* Program complete 64-byte row */
-                        if (flash_row_fill >= FLASH_ROW_SIZE)
+                        if (upload_phase == UPLOAD_PHASE_FLASH)
                         {
-                            if (!flash_program_row(
-                                    flash_row_address,
-                                    flash_row_buffer))
-                            {
-                                uart2_error('F');
-                                upload_active = false;
-                                break;
-                            }
+                            flash_row_buffer[flash_row_fill] = data;
+                            flash_row_fill++;
 
-                            flash_row_fill = 0u;
-                            flash_row_address += FLASH_ROW_SIZE;
-
+                            /* Program each complete 64-byte Flash row. */
+                            if (flash_row_fill >= FLASH_ROW_SIZE)
                             {
+                                if (!flash_program_row(
+                                        flash_row_address,
+                                        flash_row_buffer))
+                                {
+                                    uart2_error('F');
+                                    upload_active = false;
+                                    break;
+                                }
+
+                                flash_row_fill = 0u;
+                                flash_row_address += FLASH_ROW_SIZE;
+
                                 FSR2L = (uint8_t)(uint16_t)flash_row_buffer;
                                 FSR2H = (uint8_t)((uint16_t)flash_row_buffer >> 8);
 
-                                /*
-                                 * Clear exactly 64 bytes. POSTINC2 advances FSR2;
-                                 * DECFSZ avoids the C loop counter and comparison.
-                                 */
+                                /* Clear exactly 64 bytes using the ASM loop. */
                                 asm("MOVLW 64");
                                 asm("MOVWF _asm_clear_count, c");
                                 asm("clear_row_buffer_loop:");
                                 asm("SETF POSTINC2, c");
                                 asm("DECFSZ _asm_clear_count, f, c");
                                 asm("BRA clear_row_buffer_loop");
+                            }
+                        }
+                        else
+                        {
+                            /* EEPROM bytes are written and read-back verified. */
+                            if (!eeprom_write_verify_byte(
+                                    (uint16_t)(upload_received + i), data))
+                            {
+                                uart2_error('E');
+                                upload_active = false;
+                                break;
                             }
                         }
                     }
@@ -657,7 +758,6 @@ static void receive_upload_data(void)
                     upload_received += length;
                     upload_sequence++;
                     upload_have_frame = true;
-
                 }
                 else if (!(upload_have_frame &&
                            (sequence ==
@@ -673,7 +773,6 @@ static void receive_upload_data(void)
                 uart2_putc(ACK);
                 uart2_putc((uint8_t)(sequence >> 8));
                 uart2_putc((uint8_t)sequence);
-
                 break;
 
             case FRAME_INVALID:
@@ -681,61 +780,89 @@ static void receive_upload_data(void)
                 uart2_putc(NAK);
                 uart2_putc((uint8_t)(upload_sequence >> 8));
                 uart2_putc((uint8_t)upload_sequence);
-
                 break;
 
             case FRAME_BAD_LENGTH:
 
                 uart2_error('D');
                 upload_active = false;
-
                 break;
 
             case FRAME_TIMEOUT:
 
                 uart2_error('T');
                 upload_active = false;
-
                 break;
 
             case FRAME_EOT:
 
-                upload_active = false;
-
                 if (upload_received != upload_size)
                 {
+                    upload_active = false;
                     uart2_error('X');
-                    break;
-                }
-
-                /* Program final partial row, if any */
-                if (!flash_flush_row())
-                {
-                    uart2_error('F');
                     break;
                 }
 
                 final_crc = upload_crc32 ^ 0xFFFFFFFFUL;
 
-                if (final_crc == upload_expected_crc)
+                if (final_crc != upload_expected_crc)
                 {
-                    /* Write application marker only after successful CRC32 */
-                    if (!application_marker_write(upload_size, final_crc))
+                    upload_active = false;
+                    uart2_error('C');
+                    break;
+                }
+
+                if (upload_phase == UPLOAD_PHASE_FLASH)
+                {
+                    /* Flush and verify the final partial Flash row. */
+                    if (!flash_flush_row())
+                    {
+                        upload_active = false;
+                        uart2_error('F');
+                        break;
+                    }
+
+                    flash_final_crc = final_crc;
+
+                    /* Switch to EEPROM phase; sequence numbering restarts at zero. */
+                    upload_phase = UPLOAD_PHASE_EEPROM;
+                    upload_size = eeprom_upload_size;
+                    upload_expected_crc = eeprom_upload_expected_crc;
+                    upload_received = 0;
+                    upload_sequence = 0;
+                    upload_crc32 = 0xFFFFFFFFUL;
+                    upload_have_frame = false;
+
+                    uart2_puts("E");
+                    uart2_newline();
+                }
+                else
+                {
+                    upload_active = false;
+
+                    /*
+                     * The supplied EEPROM image is authoritative. Clear all
+                     * remaining EEPROM bytes to 0xFF so stale settings cannot
+                     * survive an update.
+                     */
+                    if (!eeprom_clear_unused(eeprom_upload_size))
+                    {
+                        uart2_error('E');
+                        break;
+                    }
+
+                    /* Publish the application marker only after both images pass. */
+                    if (!application_marker_write(flash_upload_size, flash_final_crc))
                     {
                         uart2_error('M');
                         break;
                     }
 
-                    /* Match the uploader's expected final response:
-                     * OK followed by the 8-digit uppercase image CRC32.
-                     */
                     uart2_puts("O ");
+                    uart2_puthex32(flash_final_crc);
+                    uart2_putc(' ');
                     uart2_puthex32(final_crc);
                     uart2_newline();
-                }
-                else
-                {
-                    uart2_error('C');
                 }
 
                 break;
@@ -745,7 +872,6 @@ static void receive_upload_data(void)
         }
     }
 }
-
 
 /* CRC32 compatible with Python zlib.crc32()
  * Init:   0xFFFFFFFF
@@ -769,14 +895,70 @@ static uint32_t crc32_update(uint32_t crc, uint8_t data)
     return crc;
 }
 
-static bool parse_upload_command(const char *cmd)
+static bool parse_decimal_u16(const char **cursor, uint16_t *value)
 {
-    uint16_t size = 0;
-    uint32_t crc = 0;
+    uint32_t accumulator = 0;
     uint8_t digits = 0;
+    uint8_t digit;
+
+    while (**cursor >= '0' && **cursor <= '9')
+    {
+        digit = (uint8_t)(**cursor - '0');
+
+        if (accumulator > 6553u ||
+            (accumulator == 6553u && digit > 5u))
+            return false;
+
+        accumulator = accumulator * 10u + digit;
+        (*cursor)++;
+        digits++;
+    }
+
+    if (digits == 0u)
+        return false;
+
+    *value = (uint16_t)accumulator;
+    return true;
+}
+
+static bool parse_crc32_hex(const char **cursor, uint32_t *value)
+{
     uint8_t i;
     uint8_t nibble;
     char c;
+    uint32_t crc = 0;
+
+    for (i = 0; i < 8u; i++)
+    {
+        c = *(*cursor)++;
+
+        if (c >= '0' && c <= '9')
+            nibble = (uint8_t)(c - '0');
+        else if (c >= 'A' && c <= 'F')
+            nibble = (uint8_t)(c - 'A' + 10u);
+        else if (c >= 'a' && c <= 'f')
+            nibble = (uint8_t)(c - 'a' + 10u);
+        else
+            return false;
+
+        crc = (crc << 4) | nibble;
+    }
+
+    *value = crc;
+    return true;
+}
+
+/*
+ * Dual-image command:
+ * UPLOAD <flash_size> <flash_crc32> <eeprom_size> <eeprom_crc32>
+ */
+static bool parse_upload_command(const char *cmd)
+{
+    const char *p;
+    uint16_t new_flash_size;
+    uint16_t new_eeprom_size;
+    uint32_t new_flash_crc;
+    uint32_t new_eeprom_crc;
     char error = 0;
 
     /* Ignore commands that do not start with UPLOAD. */
@@ -786,65 +968,40 @@ static bool parse_upload_command(const char *cmd)
         cmd[6] != ' ')
         return false;
 
-    cmd += 7;
+    p = cmd + 7;
 
-    /* Parse decimal image size, protecting the 16-bit accumulator. */
-    while (*cmd >= '0' && *cmd <= '9')
-    {
-        nibble = (uint8_t)(*cmd - '0');
-
-        if (digits == 5u || size > 6553u ||
-            (size == 6553u && nibble > 5u))
-        {
-            error = 'S';
-            goto upload_command_error;
-        }
-
-        size = (uint16_t)(size * 10u + nibble);
-        digits++;
-        cmd++;
-    }
-
-    if (digits == 0u || *cmd++ != ' ' || size == 0u)
+    if (!parse_decimal_u16(&p, &new_flash_size) || *p++ != ' ')
     {
         error = 'S';
         goto upload_command_error;
     }
 
-    /* Parse exactly eight hexadecimal CRC32 digits. */
-    for (i = 0; i < 8u; i++)
+    if (!parse_crc32_hex(&p, &new_flash_crc) || *p++ != ' ')
     {
-        c = *cmd++;
-
-        /* Reject a truncated CRC before reading beyond the string. */
-        if (c == '\0')
-        {
-            error = 'C';
-            goto upload_command_error;
-        }
-
-        if (c >= '0' && c <= '9')
-            nibble = (uint8_t)(c - '0');
-        else if (c >= 'A' && c <= 'F')
-            nibble = (uint8_t)(c - 'A' + 10u);
-        else if (c >= 'a' && c <= 'f')
-            nibble = (uint8_t)(c - 'a' + 10u);
-        else
-        {
-            error = 'C';
-            goto upload_command_error;
-        }
-
-        crc = (crc << 4) | nibble;
+        error = 'C';
+        goto upload_command_error;
     }
 
-    if (*cmd != '\0')
+    if (!parse_decimal_u16(&p, &new_eeprom_size) || *p++ != ' ')
+    {
+        error = 'S';
+        goto upload_command_error;
+    }
+
+    if (!parse_crc32_hex(&p, &new_eeprom_crc))
+    {
+        error = 'C';
+        goto upload_command_error;
+    }
+
+    if (*p != '\0')
     {
         error = 'P';
         goto upload_command_error;
     }
 
-    if (size > MAX_APP_SIZE)
+    if (new_flash_size == 0u || new_flash_size > MAX_APP_SIZE ||
+        new_eeprom_size == 0u || new_eeprom_size > EEPROM_SIZE)
     {
         error = 'S';
         goto upload_command_error;
@@ -856,24 +1013,33 @@ static bool parse_upload_command(const char *cmd)
         goto upload_command_error;
     }
 
+    /* Invalidate the old application before modifying either image. */
     if (!flash_erase_row(APP_MARKER_ADDR))
     {
         error = 'M';
         goto upload_command_error;
     }
 
-    upload_size = size;
-    upload_expected_crc = crc;
+    flash_upload_size = new_flash_size;
+    eeprom_upload_size = new_eeprom_size;
+    eeprom_upload_expected_crc = new_eeprom_crc;
+
+    upload_size = new_flash_size;
+    upload_expected_crc = new_flash_crc;
     upload_received = 0;
     upload_sequence = 0;
     upload_crc32 = 0xFFFFFFFFUL;
     upload_have_frame = false;
+    upload_phase = UPLOAD_PHASE_FLASH;
 
     flash_row_address = APP_START;
     flash_row_fill = 0;
 
-    for (i = 0; i < FLASH_ROW_SIZE; i++)
-        flash_row_buffer[i] = 0xFF;
+    {
+        uint8_t i;
+        for (i = 0; i < FLASH_ROW_SIZE; i++)
+            flash_row_buffer[i] = 0xFF;
+    }
 
     upload_active = true;
     uart2_puts("R");
