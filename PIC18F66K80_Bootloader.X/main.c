@@ -79,6 +79,9 @@ static uint8_t flash_row_buffer[FLASH_ROW_SIZE];
 static uint8_t flash_row_fill = 0;
 static uint16_t flash_row_address = APP_START;
 
+/* Dedicated counter used by the small Flash-row buffer clear routine. */
+static volatile uint8_t asm_clear_count;
+
 static uint32_t upload_crc32 = 0xFFFFFFFFUL;
 static bool upload_have_frame = false;
 
@@ -627,13 +630,19 @@ static void receive_upload_data(void)
                             flash_row_address += FLASH_ROW_SIZE;
 
                             {
-                                uint8_t j;
-
                                 FSR2L = (uint8_t)(uint16_t)flash_row_buffer;
                                 FSR2H = (uint8_t)((uint16_t)flash_row_buffer >> 8);
 
-                                for (j = 0; j < FLASH_ROW_SIZE; j++)
-                                    POSTINC2 = 0xFF;
+                                /*
+                                 * Clear exactly 64 bytes. POSTINC2 advances FSR2;
+                                 * DECFSZ avoids the C loop counter and comparison.
+                                 */
+                                asm("MOVLW 64");
+                                asm("MOVWF _asm_clear_count, c");
+                                asm("clear_row_buffer_loop:");
+                                asm("SETF POSTINC2, c");
+                                asm("DECFSZ _asm_clear_count, f, c");
+                                asm("BRA clear_row_buffer_loop");
                             }
                         }
                     }
