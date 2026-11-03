@@ -153,18 +153,14 @@ static void uart2_puthex32(uint32_t value)
     }
 }
 
-static void uart2_newline(void)
-{
-    uart2_putc('\r');
-    uart2_putc('\n');
-}
-
-/* Compact two-character protocol error: !X followed by CR/LF. */
+/* Compact protocol error: !X followed by CR/LF.
+ * Keep CR/LF here to avoid a separate newline helper/call. */
 static void uart2_error(char code)
 {
     uart2_putc('!');
     uart2_putc(code);
-    uart2_newline();
+    uart2_putc('\r');
+    uart2_putc('\n');
 }
 
 static bool uart2_try_getc(void)
