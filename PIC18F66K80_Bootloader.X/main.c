@@ -270,9 +270,6 @@ static bool flash_verify_row(uint16_t address, const uint8_t *buffer)
 {
     uint8_t i;
 
-    if (!flash_valid_row(address))
-        return false;
-
     EECON1bits.EEPGD = 1;
     EECON1bits.CFGS = 0;
 
@@ -394,9 +391,6 @@ static bool flash_write_row(uint16_t address,
 {
     uint8_t i;
     uint8_t gie_state;
-
-    if (!flash_valid_row(address))
-        return false;
 
     EECON1bits.EEPGD = 1;
     EECON1bits.CFGS = 0;
