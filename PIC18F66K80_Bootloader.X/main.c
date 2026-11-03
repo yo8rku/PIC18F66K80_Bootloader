@@ -200,7 +200,7 @@ static void flash_set_pointer(uint16_t address)
     /* TBLPTRU must be cleared: table operations can carry into it. */
     TBLPTRU = 0;
     TBLPTRH = address >> 8;
-    TBLPTRL = address;
+    TBLPTRL = (uint8_t)address;
 }
 
 /* Check that address is a valid application Flash row */
@@ -495,7 +495,7 @@ static uint8_t eeprom_read_byte(uint16_t address)
     EECON1bits.EEPGD = 0;
     EECON1bits.CFGS = 0;
     EEADRH = address >> 8;
-    EEADR = address;
+    EEADR = (uint8_t)address;
     EECON1bits.RD = 1;
     asm("NOP");
     return EEDATA;
