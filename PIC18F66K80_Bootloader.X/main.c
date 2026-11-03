@@ -749,9 +749,25 @@ static void receive_upload_data(void)
                     /* Match the uploader's expected final response:
                      * OK followed by the 8-digit uppercase image CRC32.
                      */
-                    uart2_puts("OK ");
-                    uart2_puthex32(final_crc);
-                    uart2_newline();
+                    //uart2_puts("OK ");
+                    //uart2_puthex32(final_crc);
+                    uart2_putc('U');
+uart2_putc('P');
+uart2_putc('L');
+uart2_putc('O');
+uart2_putc('A');
+uart2_putc('D');
+uart2_putc(' ');
+uart2_putc('C');
+uart2_putc('O');
+uart2_putc('M');
+uart2_putc('P');
+uart2_putc('L');
+uart2_putc('E');
+uart2_putc('T');
+uart2_putc('E');
+uart2_newline();
+                    //uart2_newline();
                 }
                 else
                 {
