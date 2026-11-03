@@ -302,7 +302,6 @@ static bool flash_verify_row(uint16_t address, const uint8_t *buffer)
     uint8_t i;
 
     EECON1bits.EEPGD = 1;
-    EECON1bits.CFGS = 0;
 
     flash_set_pointer(address);
 
@@ -400,7 +399,6 @@ static bool flash_write_row(uint16_t address,
     uint8_t gie_state;
 
     EECON1bits.EEPGD = 1;
-    EECON1bits.CFGS = 0;
 
     flash_set_pointer(address);
 
@@ -474,7 +472,7 @@ static uint8_t eeprom_read_byte(uint16_t address)
 {
     /* Select data EEPROM (not program/configuration memory). */
     EECON1bits.EEPGD = 0;
-    EECON1bits.CFGS = 0;
+
     EEADRH = (uint8_t)(address >> 8);
     EEADR = (uint8_t) address;
     EECON1bits.RD = 1;
@@ -497,7 +495,7 @@ static bool eeprom_write_verify_byte(uint16_t address, uint8_t value)
         return true;
 
     EECON1bits.EEPGD = 0;
-    EECON1bits.CFGS = 0;
+
     EECON1bits.FREE = 0;
 
     EEADRH = (uint8_t)(address >> 8);
