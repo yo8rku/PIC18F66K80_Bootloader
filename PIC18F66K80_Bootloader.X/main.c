@@ -495,7 +495,6 @@ static uint8_t receive_upload_frame(
     uint8_t i;
     uint16_t received_crc;
     uint16_t calculated_crc;
-    uint16_t frame_len;
 
     uint8_t seq_hi;
     uint8_t seq_lo;
@@ -524,13 +523,11 @@ static uint8_t receive_upload_frame(
 
     *sequence = ((uint16_t)seq_hi << 8) | seq_lo;
 
-    frame_len = ((uint16_t)len_hi << 8) | len_lo;
-
-    if (frame_len == 0u || frame_len > BLOCK_SIZE)
-        //return FRAME_INVALID;
+    /* Valid payload lengths fit in the low byte (1..BLOCK_SIZE). */
+    if (len_hi != 0u || len_lo == 0u || len_lo > BLOCK_SIZE)
         return FRAME_BAD_LENGTH;
 
-    *length = (uint8_t)frame_len;
+    *length = len_lo;
 
     calculated_crc = 0xFFFFu;
 
@@ -789,7 +786,7 @@ static bool parse_upload_command(const char *cmd)
     /* Parse exactly eight hexadecimal CRC32 digits. */
     for (i = 0; i < 8u; i++)
     {
-        c = cmd[i];
+        c = *cmd++;
 
         /* Reject a truncated CRC before reading beyond the string. */
         if (c == '\0')
@@ -813,7 +810,7 @@ static bool parse_upload_command(const char *cmd)
         crc = (crc << 4) | nibble;
     }
 
-    if (cmd[8] != '\0')
+    if (*cmd != '\0')
     {
         error = 'P';
         goto upload_command_error;
