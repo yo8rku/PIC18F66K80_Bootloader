@@ -142,6 +142,14 @@ static void uart2_newline(void)
     uart2_putc('\n');
 }
 
+/* Compact two-character protocol error: !X followed by CR/LF. */
+static void uart2_error(char code)
+{
+    uart2_putc('!');
+    uart2_putc(code);
+    uart2_newline();
+}
+
 static bool uart2_try_getc(uint8_t *out)
 {
     if (RCSTA2bits.OERR) {
@@ -669,8 +677,7 @@ static void receive_upload_data(void)
                                     flash_row_address,
                                     flash_row_buffer))
                             {
-                                uart2_puts("!F");
-                                uart2_newline();
+                                uart2_error('F');
                                 upload_active = false;
                                 break;
                             }
@@ -723,16 +730,14 @@ static void receive_upload_data(void)
 
             case FRAME_BAD_LENGTH:
 
-                uart2_puts("!D");
-                uart2_newline();
+                uart2_error('D');
                 upload_active = false;
 
                 break;
 
             case FRAME_TIMEOUT:
 
-                uart2_puts("!T");
-                uart2_newline();
+                uart2_error('T');
                 upload_active = false;
 
                 break;
@@ -743,8 +748,7 @@ static void receive_upload_data(void)
 
                 if (upload_received != upload_size)
                 {
-                    uart2_puts("!X");
-                    uart2_newline();
+                    uart2_error('X');
                     break;
                 }
 
@@ -763,8 +767,7 @@ static void receive_upload_data(void)
                     /* Write application marker only after successful CRC32 */
                     if (!application_marker_write(upload_size, final_crc))
                     {
-                        uart2_puts("!M");
-                        uart2_newline();
+                        uart2_error('M');
                         break;
                     }
 
@@ -777,8 +780,7 @@ static void receive_upload_data(void)
                 }
                 else
                 {
-                    uart2_puts("!C");
-                    uart2_newline();
+                    uart2_error('C');
                 }
 
                 break;
@@ -839,8 +841,7 @@ static bool parse_upload_command(const char *cmd)
             size > 6553u ||
             (size == 6553u && nibble > 5u))
         {
-            uart2_puts("!S");
-            uart2_newline();
+            uart2_error('S');
             return true;
         }
 
@@ -890,8 +891,7 @@ static bool parse_upload_command(const char *cmd)
     /* Check command termination */
     if (cmd[8] != '\0')
     {
-        uart2_puts("!P");
-        uart2_newline();
+        uart2_error('P');
         return true;
     }
 
@@ -906,16 +906,14 @@ static bool parse_upload_command(const char *cmd)
     /* Check if another upload is active */
     if (upload_active)
     {
-        uart2_puts("!B");
-        uart2_newline();
+        uart2_error('B');
         return true;
     }
 
     /* Invalidate previous application */
     if (!flash_erase_row(APP_MARKER_ADDR))
     {
-        uart2_puts("!M");
-        uart2_newline();
+        uart2_error('M');
         return true;
     }
 
@@ -996,13 +994,11 @@ static void process_command(const char *cmd)
         }
         else
         {
-            uart2_puts("!A");
-            uart2_newline();
+            uart2_error('A');
         }
 
     } else {
-        uart2_puts("!U");
-        uart2_newline();
+        uart2_error('U');
     }
 }
 
@@ -1035,8 +1031,7 @@ void main(void)
                     line[count++] = (char)ch;
                 } else {
                     count = 0;
-                    uart2_puts("!L");
-                    uart2_newline();
+                    uart2_error('L');
                 }
             }
         }
