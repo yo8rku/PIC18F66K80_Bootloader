@@ -625,26 +625,21 @@ static void receive_upload_data(void)
                     upload_sequence++;
                     upload_have_frame = true;
 
-                    /* ACK only after processing the frame */
-                    uart2_putc(ACK);
-                    uart2_putc((uint8_t)(sequence >> 8));
-                    uart2_putc((uint8_t)sequence);
                 }
-                else if (upload_have_frame &&
-                         (sequence ==
-                          (uint16_t)(upload_sequence - 1u)))
-                {
-                    /* Duplicate frame: ACK without writing twice */
-                    uart2_putc(ACK);
-                    uart2_putc((uint8_t)(sequence >> 8));
-                    uart2_putc((uint8_t)sequence);
-                }
-                else
+                else if (!(upload_have_frame &&
+                           (sequence ==
+                            (uint16_t)(upload_sequence - 1u))))
                 {
                     uart2_putc(NAK);
                     uart2_putc((uint8_t)(upload_sequence >> 8));
                     uart2_putc((uint8_t)upload_sequence);
+                    break;
                 }
+
+                /* ACK new and duplicate frames; duplicates are not processed again. */
+                uart2_putc(ACK);
+                uart2_putc((uint8_t)(sequence >> 8));
+                uart2_putc((uint8_t)sequence);
 
                 break;
 
