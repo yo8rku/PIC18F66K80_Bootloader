@@ -981,7 +981,9 @@ static bool parse_upload_command(const char *cmd)
         error = 'M';
         goto upload_command_error;
     }
-
+uart2_putc('R');
+uart2_putc(0x0D);
+uart2_putc(0x0A);
     flash_upload_size = parsed_flash_size;
     eeprom_upload_size = parsed_eeprom_size;
     eeprom_upload_expected_crc = parsed_eeprom_crc;
