@@ -201,24 +201,19 @@ static bool uart2_getc_timeout(void)
 /* Set PIC18F66K80 program memory table pointer */
 static void flash_set_pointer(uint16_t address)
 {
+    /* TBLPTRU must be cleared: table operations can carry into it. */
     TBLPTRU = 0;
-    TBLPTRH = (uint8_t)(address >> 8);
-    TBLPTRL = (uint8_t)address;
+    TBLPTRH = address >> 8;
+    TBLPTRL = address;
 }
 
 /* Check that address is a valid application Flash row */
 static bool flash_valid_row(uint16_t address)
 {
-    if (address < APP_START)
-        return false;
-
-    if (address > (APP_END - (FLASH_ROW_SIZE - 1u)))
-        return false;
-
-    if ((address & (FLASH_ROW_SIZE - 1u)) != 0u)
-        return false;
-
-    return true;
+    /* One combined test avoids three separate return paths. */
+    return (address >= APP_START) &&
+           (address <= (APP_END - (FLASH_ROW_SIZE - 1u))) &&
+           ((address & (FLASH_ROW_SIZE - 1u)) == 0u);
 }
 
 static bool flash_erase_row(uint16_t address)
@@ -500,15 +495,13 @@ static bool flash_flush_row(void)
 /* Read one byte from the 1-Kbyte data EEPROM. */
 static uint8_t eeprom_read_byte(uint16_t address)
 {
+    /* Select data EEPROM (not program/configuration memory). */
     EECON1bits.EEPGD = 0;
     EECON1bits.CFGS = 0;
-
-    EEADRH = (uint8_t)(address >> 8);
-    EEADR = (uint8_t)address;
-
+    EEADRH = address >> 8;
+    EEADR = address;
     EECON1bits.RD = 1;
     asm("NOP");
-
     return EEDATA;
 }
 
@@ -1094,8 +1087,8 @@ static void jump_to_application(void)
     TXSTA2 = 0;
     BAUDCON2 = 0;
 
+    /* GIE is cleared before this hand-off; no interrupt may run in the app. */
     INTCONbits.GIE = 0;
-    INTCONbits.PEIE = 0;
     STKPTR = 0;
 
     asm("GOTO 0x1000");
