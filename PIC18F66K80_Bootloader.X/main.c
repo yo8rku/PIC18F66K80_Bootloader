@@ -739,6 +739,7 @@ static void receive_upload_data(void)
     uint16_t sequence;
     uint8_t length;
     uint8_t result;
+    uint8_t error;
 
     while (upload_active)
     {
@@ -753,16 +754,14 @@ static void receive_upload_data(void)
                 if ((upload_received > upload_size) ||
                     (length > (upload_size - upload_received)))
                 {
-                    uart2_error('S');
-                    upload_active = false;
-                    continue;
+                    error = 'S';
+                    goto upload_abort;
                 }
 
                 if (!upload_store_payload(length))
                 {
-                    uart2_error(upload_phase == UPLOAD_PHASE_FLASH ? 'F' : 'E');
-                    upload_active = false;
-                    continue;
+                    error = upload_phase == UPLOAD_PHASE_FLASH ? 'F' : 'E';
+                    goto upload_abort;
                 }
 
                 upload_received += length;
@@ -795,32 +794,28 @@ static void receive_upload_data(void)
 
         if (result == FRAME_BAD_LENGTH)
         {
-            uart2_error('D');
-            upload_active = false;
-            continue;
+            error = 'D';
+            goto upload_abort;
         }
 
         if (result == FRAME_TIMEOUT)
         {
-            uart2_error('T');
-            upload_active = false;
-            continue;
+            error = 'T';
+            goto upload_abort;
         }
 
         if (result == FRAME_EOT)
         {
             if (upload_received != upload_size)
             {
-                uart2_error('X');
-                upload_active = false;
-                continue;
+                error = 'X';
+                goto upload_abort;
             }
 
             if ((upload_crc32 ^ 0xFFFFFFFFUL) != upload_expected_crc)
             {
-                uart2_error('C');
-                upload_active = false;
-                continue;
+                error = 'C';
+                goto upload_abort;
             }
 
             if (upload_phase == UPLOAD_PHASE_FLASH)
@@ -828,9 +823,8 @@ static void receive_upload_data(void)
                 /* Flush and verify the final partial Flash row. */
                 if (!flash_flush_row())
                 {
-                    uart2_error('F');
-                    upload_active = false;
-                    continue;
+                    error = 'F';
+                    goto upload_abort;
                 }
 
                 /* Expected CRC is now proven equal to the calculated CRC. */
@@ -850,22 +844,21 @@ static void receive_upload_data(void)
             }
             else
             {
-                upload_active = false;
-
                 /* Clear unused EEPROM only after the supplied image passed CRC. */
                 if (!eeprom_clear_unused(eeprom_upload_size))
                 {
-                    uart2_error('E');
-                    continue;
+                    error = 'E';
+                    goto upload_abort;
                 }
 
                 /* Publish the marker only after both images pass verification. */
                 if (!application_marker_write(flash_upload_size, flash_final_crc))
                 {
-                    uart2_error('M');
-                    continue;
+                    error = 'M';
+                    goto upload_abort;
                 }
 
+                upload_active = false;
                 uart2_puts("O ");
                 uart2_puthex32(flash_final_crc);
                 uart2_putc(' ');
@@ -873,6 +866,12 @@ static void receive_upload_data(void)
                 uart2_puts("\r\n");
             }
         }
+
+        continue;
+
+upload_abort:
+        uart2_error(error);
+        upload_active = false;
     }
 }
 
@@ -959,17 +958,15 @@ static bool parse_crc32_hex(const char **cursor, uint32_t *value)
  */
 static bool parse_upload_command(const char *cmd)
 {
-    const char *p;
+    const char *p = cmd;
     char error;
 
-    /* Ignore commands that do not start with UPLOAD. */
-    if (cmd[0] != 'U' || cmd[1] != 'P' ||
-        cmd[2] != 'L' || cmd[3] != 'O' ||
-        cmd[4] != 'A' || cmd[5] != 'D' ||
-        cmd[6] != ' ')
+    /* Match the command prefix with one advancing pointer. */
+    if (*p++ != 'U' || *p++ != 'P' ||
+        *p++ != 'L' || *p++ != 'O' ||
+        *p++ != 'A' || *p++ != 'D' ||
+        *p++ != ' ')
         return false;
-
-    p = cmd + 7;
 
     if (!parse_decimal_u16(&p, &parsed_flash_size) || *p++ != ' ')
     {
