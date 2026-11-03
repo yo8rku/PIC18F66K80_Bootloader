@@ -76,19 +76,19 @@ static uint16_t upload_size;
 static uint32_t upload_expected_crc;
 static uint16_t upload_received;
 static uint16_t upload_sequence;
-static bool upload_active = false;
+static bool upload_active;
 
 static uint16_t flash_upload_size;
 static uint16_t eeprom_upload_size;
 static uint32_t eeprom_upload_expected_crc;
 static uint32_t flash_final_crc;
-static uint8_t upload_phase = UPLOAD_PHASE_FLASH;
+static uint8_t upload_phase;
 static uint8_t uart2_rx_byte;
 
 static uint8_t frame_payload[BLOCK_SIZE];
 static uint8_t flash_row_buffer[FLASH_ROW_SIZE];
-static uint8_t flash_row_fill = 0;
-static uint16_t flash_row_address = APP_START;
+static uint8_t flash_row_fill;
+static uint16_t flash_row_address;
 
 /* Dedicated counter used by the small Flash-row buffer clear routine. */
 static volatile uint8_t asm_clear_count;
@@ -111,8 +111,8 @@ static void flash_fill_buffer(uint8_t offset, uint8_t count)
     asm("BRA flash_fill_loop");
 }
 
-static uint32_t upload_crc32 = 0xFFFFFFFFUL;
-static bool upload_have_frame = false;
+static uint32_t upload_crc32;
+static bool upload_have_frame;
 
 /* Parser scratch is static to avoid four temporary values in the C stack. */
 static uint16_t parsed_flash_size;
@@ -247,7 +247,6 @@ static bool flash_erase_row(uint16_t address)
     flash_set_pointer(address);
 
     EECON1bits.EEPGD = 1;
-    EECON1bits.CFGS = 0;
     EECON1bits.WREN = 1;
     EECON1bits.FREE = 1;
 
@@ -325,41 +324,22 @@ static bool flash_verify_row(uint16_t address, const uint8_t *buffer)
     return true;
 }
 
-/* Read one 64-byte Flash row */
-static bool flash_read_row(uint16_t address, uint8_t *buffer)
-{
-    uint8_t i;
-
-    if (!flash_valid_row(address))
-        return false;
-
-    EECON1bits.EEPGD = 1;
-    EECON1bits.CFGS = 0;
-
-    flash_set_pointer(address);
-
-    // Citim primii 63 de octeti cu incrementare.
-    for (i = 0; i < FLASH_ROW_SIZE - 1u; i++)
-    {
-        asm("TBLRD*+");
-        buffer[i] = TABLAT;
-    }
-
-    // Ultimul octet se citeste fara incrementare.
-    asm("TBLRD*");
-    buffer[FLASH_ROW_SIZE - 1u] = TABLAT;
-
-    return true;
-}
-
 
 /* Check application validity marker */
 static bool application_marker_valid(void)
 {
-    uint8_t marker[FLASH_ROW_SIZE];
+    uint8_t marker[8];
+    uint8_t i;
+    uint16_t size;
 
-    if (!flash_read_row(APP_MARKER_ADDR, marker))
-        return false;
+    EECON1bits.EEPGD = 1;
+    flash_set_pointer(APP_MARKER_ADDR);
+
+    for (i = 0; i < 8u; i++)
+    {
+        asm("TBLRD*+");
+        marker[i] = TABLAT;
+    }
 
     if (marker[0] != 'A' ||
         marker[1] != 'P' ||
@@ -367,18 +347,13 @@ static bool application_marker_valid(void)
         marker[3] != '1')
         return false;
 
-    /* Image size must be non-zero and within application area */
     if (marker[6] != 0u || marker[7] != 0u)
-    return false;
-
-    uint16_t size =
-        (uint16_t)marker[4] |
-        ((uint16_t)marker[5] << 8);
-
-    if (size == 0u || size > MAX_APP_SIZE)
         return false;
 
-    return true;
+    size = (uint16_t)marker[4] |
+           ((uint16_t)marker[5] << 8);
+
+    return (size != 0u && size <= MAX_APP_SIZE);
 }
 
 
@@ -1100,6 +1075,10 @@ void main(void)
 
     INTCONbits.GIE = 0;
     INTCONbits.PEIE = 0;
+
+    /* Initialize non-zero state here to avoid a ROM data-init table. */
+    upload_crc32 = 0xFFFFFFFFUL;
+    flash_row_address = APP_START;
 
     uart2_init();
 
