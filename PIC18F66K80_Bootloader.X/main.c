@@ -96,6 +96,12 @@ static volatile uint8_t asm_clear_count;
 static uint32_t upload_crc32 = 0xFFFFFFFFUL;
 static bool upload_have_frame = false;
 
+/* Parser scratch is static to avoid four temporary values in the C stack. */
+static uint16_t parsed_flash_size;
+static uint16_t parsed_eeprom_size;
+static uint32_t parsed_flash_crc;
+static uint32_t parsed_eeprom_crc;
+
 // Function prototypes
 static uint32_t crc32_update(uint32_t crc, uint8_t data);
 static bool flash_program_row(uint16_t address, const uint8_t *buffer);
@@ -733,151 +739,139 @@ static void receive_upload_data(void)
     uint16_t sequence;
     uint8_t length;
     uint8_t result;
-    uint32_t final_crc;
 
     while (upload_active)
     {
         CLRWDT();
-
         result = receive_upload_frame(&sequence, &length);
 
-        switch (result)
+        if (result == FRAME_VALID)
         {
-            case FRAME_VALID:
-
-                if (sequence == upload_sequence)
+            if (sequence == upload_sequence)
+            {
+                /* Reject a frame that would exceed the current image. */
+                if ((upload_received > upload_size) ||
+                    (length > (upload_size - upload_received)))
                 {
-                    /* Reject a frame that would exceed the current image. */
-                    if ((upload_received > upload_size) ||
-                        (length > (upload_size - upload_received)))
-                    {
-                        uart2_error('S');
-                        upload_active = false;
-                        break;
-                    }
-
-                    if (!upload_store_payload(length))
-                    {
-                        uart2_error(
-                            upload_phase == UPLOAD_PHASE_FLASH ? 'F' : 'E');
-                        upload_active = false;
-                        break;
-                    }
-
-                    upload_received += length;
-                    upload_sequence++;
-                    upload_have_frame = true;
-                }
-                else if (!(upload_have_frame &&
-                           (sequence ==
-                            (uint16_t)(upload_sequence - 1u))))
-                {
-                    uart2_putc(NAK);
-                    uart2_putc((uint8_t)(upload_sequence >> 8));
-                    uart2_putc((uint8_t)upload_sequence);
-                    break;
+                    uart2_error('S');
+                    upload_active = false;
+                    continue;
                 }
 
-                /* ACK new and duplicate frames; duplicates are not processed again. */
+                if (!upload_store_payload(length))
+                {
+                    uart2_error(upload_phase == UPLOAD_PHASE_FLASH ? 'F' : 'E');
+                    upload_active = false;
+                    continue;
+                }
+
+                upload_received += length;
+                upload_sequence++;
+                upload_have_frame = true;
+            }
+            else if (!upload_have_frame ||
+                     sequence != (uint16_t)(upload_sequence - 1u))
+            {
+                result = FRAME_INVALID;
+            }
+
+            if (result == FRAME_VALID)
+            {
+                /* ACK both new and immediately repeated frames. */
                 uart2_putc(ACK);
                 uart2_putc((uint8_t)(sequence >> 8));
                 uart2_putc((uint8_t)sequence);
-                break;
+                continue;
+            }
+        }
 
-            case FRAME_INVALID:
+        if (result == FRAME_INVALID)
+        {
+            uart2_putc(NAK);
+            uart2_putc((uint8_t)(upload_sequence >> 8));
+            uart2_putc((uint8_t)upload_sequence);
+            continue;
+        }
 
-                uart2_putc(NAK);
-                uart2_putc((uint8_t)(upload_sequence >> 8));
-                uart2_putc((uint8_t)upload_sequence);
-                break;
+        if (result == FRAME_BAD_LENGTH)
+        {
+            uart2_error('D');
+            upload_active = false;
+            continue;
+        }
 
-            case FRAME_BAD_LENGTH:
+        if (result == FRAME_TIMEOUT)
+        {
+            uart2_error('T');
+            upload_active = false;
+            continue;
+        }
 
-                uart2_error('D');
+        if (result == FRAME_EOT)
+        {
+            if (upload_received != upload_size)
+            {
+                uart2_error('X');
                 upload_active = false;
-                break;
+                continue;
+            }
 
-            case FRAME_TIMEOUT:
-
-                uart2_error('T');
+            if ((upload_crc32 ^ 0xFFFFFFFFUL) != upload_expected_crc)
+            {
+                uart2_error('C');
                 upload_active = false;
-                break;
+                continue;
+            }
 
-            case FRAME_EOT:
-
-                if (upload_received != upload_size)
+            if (upload_phase == UPLOAD_PHASE_FLASH)
+            {
+                /* Flush and verify the final partial Flash row. */
+                if (!flash_flush_row())
                 {
+                    uart2_error('F');
                     upload_active = false;
-                    uart2_error('X');
-                    break;
+                    continue;
                 }
 
-                final_crc = upload_crc32 ^ 0xFFFFFFFFUL;
+                /* Expected CRC is now proven equal to the calculated CRC. */
+                flash_final_crc = upload_expected_crc;
 
-                if (final_crc != upload_expected_crc)
+                /* Switch to EEPROM phase; sequence numbering restarts at zero. */
+                upload_phase = UPLOAD_PHASE_EEPROM;
+                upload_size = eeprom_upload_size;
+                upload_expected_crc = eeprom_upload_expected_crc;
+                upload_received = 0;
+                upload_sequence = 0;
+                upload_crc32 = 0xFFFFFFFFUL;
+                upload_have_frame = false;
+
+                uart2_puts("E");
+                uart2_puts("\r\n");
+            }
+            else
+            {
+                upload_active = false;
+
+                /* Clear unused EEPROM only after the supplied image passed CRC. */
+                if (!eeprom_clear_unused(eeprom_upload_size))
                 {
-                    upload_active = false;
-                    uart2_error('C');
-                    break;
+                    uart2_error('E');
+                    continue;
                 }
 
-                if (upload_phase == UPLOAD_PHASE_FLASH)
+                /* Publish the marker only after both images pass verification. */
+                if (!application_marker_write(flash_upload_size, flash_final_crc))
                 {
-                    /* Flush and verify the final partial Flash row. */
-                    if (!flash_flush_row())
-                    {
-                        upload_active = false;
-                        uart2_error('F');
-                        break;
-                    }
-
-                    flash_final_crc = final_crc;
-
-                    /* Switch to EEPROM phase; sequence numbering restarts at zero. */
-                    upload_phase = UPLOAD_PHASE_EEPROM;
-                    upload_size = eeprom_upload_size;
-                    upload_expected_crc = eeprom_upload_expected_crc;
-                    upload_received = 0;
-                    upload_sequence = 0;
-                    upload_crc32 = 0xFFFFFFFFUL;
-                    upload_have_frame = false;
-
-                    uart2_puts("E");
-                    uart2_puts("\r\n");
-                }
-                else
-                {
-                    upload_active = false;
-
-                    /*
-                     * The supplied EEPROM image is authoritative. Clear all
-                     * remaining EEPROM bytes to 0xFF so stale settings cannot
-                     * survive an update.
-                     */
-                    if (!eeprom_clear_unused(eeprom_upload_size))
-                    {
-                        uart2_error('E');
-                        break;
-                    }
-
-                    /* Publish the application marker only after both images pass. */
-                    if (!application_marker_write(flash_upload_size, flash_final_crc))
-                    {
-                        uart2_error('M');
-                        break;
-                    }
-
-                    uart2_puts("O ");
-                    uart2_puthex32(flash_final_crc);
-                    uart2_putc(' ');
-                    uart2_puthex32(final_crc);
-                    uart2_puts("\r\n");
+                    uart2_error('M');
+                    continue;
                 }
 
-                break;
-
-            default:
-                break;
+                uart2_puts("O ");
+                uart2_puthex32(flash_final_crc);
+                uart2_putc(' ');
+                uart2_puthex32(upload_expected_crc);
+                uart2_puts("\r\n");
+            }
         }
     }
 }
@@ -966,11 +960,7 @@ static bool parse_crc32_hex(const char **cursor, uint32_t *value)
 static bool parse_upload_command(const char *cmd)
 {
     const char *p;
-    uint16_t new_flash_size;
-    uint16_t new_eeprom_size;
-    uint32_t new_flash_crc;
-    uint32_t new_eeprom_crc;
-    char error = 0;
+    char error;
 
     /* Ignore commands that do not start with UPLOAD. */
     if (cmd[0] != 'U' || cmd[1] != 'P' ||
@@ -981,25 +971,25 @@ static bool parse_upload_command(const char *cmd)
 
     p = cmd + 7;
 
-    if (!parse_decimal_u16(&p, &new_flash_size) || *p++ != ' ')
+    if (!parse_decimal_u16(&p, &parsed_flash_size) || *p++ != ' ')
     {
         error = 'S';
         goto upload_command_error;
     }
 
-    if (!parse_crc32_hex(&p, &new_flash_crc) || *p++ != ' ')
+    if (!parse_crc32_hex(&p, &parsed_flash_crc) || *p++ != ' ')
     {
         error = 'C';
         goto upload_command_error;
     }
 
-    if (!parse_decimal_u16(&p, &new_eeprom_size) || *p++ != ' ')
+    if (!parse_decimal_u16(&p, &parsed_eeprom_size) || *p++ != ' ')
     {
         error = 'S';
         goto upload_command_error;
     }
 
-    if (!parse_crc32_hex(&p, &new_eeprom_crc))
+    if (!parse_crc32_hex(&p, &parsed_eeprom_crc))
     {
         error = 'C';
         goto upload_command_error;
@@ -1011,8 +1001,8 @@ static bool parse_upload_command(const char *cmd)
         goto upload_command_error;
     }
 
-    if (new_flash_size == 0u || new_flash_size > MAX_APP_SIZE ||
-        new_eeprom_size == 0u || new_eeprom_size > EEPROM_SIZE)
+    if (parsed_flash_size == 0u || parsed_flash_size > MAX_APP_SIZE ||
+        parsed_eeprom_size == 0u || parsed_eeprom_size > EEPROM_SIZE)
     {
         error = 'S';
         goto upload_command_error;
@@ -1031,12 +1021,12 @@ static bool parse_upload_command(const char *cmd)
         goto upload_command_error;
     }
 
-    flash_upload_size = new_flash_size;
-    eeprom_upload_size = new_eeprom_size;
-    eeprom_upload_expected_crc = new_eeprom_crc;
+    flash_upload_size = parsed_flash_size;
+    eeprom_upload_size = parsed_eeprom_size;
+    eeprom_upload_expected_crc = parsed_eeprom_crc;
 
-    upload_size = new_flash_size;
-    upload_expected_crc = new_flash_crc;
+    upload_size = parsed_flash_size;
+    upload_expected_crc = parsed_flash_crc;
     upload_received = 0;
     upload_sequence = 0;
     upload_crc32 = 0xFFFFFFFFUL;
