@@ -23,6 +23,8 @@
 [v ___fldiv __fldiv `(d  1 e 4 0 ]
 "8 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\sprcmul.c
 [v ___flmul __flmul `(d  1 e 4 0 ]
+"15 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul16.c
+[v ___wmul __wmul `(ui  1 e 2 0 ]
 "15 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul32.c
 [v ___lmul __lmul `(ul  1 e 4 0 ]
 "91 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul64.c
@@ -73,11 +75,11 @@
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
 "815
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
-"947
+"941
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
-"967
+"961
 [v _process_command process_command `(v  1 s 1 process_command ]
-"999
+"993
 [v _main main `(v  1 e 1 0 ]
 "30045 C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h
 [v _TXREG2 TXREG2 `VEuc  1 e 1 @3961 ]
@@ -289,16 +291,16 @@
 [v _upload_crc32 upload_crc32 `ul  1 s 4 upload_crc32 ]
 "83
 [v _upload_have_frame upload_have_frame `a  1 s 1 upload_have_frame ]
-"999
+"993
 [v _main main `(v  1 e 1 0 ]
 {
-"1001
+"995
 [v main@line line `[40]uc  1 a 40 65 ]
-"1003
+"997
 [v main@ch ch `uc  1 a 1 106 ]
-"1002
+"996
 [v main@count count `uc  1 a 1 105 ]
-"1033
+"1027
 } 0
 "89
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
@@ -449,30 +451,32 @@
 [v flash_verify_row@buffer buffer `*.39Cuc  1 p 2 6 ]
 "359
 } 0
-"967
+"961
 [v _process_command process_command `(v  1 s 1 process_command ]
 {
 [v process_command@cmd cmd `*.30Cuc  1 p 1 76 ]
-"997
+"991
 } 0
 "815
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
 {
 "818
-[v parse_upload_command@crc crc `ul  1 a 4 16 ]
+[v parse_upload_command@crc crc `ul  1 a 4 14 ]
 "817
-[v parse_upload_command@size size `us  1 a 2 23 ]
+[v parse_upload_command@size size `us  1 a 2 21 ]
 "822
-[v parse_upload_command@c c `uc  1 a 1 25 ]
+[v parse_upload_command@c c `uc  1 a 1 24 ]
 "820
-[v parse_upload_command@i i `uc  1 a 1 22 ]
+[v parse_upload_command@i i `uc  1 a 1 23 ]
 "821
-[v parse_upload_command@nibble nibble `uc  1 a 1 21 ]
+[v parse_upload_command@nibble nibble `uc  1 a 1 20 ]
+"823
+[v parse_upload_command@error error `uc  1 a 1 19 ]
 "819
-[v parse_upload_command@digits digits `uc  1 a 1 20 ]
+[v parse_upload_command@digits digits `uc  1 a 1 18 ]
 "815
 [v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 9 ]
-"935
+"929
 } 0
 "118
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
@@ -515,10 +519,20 @@
 [v flash_erase_row@address address `us  1 p 2 4 ]
 "326
 } 0
-"947
+"15 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul16.c
+[v ___wmul __wmul `(ui  1 e 2 0 ]
+{
+"17
+[v ___wmul@product product `ui  1 a 2 4 ]
+"15
+[v ___wmul@multiplier multiplier `ui  1 p 2 0 ]
+[v ___wmul@multiplicand multiplicand `ui  1 p 2 2 ]
+"53
+} 0
+"941 C:\Users\marius.ciobanu\OneDrive - Vodafone Group\Desktop\PA_Controler_YO6RK - final\PIC18F66K80_Bootloader\PIC18F66K80_Bootloader.X\main.c
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
 {
-"965
+"959
 } 0
 "390
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
