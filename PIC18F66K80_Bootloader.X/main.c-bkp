@@ -232,7 +232,7 @@ static bool flash_erase_row(uint16_t address)
         return false;   // FREE nu a fost ?ters
 
     if (status & 0x02)
-        return false;   // WR înc? setat
+        return false;   // WR Ã®nc? setat
 
     flash_set_pointer(address);
 
