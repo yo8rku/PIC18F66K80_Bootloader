@@ -686,12 +686,64 @@ static uint8_t receive_upload_frame(
     return FRAME_VALID;
 }
 
+/* Store one CRC-validated frame. Select the destination once per frame,
+ * not once for every payload byte.
+ */
+static bool upload_store_payload(uint8_t length)
+{
+    uint8_t i;
+    uint8_t data;
+
+    if (upload_phase == UPLOAD_PHASE_FLASH)
+    {
+        for (i = 0; i < length; i++)
+        {
+            data = frame_payload[i];
+            upload_crc32 = crc32_update(upload_crc32, data);
+            flash_row_buffer[flash_row_fill++] = data;
+
+            if (flash_row_fill >= FLASH_ROW_SIZE)
+            {
+                if (!flash_program_row(flash_row_address,
+                                       flash_row_buffer))
+                    return false;
+
+                flash_row_fill = 0u;
+                flash_row_address += FLASH_ROW_SIZE;
+
+                FSR2L = (uint8_t)(uint16_t)flash_row_buffer;
+                FSR2H = (uint8_t)((uint16_t)flash_row_buffer >> 8);
+
+                asm("MOVLW 64");
+                asm("MOVWF _asm_clear_count, c");
+                asm("upload_clear_row:");
+                asm("SETF POSTINC2, c");
+                asm("DECFSZ _asm_clear_count, f, c");
+                asm("BRA upload_clear_row");
+            }
+        }
+    }
+    else
+    {
+        for (i = 0; i < length; i++)
+        {
+            data = frame_payload[i];
+            upload_crc32 = crc32_update(upload_crc32, data);
+
+            if (!eeprom_write_verify_byte(
+                    (uint16_t)(upload_received + i), data))
+                return false;
+        }
+    }
+
+    return true;
+}
+
 static void receive_upload_data(void)
 {
     uint16_t sequence;
     uint8_t length;
     uint8_t result;
-    uint8_t i;
     uint32_t final_crc;
 
     while (upload_active)
@@ -715,59 +767,13 @@ static void receive_upload_data(void)
                         break;
                     }
 
-                    for (i = 0; i < length; i++)
+                    if (!upload_store_payload(length))
                     {
-                        uint8_t data = frame_payload[i];
-
-                        upload_crc32 = crc32_update(upload_crc32, data);
-
-                        if (upload_phase == UPLOAD_PHASE_FLASH)
-                        {
-                            flash_row_buffer[flash_row_fill] = data;
-                            flash_row_fill++;
-
-                            /* Program each complete 64-byte Flash row. */
-                            if (flash_row_fill >= FLASH_ROW_SIZE)
-                            {
-                                if (!flash_program_row(
-                                        flash_row_address,
-                                        flash_row_buffer))
-                                {
-                                    uart2_error('F');
-                                    upload_active = false;
-                                    break;
-                                }
-
-                                flash_row_fill = 0u;
-                                flash_row_address += FLASH_ROW_SIZE;
-
-                                FSR2L = (uint8_t)(uint16_t)flash_row_buffer;
-                                FSR2H = (uint8_t)((uint16_t)flash_row_buffer >> 8);
-
-                                /* Clear exactly 64 bytes using the ASM loop. */
-                                asm("MOVLW 64");
-                                asm("MOVWF _asm_clear_count, c");
-                                asm("clear_row_buffer_loop:");
-                                asm("SETF POSTINC2, c");
-                                asm("DECFSZ _asm_clear_count, f, c");
-                                asm("BRA clear_row_buffer_loop");
-                            }
-                        }
-                        else
-                        {
-                            /* EEPROM bytes are written and read-back verified. */
-                            if (!eeprom_write_verify_byte(
-                                    (uint16_t)(upload_received + i), data))
-                            {
-                                uart2_error('E');
-                                upload_active = false;
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!upload_active)
+                        uart2_error(
+                            upload_phase == UPLOAD_PHASE_FLASH ? 'F' : 'E');
+                        upload_active = false;
                         break;
+                    }
 
                     upload_received += length;
                     upload_sequence++;
