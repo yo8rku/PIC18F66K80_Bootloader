@@ -859,6 +859,13 @@ static bool parse_upload_command(const char *cmd)
     {
         c = cmd[i];
 
+        /* Reject a truncated CRC before reading beyond the string. */
+        if (c == '\0')
+        {
+            error = 'C';
+            goto upload_command_error;
+        }
+
         if (c >= '0' && c <= '9')
             nibble = (uint8_t)(c - '0');
         else if (c >= 'A' && c <= 'F')
