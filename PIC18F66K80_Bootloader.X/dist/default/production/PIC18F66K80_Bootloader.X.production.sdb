@@ -65,11 +65,11 @@
 [v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
 "445
 [v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
-"489
+"493
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
-"506
+"510
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
-"578
+"582
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
 "755
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
@@ -201,7 +201,7 @@
 [v _BAUDCON2bits BAUDCON2bits `VES51  1 e 1 @4025 ]
 "34996
 [v _TXSTA2 TXSTA2 `VEuc  1 e 1 @4026 ]
-[s S271 . 1 `uc 1 TX9D 1 0 :1:0 
+[s S270 . 1 `uc 1 TX9D 1 0 :1:0 
 `uc 1 TRMT 1 0 :1:1 
 `uc 1 BRGH 1 0 :1:2 
 `uc 1 SENDB 1 0 :1:3 
@@ -211,7 +211,7 @@
 `uc 1 CSRC 1 0 :1:7 
 ]
 "35028
-[s S280 . 1 `uc 1 TX9D2 1 0 :1:0 
+[s S279 . 1 `uc 1 TX9D2 1 0 :1:0 
 `uc 1 TRMT2 1 0 :1:1 
 `uc 1 BRGH2 1 0 :1:2 
 `uc 1 SENDB2 1 0 :1:3 
@@ -221,21 +221,19 @@
 `uc 1 CSRC2 1 0 :1:7 
 ]
 "35028
-[s S289 . 1 `uc 1 TXD82 1 0 :1:0 
+[s S288 . 1 `uc 1 TXD82 1 0 :1:0 
 `uc 1 . 1 0 :5:1 
 `uc 1 TX8_92 1 0 :1:6 
 ]
 "35028
-[u S293 . 1 `S271 1 . 1 0 `S280 1 . 1 0 `S289 1 . 1 0 ]
+[u S292 . 1 `S270 1 . 1 0 `S279 1 . 1 0 `S288 1 . 1 0 ]
 "35028
 "35028
-[v _TXSTA2bits TXSTA2bits `VES293  1 e 1 @4026 ]
+[v _TXSTA2bits TXSTA2bits `VES292  1 e 1 @4026 ]
 "37339
 [v _FSR2L FSR2L `VEuc  1 e 1 @4057 ]
 "37359
 [v _FSR2H FSR2H `VEuc  1 e 1 @4058 ]
-"37439
-[v _POSTINC2 POSTINC2 `VEuc  1 e 1 @4062 ]
 [s S204 . 1 `uc 1 RBIF 1 0 :1:0 
 `uc 1 INT0IF 1 0 :1:1 
 `uc 1 TMR0IF 1 0 :1:2 
@@ -317,20 +315,20 @@
 [v uart2_init@dummy dummy `VEuc  1 a 1 0 ]
 "111
 } 0
-"578
+"582
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
 {
-"609
+"613
 [v receive_upload_data@data data `uc  1 a 1 85 ]
-"584
+"588
 [v receive_upload_data@final_crc final_crc `ul  1 a 4 87 ]
-"580
+"584
 [v receive_upload_data@sequence sequence `us  1 a 2 92 ]
-"581
+"585
 [v receive_upload_data@length length `uc  1 a 1 91 ]
-"583
+"587
 [v receive_upload_data@i i `uc  1 a 1 86 ]
-"582
+"586
 [v receive_upload_data@result result `uc  1 a 1 84 ]
 "747
 } 0
@@ -345,30 +343,30 @@
 [v uart2_puthex32@hex hex `C[17]uc  1 s 17 hex ]
 "140
 } 0
-"506
+"510
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
 {
-"513
-[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 18 ]
-"512
-[v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
-"518
-[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
-"516
-[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 16 ]
-"515
-[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 15 ]
 "517
+[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 18 ]
+"516
+[v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
+"522
+[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
+"520
+[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 16 ]
+"519
+[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 15 ]
+"521
 [v receive_upload_frame@len_hi len_hi `uc  1 a 1 14 ]
-"511
+"515
 [v receive_upload_frame@i i `uc  1 a 1 13 ]
-"510
+"514
 [v receive_upload_frame@ch ch `uc  1 a 1 12 ]
-"507
+"511
 [v receive_upload_frame@sequence sequence `*.30us  1 p 1 6 ]
-"508
+"512
 [v receive_upload_frame@length length `*.30uc  1 p 1 7 ]
-"576
+"580
 } 0
 "171
 [v _uart2_getc_timeout uart2_getc_timeout `(a  1 s 1 uart2_getc_timeout ]
@@ -385,26 +383,24 @@
 [v uart2_try_getc@out out `*.39uc  1 p 2 0 ]
 "169
 } 0
-"489
+"493
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
 {
-"491
+"495
 [v crc16_update@i i `uc  1 a 1 5 ]
-"489
+"493
 [v crc16_update@crc crc `us  1 p 2 0 ]
 [v crc16_update@data data `uc  1 p 1 2 ]
-"504
+"508
 } 0
 "445
 [v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
 {
-"456
+"454
 [v flash_flush_row@address address `us  1 a 2 19 ]
-"457
+"455
 [v flash_flush_row@remaining remaining `uc  1 a 1 18 ]
-"447
-[v flash_flush_row@i i `uc  1 a 1 21 ]
-"480
+"484
 } 0
 "755
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
