@@ -178,6 +178,7 @@ static void uart2_puts(const char *s)
 }
 
 /* Send a 32-bit value as exactly 8 uppercase hexadecimal digits. */
+/*
 static void uart2_puthex32(uint32_t value)
 {
     static const char hex[] = "0123456789ABCDEF";
@@ -190,6 +191,30 @@ static void uart2_puthex32(uint32_t value)
             break;
     }
 }
+*/
+
+static void uart2_puthex32(uint32_t value)
+{
+    uint8_t shift;
+    uint8_t nibble;
+    char c;
+
+    for (shift = 28u; ; shift -= 4u)
+    {
+        nibble = (uint8_t)((value >> shift) & 0x0Fu);
+
+        if (nibble < 10u)
+            c = (char)('0' + nibble);
+        else
+            c = (char)('A' + nibble - 10u);
+
+        uart2_putc(c);
+
+        if (shift == 0u)
+            break;
+    }
+}
+
 
 /* Compact protocol error: !X followed by CR/LF.
  * Keep CR/LF here to avoid a separate newline helper/call. */
@@ -376,6 +401,7 @@ static bool application_marker_valid(void)
 
 
 /* Write application validity marker */
+/*
 static bool application_marker_write(uint16_t size, uint32_t crc)
 {
     uint8_t marker[FLASH_ROW_SIZE];
@@ -405,9 +431,42 @@ static bool application_marker_write(uint16_t size, uint32_t crc)
     if (!flash_program_row(APP_MARKER_ADDR, marker))
         return false;
 
-    /* Verify marker after programming */
+    // Verify marker after programming //
     return application_marker_valid();
 }
+*/
+
+static bool application_marker_write(uint16_t size, uint32_t crc)
+{
+    uint8_t i;
+
+    if (size == 0u || size > MAX_APP_SIZE)
+        return false;
+
+    for (i = 0; i < FLASH_ROW_SIZE; i++)
+        flash_row_buffer[i] = 0xFF;
+
+    flash_row_buffer[0] = 'A';
+    flash_row_buffer[1] = 'P';
+    flash_row_buffer[2] = 'P';
+    flash_row_buffer[3] = '1';
+
+    flash_row_buffer[4] = (uint8_t)size;
+    flash_row_buffer[5] = (uint8_t)(size >> 8);
+    flash_row_buffer[6] = 0;
+    flash_row_buffer[7] = 0;
+
+    flash_row_buffer[8]  = (uint8_t)crc;
+    flash_row_buffer[9]  = (uint8_t)(crc >> 8);
+    flash_row_buffer[10] = (uint8_t)(crc >> 16);
+    flash_row_buffer[11] = (uint8_t)(crc >> 24);
+
+    if (!flash_program_row(APP_MARKER_ADDR, flash_row_buffer))
+        return false;
+
+    return application_marker_valid();
+}
+
 
 /* Write one 64-byte Flash row.
    The row must have been erased first. */
@@ -844,7 +903,8 @@ static void receive_upload_data(void)
                 }
 
                 upload_active = false;
-                uart2_puts("O ");
+                uart2_putc('O');
+                uart2_putc(' ');
                 uart2_puthex32(flash_final_crc);
                 uart2_putc(' ');
                 uart2_puthex32(upload_expected_crc);
@@ -1068,7 +1128,7 @@ static void process_command(const char *cmd)
         return;
 
     if (cmd[0] == 'I' && cmd[1] == '\0') {
-        uart2_puts("PIC18F66K80\r\n64MHz; UART2=115200\r\n");
+        uart2_puts("PIC18F66K80 UPLOADER\r\n");
 
     } else if (cmd[0] == 'B' && cmd[1] == '\0') {
         uart2_puts("BOOT\r\n");
