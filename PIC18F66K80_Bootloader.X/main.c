@@ -1060,7 +1060,7 @@ static void process_command(const char *cmd)
         return;
 
     if (cmd[0] == 'I' && cmd[1] == '\0') {
-        uart2_puts("PIC18F66K80 UPLOADER\r\n");
+        uart2_puts("LDMOS CONTROLER UPLOADER\r\n");
 
     } else if (cmd[0] == 'B' && cmd[1] == '\0') {
         uart2_puts("BOOT\r\n");
