@@ -94,24 +94,6 @@ static uint16_t flash_row_address;
 static volatile uint8_t asm_clear_count;
 
 /* Fill a selected range of the Flash staging row with erased value 0xFF. */
-/*
-static void flash_fill_buffer(uint8_t offset, uint8_t count)
-{
-    uint16_t address;
-
-    if (count == 0u)
-        return;
-
-    address = (uint16_t)&flash_row_buffer[offset];
-    FSR2L = (uint8_t)address;
-    FSR2H = (uint8_t)(address >> 8);
-    asm_clear_count = count;
-    asm("flash_fill_loop:");
-    asm("SETF POSTINC2, c");
-    asm("DECFSZ _asm_clear_count, f, c");
-    asm("BRA flash_fill_loop");
-}
-*/
 static void flash_fill_buffer(uint8_t offset, uint8_t count)
 {
     uint8_t i;
@@ -172,27 +154,14 @@ static void uart2_putc(char c)
 
 static void uart2_puts(const char *s)
 {
+    TBLPTRU = 0;
+    TBLPTRH = 0;
     while (*s != '\0') {
         uart2_putc(*s++);
     }
 }
 
 /* Send a 32-bit value as exactly 8 uppercase hexadecimal digits. */
-/*
-static void uart2_puthex32(uint32_t value)
-{
-    static const char hex[] = "0123456789ABCDEF";
-    uint8_t shift;
-
-    for (shift = 28u; ; shift -= 4u)
-    {
-        uart2_putc(hex[(value >> shift) & 0x0Fu]);
-        if (shift == 0u)
-            break;
-    }
-}
-*/
-
 static void uart2_puthex32(uint32_t value)
 {
     uint8_t shift;
@@ -262,7 +231,7 @@ static bool uart2_getc_timeout(void)
 /* Set PIC18F66K80 program memory table pointer */
 static void flash_set_pointer(uint16_t address)
 {
-    /* TBLPTRU must be cleared: table operations can carry into it. */
+    // TBLPTRU must be cleared: table operations can carry into it. 
     TBLPTRU = 0;
     TBLPTRH = (uint8_t)(address >> 8);
     TBLPTRL = (uint8_t) address;
@@ -271,7 +240,7 @@ static void flash_set_pointer(uint16_t address)
 /* Check that address is a valid application Flash row */
 static bool flash_valid_row(uint16_t address)
 {
-    /* One combined test avoids three separate return paths. */
+    // One combined test avoids three separate return paths. 
     return (address >= APP_START) &&
            (address <= (APP_END - (FLASH_ROW_SIZE - 1u))) &&
            ((address & (FLASH_ROW_SIZE - 1u)) == 0u);
@@ -401,41 +370,6 @@ static bool application_marker_valid(void)
 
 
 /* Write application validity marker */
-/*
-static bool application_marker_write(uint16_t size, uint32_t crc)
-{
-    uint8_t marker[FLASH_ROW_SIZE];
-    uint8_t i;
-
-    if (size == 0u || size > MAX_APP_SIZE)
-        return false;
-
-    for (i = 0; i < FLASH_ROW_SIZE; i++)
-        marker[i] = 0xFF;
-
-    marker[0] = 'A';
-    marker[1] = 'P';
-    marker[2] = 'P';
-    marker[3] = '1';
-
-    marker[4] = (uint8_t)size;
-    marker[5] = (uint8_t)(size >> 8);
-    marker[6] = 0;
-    marker[7] = 0;
-
-    marker[8]  = (uint8_t)crc;
-    marker[9]  = (uint8_t)(crc >> 8);
-    marker[10] = (uint8_t)(crc >> 16);
-    marker[11] = (uint8_t)(crc >> 24);
-
-    if (!flash_program_row(APP_MARKER_ADDR, marker))
-        return false;
-
-    // Verify marker after programming //
-    return application_marker_valid();
-}
-*/
-
 static bool application_marker_write(uint16_t size, uint32_t crc)
 {
     uint8_t i;
@@ -1118,8 +1052,6 @@ static void jump_to_application(void)
     STKPTR = 0;
 
     asm("GOTO 0x1000");
-
-    /* Not reached. */
 }
 
 static void process_command(const char *cmd)
