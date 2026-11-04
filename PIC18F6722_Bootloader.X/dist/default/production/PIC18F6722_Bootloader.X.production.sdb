@@ -1,0 +1,706 @@
+[p GLOBOPT AUTOSTATIC IEEE_FLT IEEE_DBL LFSROK EMI_WORD ]
+[d version 1.1 ]
+[d edition pro ]
+[d chip 18F6722 ]
+[d frameptr 4065 ]
+"4 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\fleq.c
+[v ___fleq __fleq `(b  1 e 0 0 ]
+"62 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\float.c
+[v ___ftpack __ftpack `(f  1 e 4 0 ]
+"86 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\ftadd.c
+[v ___ftadd __ftadd `(f  1 e 4 0 ]
+"54 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\ftdiv.c
+[v ___ftdiv __ftdiv `(f  1 e 4 0 ]
+"62 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\ftmul.c
+[v ___ftmul __ftmul `(f  1 e 4 0 ]
+"19 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\ftsub.c
+[v ___ftsub __ftsub `(f  1 e 4 0 ]
+"10 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\sprcadd.c
+[v ___fladd __fladd `(d  1 e 4 0 ]
+"245
+[v ___flsub __flsub `(d  1 e 4 0 ]
+"11 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\sprcdiv.c
+[v ___fldiv __fldiv `(d  1 e 4 0 ]
+"8 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\sprcmul.c
+[v ___flmul __flmul `(d  1 e 4 0 ]
+"15 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
+"91 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul64.c
+[v ___omul __omul `(uo  1 e 8 0 ]
+"100 D:\PA_Controler_YO6RK_-_final\PIC18F6722_Bootloader\PIC18F6722_Bootloader.X\main.c
+[v _flash_fill_buffer flash_fill_buffer `(v  1 s 1 flash_fill_buffer ]
+"129
+[v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
+"154
+[v _uart2_putc uart2_putc `(v  1 s 1 uart2_putc ]
+"162
+[v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
+"172
+[v _uart2_puthex32 uart2_puthex32 `(v  1 s 1 uart2_puthex32 ]
+"197
+[v _uart2_error uart2_error `(v  1 s 1 uart2_error ]
+"207
+[v _uart2_try_getc uart2_try_getc `(a  1 s 1 uart2_try_getc ]
+"222
+[v _uart2_getc_timeout uart2_getc_timeout `(a  1 s 1 uart2_getc_timeout ]
+"239
+[v _flash_set_pointer flash_set_pointer `(v  1 s 1 flash_set_pointer ]
+"248
+[v _flash_valid_row flash_valid_row `(a  1 s 1 flash_valid_row ]
+"256
+[v _flash_erase_row flash_erase_row `(a  1 s 1 flash_erase_row ]
+"318
+[v _flash_verify_row flash_verify_row `(a  1 s 1 flash_verify_row ]
+"347
+[v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
+"380
+[v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
+"414
+[v _flash_write_row flash_write_row `(a  1 s 1 flash_write_row ]
+"457
+[v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
+"467
+[v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
+"488
+[v _eeprom_read_byte eeprom_read_byte `(uc  1 s 1 eeprom_read_byte ]
+"505
+[v _eeprom_write_verify_byte eeprom_write_verify_byte `(a  1 s 1 eeprom_write_verify_byte ]
+"550
+[v _eeprom_clear_unused eeprom_clear_unused `(a  1 s 1 eeprom_clear_unused ]
+"575
+[v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
+"592
+[v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
+"678
+[v _upload_store_payload upload_store_payload `(a  1 s 1 upload_store_payload ]
+"720
+[v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
+"870
+[v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
+"887
+[v _parse_decimal_u16 parse_decimal_u16 `(a  1 s 1 parse_decimal_u16 ]
+"915
+[v _parse_crc32_hex parse_crc32_hex `(a  1 s 1 parse_crc32_hex ]
+"946
+[v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
+"1043
+[v _reset_to_bootloader reset_to_bootloader `(v  1 s 1 reset_to_bootloader ]
+"1056
+[v _process_command process_command `(v  1 s 1 process_command ]
+"1084
+[v _main main `(v  1 e 1 0 ]
+"1301 C:/Users/Marius/.mchp_packs/Microchip/PIC18Fxxxx_DFP/1.8.178/xc8\pic\include\proc\pic18f6722.h
+[v _RCSTA2 RCSTA2 `VEuc  1 e 1 @3947 ]
+[s S114 . 1 `uc 1 RX9D 1 0 :1:0 
+`uc 1 OERR 1 0 :1:1 
+`uc 1 FERR 1 0 :1:2 
+`uc 1 ADDEN 1 0 :1:3 
+`uc 1 CREN 1 0 :1:4 
+`uc 1 SREN 1 0 :1:5 
+`uc 1 RX9 1 0 :1:6 
+`uc 1 SPEN 1 0 :1:7 
+]
+"1354
+[s S123 . 1 `uc 1 RCD8 1 0 :1:0 
+`uc 1 . 1 0 :5:1 
+`uc 1 RC9 1 0 :1:6 
+]
+[s S127 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 NOT_RC8 1 0 :1:6 
+]
+[s S130 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 nRC8 1 0 :1:6 
+]
+[s S133 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 RC8_9 1 0 :1:6 
+]
+[s S136 . 1 `uc 1 RX9D2 1 0 :1:0 
+`uc 1 OERR2 1 0 :1:1 
+`uc 1 FERR2 1 0 :1:2 
+`uc 1 ADDEN2 1 0 :1:3 
+`uc 1 CREN2 1 0 :1:4 
+`uc 1 SREN2 1 0 :1:5 
+`uc 1 RX92 1 0 :1:6 
+`uc 1 SPEN2 1 0 :1:7 
+]
+[s S145 . 1 `uc 1 RCD82 1 0 :1:0 
+`uc 1 . 1 0 :5:1 
+`uc 1 RC8_92 1 0 :1:6 
+]
+[s S149 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 RC92 1 0 :1:6 
+]
+[u S152 . 1 `S114 1 . 1 0 `S123 1 . 1 0 `S127 1 . 1 0 `S130 1 . 1 0 `S133 1 . 1 0 `S136 1 . 1 0 `S145 1 . 1 0 `S149 1 . 1 0 ]
+[v _RCSTA2bits RCSTA2bits `VES152  1 e 1 @3947 ]
+"1479
+[v _TXSTA2 TXSTA2 `VEuc  1 e 1 @3948 ]
+[s S362 . 1 `uc 1 TX9D 1 0 :1:0 
+`uc 1 TRMT 1 0 :1:1 
+`uc 1 BRGH 1 0 :1:2 
+`uc 1 SENDB 1 0 :1:3 
+`uc 1 SYNC 1 0 :1:4 
+`uc 1 TXEN 1 0 :1:5 
+`uc 1 TX9 1 0 :1:6 
+`uc 1 CSRC 1 0 :1:7 
+]
+"1524
+[s S371 . 1 `uc 1 TXD8 1 0 :1:0 
+`uc 1 . 1 0 :5:1 
+`uc 1 TX8_9 1 0 :1:6 
+]
+[s S375 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 NOT_TX8 1 0 :1:6 
+]
+[s S378 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 nTX8 1 0 :1:6 
+]
+[s S381 . 1 `uc 1 TX9D2 1 0 :1:0 
+`uc 1 TRMT2 1 0 :1:1 
+`uc 1 BRGH2 1 0 :1:2 
+`uc 1 SENDB2 1 0 :1:3 
+`uc 1 SYNC2 1 0 :1:4 
+`uc 1 TXEN2 1 0 :1:5 
+`uc 1 TX92 1 0 :1:6 
+`uc 1 CSRC2 1 0 :1:7 
+]
+[s S390 . 1 `uc 1 TXD82 1 0 :1:0 
+`uc 1 . 1 0 :5:1 
+`uc 1 TX8_92 1 0 :1:6 
+]
+[u S394 . 1 `S362 1 . 1 0 `S371 1 . 1 0 `S375 1 . 1 0 `S378 1 . 1 0 `S381 1 . 1 0 `S390 1 . 1 0 ]
+[v _TXSTA2bits TXSTA2bits `VES394  1 e 1 @3948 ]
+"1639
+[v _TXREG2 TXREG2 `VEuc  1 e 1 @3949 ]
+"1646
+[v _RCREG2 RCREG2 `VEuc  1 e 1 @3950 ]
+"1653
+[v _SPBRG2 SPBRG2 `VEuc  1 e 1 @3951 ]
+[s S52 . 1 `uc 1 ABDEN 1 0 :1:0 
+`uc 1 WUE 1 0 :1:1 
+`uc 1 . 1 0 :1:2 
+`uc 1 BRG16 1 0 :1:3 
+`uc 1 SCKP 1 0 :1:4 
+`uc 1 . 1 0 :1:5 
+`uc 1 RCIDL 1 0 :1:6 
+`uc 1 ABDOVF 1 0 :1:7 
+]
+"2102
+[s S61 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 RCMT 1 0 :1:6 
+]
+[s S64 . 1 `uc 1 ABDEN2 1 0 :1:0 
+`uc 1 WUE2 1 0 :1:1 
+`uc 1 . 1 0 :1:2 
+`uc 1 BRG162 1 0 :1:3 
+`uc 1 SCKP2 1 0 :1:4 
+`uc 1 . 1 0 :1:5 
+`uc 1 RCIDL2 1 0 :1:6 
+`uc 1 ABDOVF2 1 0 :1:7 
+]
+[s S73 . 1 `uc 1 . 1 0 :4:0 
+`uc 1 TXCKP2 1 0 :1:4 
+`uc 1 . 1 0 :1:5 
+`uc 1 RCMT2 1 0 :1:6 
+]
+[u S78 . 1 `S52 1 . 1 0 `S61 1 . 1 0 `S64 1 . 1 0 `S73 1 . 1 0 ]
+[v _BAUDCON2bits BAUDCON2bits `VES78  1 e 1 @3964 ]
+"2182
+[v _SPBRGH2 SPBRGH2 `VEuc  1 e 1 @3965 ]
+[s S434 . 1 `uc 1 RB0 1 0 :1:0 
+`uc 1 RB1 1 0 :1:1 
+`uc 1 RB2 1 0 :1:2 
+`uc 1 RB3 1 0 :1:3 
+`uc 1 RB4 1 0 :1:4 
+`uc 1 RB5 1 0 :1:5 
+`uc 1 RB6 1 0 :1:6 
+`uc 1 RB7 1 0 :1:7 
+]
+"2807
+[s S443 . 1 `uc 1 INT0 1 0 :1:0 
+`uc 1 INT1 1 0 :1:1 
+`uc 1 INT2 1 0 :1:2 
+`uc 1 INT3 1 0 :1:3 
+`uc 1 KBI0 1 0 :1:4 
+`uc 1 KBI1 1 0 :1:5 
+`uc 1 KBI2 1 0 :1:6 
+`uc 1 KBI3 1 0 :1:7 
+]
+[s S452 . 1 `uc 1 FLT0 1 0 :1:0 
+]
+[s S454 . 1 `uc 1 . 1 0 :3:0 
+`uc 1 CCP2_PA2 1 0 :1:3 
+]
+[u S457 . 1 `S434 1 . 1 0 `S443 1 . 1 0 `S452 1 . 1 0 `S454 1 . 1 0 ]
+[v _PORTBbits PORTBbits `VES457  1 e 1 @3969 ]
+[s S486 . 1 `uc 1 TRISB0 1 0 :1:0 
+`uc 1 TRISB1 1 0 :1:1 
+`uc 1 TRISB2 1 0 :1:2 
+`uc 1 TRISB3 1 0 :1:3 
+`uc 1 TRISB4 1 0 :1:4 
+`uc 1 TRISB5 1 0 :1:5 
+`uc 1 TRISB6 1 0 :1:6 
+`uc 1 TRISB7 1 0 :1:7 
+]
+"4947
+[u S504 . 1 `S486 1 . 1 0 `S434 1 . 1 0 ]
+[v _TRISBbits TRISBbits `VES504  1 e 1 @3987 ]
+[s S24 . 1 `uc 1 TRISG0 1 0 :1:0 
+`uc 1 TRISG1 1 0 :1:1 
+`uc 1 TRISG2 1 0 :1:2 
+`uc 1 TRISG3 1 0 :1:3 
+`uc 1 TRISG4 1 0 :1:4 
+]
+"6051
+[s S30 . 1 `uc 1 RG0 1 0 :1:0 
+`uc 1 RG1 1 0 :1:1 
+`uc 1 RG2 1 0 :1:2 
+`uc 1 RG3 1 0 :1:3 
+`uc 1 RG4 1 0 :1:4 
+]
+[u S36 . 1 `S24 1 . 1 0 `S30 1 . 1 0 ]
+[v _TRISGbits TRISGbits `VES36  1 e 1 @3992 ]
+[s S326 . 1 `uc 1 CCP2IF 1 0 :1:0 
+`uc 1 TMR3IF 1 0 :1:1 
+`uc 1 HLVDIF 1 0 :1:2 
+`uc 1 BCL1IF 1 0 :1:3 
+`uc 1 EEIF 1 0 :1:4 
+`uc 1 . 1 0 :1:5 
+`uc 1 CMIF 1 0 :1:6 
+`uc 1 OSCFIF 1 0 :1:7 
+]
+"6583
+[s S335 . 1 `uc 1 . 1 0 :2:0 
+`uc 1 LVDIF 1 0 :1:2 
+`uc 1 BCLIF 1 0 :1:3 
+]
+[u S339 . 1 `S326 1 . 1 0 `S335 1 . 1 0 ]
+[v _PIR2bits PIR2bits `VES339  1 e 1 @4001 ]
+[s S201 . 1 `uc 1 CCP3IF 1 0 :1:0 
+`uc 1 CCP4IF 1 0 :1:1 
+`uc 1 CCP5IF 1 0 :1:2 
+`uc 1 TMR4IF 1 0 :1:3 
+`uc 1 TX2IF 1 0 :1:4 
+`uc 1 RC2IF 1 0 :1:5 
+`uc 1 BCL2IF 1 0 :1:6 
+`uc 1 SSP2IF 1 0 :1:7 
+]
+"6838
+[s S210 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 RXBNIF 1 0 :1:1 
+`uc 1 . 1 0 :2:2 
+`uc 1 TXBNIF 1 0 :1:4 
+]
+[u S215 . 1 `S201 1 . 1 0 `S210 1 . 1 0 ]
+[v _PIR3bits PIR3bits `VES215  1 e 1 @4004 ]
+"6971
+[v _EECON1 EECON1 `VEuc  1 e 1 @4006 ]
+[s S237 . 1 `uc 1 RD 1 0 :1:0 
+`uc 1 WR 1 0 :1:1 
+`uc 1 WREN 1 0 :1:2 
+`uc 1 WRERR 1 0 :1:3 
+`uc 1 FREE 1 0 :1:4 
+`uc 1 . 1 0 :1:5 
+`uc 1 CFGS 1 0 :1:6 
+`uc 1 EEPGD 1 0 :1:7 
+]
+"6992
+[s S246 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 EEFS 1 0 :1:6 
+]
+[u S249 . 1 `S237 1 . 1 0 `S246 1 . 1 0 ]
+[v _EECON1bits EECON1bits `VES249  1 e 1 @4006 ]
+"7037
+[v _EECON2 EECON2 `VEuc  1 e 1 @4007 ]
+"7044
+[v _EEDATA EEDATA `VEuc  1 e 1 @4008 ]
+"7051
+[v _EEADR EEADR `VEuc  1 e 1 @4009 ]
+"7058
+[v _EEADRH EEADRH `VEuc  1 e 1 @4010 ]
+[s S265 . 1 `uc 1 RBIF 1 0 :1:0 
+`uc 1 INT0IF 1 0 :1:1 
+`uc 1 TMR0IF 1 0 :1:2 
+`uc 1 RBIE 1 0 :1:3 
+`uc 1 INT0IE 1 0 :1:4 
+`uc 1 TMR0IE 1 0 :1:5 
+`uc 1 PEIE_GIEL 1 0 :1:6 
+`uc 1 GIE_GIEH 1 0 :1:7 
+]
+"11978
+[s S274 . 1 `uc 1 . 1 0 :1:0 
+`uc 1 INT0F 1 0 :1:1 
+`uc 1 T0IF 1 0 :1:2 
+`uc 1 . 1 0 :1:3 
+`uc 1 INT0E 1 0 :1:4 
+`uc 1 T0IE 1 0 :1:5 
+`uc 1 PEIE 1 0 :1:6 
+`uc 1 GIE 1 0 :1:7 
+]
+[s S283 . 1 `uc 1 . 1 0 :6:0 
+`uc 1 GIEL 1 0 :1:6 
+`uc 1 GIEH 1 0 :1:7 
+]
+[u S287 . 1 `S265 1 . 1 0 `S274 1 . 1 0 `S283 1 . 1 0 ]
+[v _INTCONbits INTCONbits `VES287  1 e 1 @4082 ]
+"12084
+[v _TABLAT TABLAT `VEuc  1 e 1 @4085 ]
+"12100
+[v _TBLPTRL TBLPTRL `VEuc  1 e 1 @4086 ]
+"12107
+[v _TBLPTRH TBLPTRH `VEuc  1 e 1 @4087 ]
+"12114
+[v _TBLPTRU TBLPTRU `VEuc  1 e 1 @4088 ]
+"78 D:\PA_Controler_YO6RK_-_final\PIC18F6722_Bootloader\PIC18F6722_Bootloader.X\main.c
+[v _upload_size upload_size `us  1 s 2 upload_size ]
+"79
+[v _upload_expected_crc upload_expected_crc `ul  1 s 4 upload_expected_crc ]
+"80
+[v _upload_received upload_received `us  1 s 2 upload_received ]
+"81
+[v _upload_sequence upload_sequence `us  1 s 2 upload_sequence ]
+"82
+[v _upload_active upload_active `a  1 s 1 upload_active ]
+"84
+[v _flash_upload_size flash_upload_size `us  1 s 2 flash_upload_size ]
+"85
+[v _eeprom_upload_size eeprom_upload_size `us  1 s 2 eeprom_upload_size ]
+"86
+[v _eeprom_upload_expected_crc eeprom_upload_expected_crc `ul  1 s 4 eeprom_upload_expected_crc ]
+"87
+[v _flash_final_crc flash_final_crc `ul  1 s 4 flash_final_crc ]
+"88
+[v _upload_phase upload_phase `uc  1 s 1 upload_phase ]
+"89
+[v _uart2_rx_byte uart2_rx_byte `uc  1 s 1 uart2_rx_byte ]
+"91
+[v _frame_payload frame_payload `[48]uc  1 s 48 frame_payload ]
+"92
+[v _flash_row_buffer flash_row_buffer `[64]uc  1 s 64 flash_row_buffer ]
+"93
+[v _flash_row_fill flash_row_fill `uc  1 s 1 flash_row_fill ]
+"94
+[v _flash_row_address flash_row_address `us  1 s 2 flash_row_address ]
+"97
+[v _asm_clear_count asm_clear_count `VEuc  1 s 1 asm_clear_count ]
+"113
+[v _upload_crc32 upload_crc32 `ul  1 s 4 upload_crc32 ]
+"114
+[v _upload_have_frame upload_have_frame `a  1 s 1 upload_have_frame ]
+"117
+[v _parsed_flash_size parsed_flash_size `us  1 s 2 parsed_flash_size ]
+"118
+[v _parsed_eeprom_size parsed_eeprom_size `us  1 s 2 parsed_eeprom_size ]
+"119
+[v _parsed_flash_crc parsed_flash_crc `ul  1 s 4 parsed_flash_crc ]
+"120
+[v _parsed_eeprom_crc parsed_eeprom_crc `ul  1 s 4 parsed_eeprom_crc ]
+"1084
+[v _main main `(v  1 e 1 0 ]
+{
+"1086
+[v main@line line `[36]uc  1 a 36 34 ]
+"1088
+[v main@ch ch `uc  1 a 1 71 ]
+"1087
+[v main@count count `uc  1 a 1 70 ]
+"1135
+} 0
+"129
+[v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
+{
+"149
+[v uart2_init@dummy dummy `VEuc  1 a 1 0 ]
+"152
+} 0
+"720
+[v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
+{
+"722
+[v receive_upload_data@sequence sequence `us  1 a 2 31 ]
+"724
+[v receive_upload_data@result result `uc  1 a 1 33 ]
+"723
+[v receive_upload_data@length length `uc  1 a 1 30 ]
+"725
+[v receive_upload_data@error error `uc  1 a 1 29 ]
+"863
+} 0
+"678
+[v _upload_store_payload upload_store_payload `(a  1 s 1 upload_store_payload ]
+{
+[v upload_store_payload@length length `uc  1 a 1 wreg ]
+"680
+[v upload_store_payload@i i `uc  1 a 1 17 ]
+"681
+[v upload_store_payload@data data `uc  1 a 1 16 ]
+"678
+[v upload_store_payload@length length `uc  1 a 1 wreg ]
+"683
+[v upload_store_payload@length length `uc  1 a 1 15 ]
+"718
+} 0
+"870
+[v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
+{
+"872
+[v crc32_update@i i `uc  1 a 1 9 ]
+"870
+[v crc32_update@crc crc `ul  1 p 4 0 ]
+[v crc32_update@data data `uc  1 p 1 4 ]
+"885
+} 0
+"172
+[v _uart2_puthex32 uart2_puthex32 `(v  1 s 1 uart2_puthex32 ]
+{
+"175
+[v uart2_puthex32@nibble nibble `uc  1 a 1 11 ]
+"174
+[v uart2_puthex32@shift shift `uc  1 a 1 10 ]
+"176
+[v uart2_puthex32@c c `uc  1 a 1 9 ]
+"172
+[v uart2_puthex32@value value `ul  1 p 4 1 ]
+"192
+} 0
+"592
+[v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
+{
+"599
+[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 18 ]
+"598
+[v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
+"604
+[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
+"602
+[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 16 ]
+"601
+[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 15 ]
+"597
+[v receive_upload_frame@i i `uc  1 a 1 14 ]
+"603
+[v receive_upload_frame@len_hi len_hi `uc  1 a 1 13 ]
+"596
+[v receive_upload_frame@ch ch `uc  1 a 1 12 ]
+"593
+[v receive_upload_frame@sequence sequence `*.30us  1 p 1 6 ]
+"594
+[v receive_upload_frame@length length `*.30uc  1 p 1 7 ]
+"673
+} 0
+"222
+[v _uart2_getc_timeout uart2_getc_timeout `(a  1 s 1 uart2_getc_timeout ]
+{
+"224
+[v uart2_getc_timeout@timeout timeout `us  1 a 2 0 ]
+"236
+} 0
+"207
+[v _uart2_try_getc uart2_try_getc `(a  1 s 1 uart2_try_getc ]
+{
+"220
+} 0
+"575
+[v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
+{
+"577
+[v crc16_update@i i `uc  1 a 1 5 ]
+"575
+[v crc16_update@crc crc `us  1 p 2 0 ]
+[v crc16_update@data data `uc  1 p 1 2 ]
+"590
+} 0
+"467
+[v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
+{
+"485
+} 0
+"550
+[v _eeprom_clear_unused eeprom_clear_unused `(a  1 s 1 eeprom_clear_unused ]
+{
+"552
+[v eeprom_clear_unused@address address `us  1 a 2 8 ]
+"550
+[v eeprom_clear_unused@used_size used_size `us  1 p 2 6 ]
+"566
+} 0
+"505
+[v _eeprom_write_verify_byte eeprom_write_verify_byte `(a  1 s 1 eeprom_write_verify_byte ]
+{
+"507
+[v eeprom_write_verify_byte@gie_state gie_state `uc  1 a 1 5 ]
+"505
+[v eeprom_write_verify_byte@address address `us  1 p 2 2 ]
+[v eeprom_write_verify_byte@value value `uc  1 p 1 4 ]
+"547
+} 0
+"488
+[v _eeprom_read_byte eeprom_read_byte `(uc  1 s 1 eeprom_read_byte ]
+{
+[v eeprom_read_byte@address address `us  1 p 2 0 ]
+"499
+} 0
+"380
+[v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
+{
+"382
+[v application_marker_write@i i `uc  1 a 1 22 ]
+"380
+[v application_marker_write@size size `us  1 p 2 16 ]
+[v application_marker_write@crc crc `ul  1 p 4 18 ]
+"409
+} 0
+"457
+[v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
+{
+[v flash_program_row@address address `us  1 p 2 12 ]
+"458
+[v flash_program_row@buffer buffer `*.30Cuc  1 p 1 14 ]
+"464
+} 0
+"414
+[v _flash_write_row flash_write_row `(a  1 s 1 flash_write_row ]
+{
+"417
+[v flash_write_row@i i `uc  1 a 1 11 ]
+"418
+[v flash_write_row@gie_state gie_state `uc  1 a 1 10 ]
+"414
+[v flash_write_row@address address `us  1 p 2 7 ]
+"415
+[v flash_write_row@buffer buffer `*.30Cuc  1 p 1 9 ]
+"454
+} 0
+"318
+[v _flash_verify_row flash_verify_row `(a  1 s 1 flash_verify_row ]
+{
+"320
+[v flash_verify_row@i i `uc  1 a 1 6 ]
+"318
+[v flash_verify_row@address address `us  1 p 2 2 ]
+[v flash_verify_row@buffer buffer `*.30Cuc  1 p 1 4 ]
+"343
+} 0
+"1056
+[v _process_command process_command `(v  1 s 1 process_command ]
+{
+[v process_command@cmd cmd `*.30Cuc  1 p 1 17 ]
+"1082
+} 0
+"162
+[v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
+{
+[v uart2_puts@s s `*.31Cuc  1 p 1 1 ]
+"169
+} 0
+"1043
+[v _reset_to_bootloader reset_to_bootloader `(v  1 s 1 reset_to_bootloader ]
+{
+"1054
+} 0
+"946
+[v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
+{
+"948
+[v parse_upload_command@p p `*.30Cuc  1 a 1 16 ]
+"949
+[v parse_upload_command@error error `uc  1 a 1 15 ]
+"946
+[v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 13 ]
+"1034
+} 0
+"197
+[v _uart2_error uart2_error `(v  1 s 1 uart2_error ]
+{
+[v uart2_error@code code `uc  1 a 1 wreg ]
+[v uart2_error@code code `uc  1 a 1 wreg ]
+"199
+[v uart2_error@code code `uc  1 a 1 1 ]
+"205
+} 0
+"154
+[v _uart2_putc uart2_putc `(v  1 s 1 uart2_putc ]
+{
+[v uart2_putc@c c `uc  1 a 1 wreg ]
+[v uart2_putc@c c `uc  1 a 1 wreg ]
+[v uart2_putc@c c `uc  1 a 1 0 ]
+"160
+} 0
+"887
+[v _parse_decimal_u16 parse_decimal_u16 `(a  1 s 1 parse_decimal_u16 ]
+{
+"889
+[v parse_decimal_u16@accumulator accumulator `us  1 a 2 10 ]
+"891
+[v parse_decimal_u16@digit digit `uc  1 a 1 9 ]
+"890
+[v parse_decimal_u16@digits digits `uc  1 a 1 8 ]
+"887
+[v parse_decimal_u16@cursor cursor `*.30*.30Cuc  1 p 1 0 ]
+[v parse_decimal_u16@value value `*.30us  1 p 1 1 ]
+"913
+} 0
+"915
+[v _parse_crc32_hex parse_crc32_hex `(a  1 s 1 parse_crc32_hex ]
+{
+"920
+[v parse_crc32_hex@crc crc `ul  1 a 4 7 ]
+"919
+[v parse_crc32_hex@c c `uc  1 a 1 12 ]
+"917
+[v parse_crc32_hex@i i `uc  1 a 1 11 ]
+"918
+[v parse_crc32_hex@nibble nibble `uc  1 a 1 6 ]
+"915
+[v parse_crc32_hex@cursor cursor `*.30*.30Cuc  1 p 1 0 ]
+[v parse_crc32_hex@value value `*.30ul  1 p 1 1 ]
+"940
+} 0
+"100
+[v _flash_fill_buffer flash_fill_buffer `(v  1 s 1 flash_fill_buffer ]
+{
+[v flash_fill_buffer@offset offset `uc  1 a 1 wreg ]
+"102
+[v flash_fill_buffer@i i `uc  1 a 1 2 ]
+"100
+[v flash_fill_buffer@offset offset `uc  1 a 1 wreg ]
+[v flash_fill_buffer@count count `uc  1 p 1 0 ]
+"104
+[v flash_fill_buffer@offset offset `uc  1 a 1 1 ]
+"111
+} 0
+"256
+[v _flash_erase_row flash_erase_row `(a  1 s 1 flash_erase_row ]
+{
+"296
+[v flash_erase_row@i i `uc  1 a 1 8 ]
+"259
+[v flash_erase_row@status status `uc  1 a 1 7 ]
+"258
+[v flash_erase_row@gie_state gie_state `uc  1 a 1 6 ]
+"256
+[v flash_erase_row@address address `us  1 p 2 4 ]
+"313
+} 0
+"248
+[v _flash_valid_row flash_valid_row `(a  1 s 1 flash_valid_row ]
+{
+[v flash_valid_row@address address `us  1 p 2 0 ]
+"254
+} 0
+"347
+[v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
+{
+"349
+[v application_marker_valid@marker marker `[8]uc  1 a 8 4 ]
+"351
+[v application_marker_valid@size size `us  1 a 2 13 ]
+"350
+[v application_marker_valid@i i `uc  1 a 1 15 ]
+"376
+} 0
+"239
+[v _flash_set_pointer flash_set_pointer `(v  1 s 1 flash_set_pointer ]
+{
+[v flash_set_pointer@address address `us  1 p 2 0 ]
+"245
+} 0
