@@ -49,45 +49,45 @@
 [v _flash_valid_row flash_valid_row `(a  1 s 1 flash_valid_row ]
 "239
 [v _flash_erase_row flash_erase_row `(a  1 s 1 flash_erase_row ]
-"300
+"301
 [v _flash_verify_row flash_verify_row `(a  1 s 1 flash_verify_row ]
-"328
+"330
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
-"360
+"363
 [v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
-"395
+"398
 [v _flash_write_row flash_write_row `(a  1 s 1 flash_write_row ]
-"437
+"441
 [v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
-"447
+"451
 [v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
-"471
+"475
 [v _eeprom_read_byte eeprom_read_byte `(uc  1 s 1 eeprom_read_byte ]
-"487
+"492
 [v _eeprom_write_verify_byte eeprom_write_verify_byte `(a  1 s 1 eeprom_write_verify_byte ]
-"532
+"537
 [v _eeprom_clear_unused eeprom_clear_unused `(a  1 s 1 eeprom_clear_unused ]
-"557
+"562
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
-"574
+"579
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
-"660
+"665
 [v _upload_store_payload upload_store_payload `(a  1 s 1 upload_store_payload ]
-"702
+"707
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
-"847
+"852
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
-"864
+"869
 [v _parse_decimal_u16 parse_decimal_u16 `(a  1 s 1 parse_decimal_u16 ]
-"892
+"897
 [v _parse_crc32_hex parse_crc32_hex `(a  1 s 1 parse_crc32_hex ]
-"923
+"928
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
-"1023
+"1028
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
-"1043
+"1048
 [v _process_command process_command `(v  1 s 1 process_command ]
-"1070
+"1075
 [v _main main `(v  1 e 1 0 ]
 "29709 C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18F-K_DFP/1.16.308/xc8\pic\include\proc\pic18f66k80.h
 [v _EEDATA EEDATA `VEuc  1 e 1 @3955 ]
@@ -345,16 +345,16 @@
 [v _parsed_flash_crc parsed_flash_crc `ul  1 s 4 parsed_flash_crc ]
 "121
 [v _parsed_eeprom_crc parsed_eeprom_crc `ul  1 s 4 parsed_eeprom_crc ]
-"1070
+"1075
 [v _main main `(v  1 e 1 0 ]
 {
-"1072
+"1077
 [v main@line line `[36]uc  1 a 36 11 ]
-"1074
+"1079
 [v main@ch ch `uc  1 a 1 48 ]
-"1073
+"1078
 [v main@count count `uc  1 a 1 47 ]
-"1109
+"1114
 } 0
 "130
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
@@ -363,42 +363,42 @@
 [v uart2_init@dummy dummy `VEuc  1 a 1 0 ]
 "149
 } 0
-"702
+"707
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
 {
-"704
+"709
 [v receive_upload_data@sequence sequence `us  1 a 2 8 ]
-"706
+"711
 [v receive_upload_data@result result `uc  1 a 1 10 ]
-"705
+"710
 [v receive_upload_data@length length `uc  1 a 1 7 ]
-"707
+"712
 [v receive_upload_data@error error `uc  1 a 1 6 ]
-"840
+"845
 } 0
-"660
+"665
 [v _upload_store_payload upload_store_payload `(a  1 s 1 upload_store_payload ]
 {
 [v upload_store_payload@length length `uc  1 a 1 wreg ]
-"662
+"667
 [v upload_store_payload@i i `uc  1 a 1 20 ]
-"663
+"668
 [v upload_store_payload@data data `uc  1 a 1 19 ]
-"660
-[v upload_store_payload@length length `uc  1 a 1 wreg ]
 "665
+[v upload_store_payload@length length `uc  1 a 1 wreg ]
+"670
 [v upload_store_payload@length length `uc  1 a 1 18 ]
-"700
+"705
 } 0
-"847
+"852
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
 {
-"849
+"854
 [v crc32_update@i i `uc  1 a 1 9 ]
-"847
+"852
 [v crc32_update@crc crc `ul  1 p 4 0 ]
 [v crc32_update@data data `uc  1 p 1 4 ]
-"862
+"867
 } 0
 "167
 [v _uart2_puthex32 uart2_puthex32 `(v  1 s 1 uart2_puthex32 ]
@@ -411,30 +411,30 @@
 [v uart2_puthex32@hex hex `C[17]uc  1 s 17 hex ]
 "178
 } 0
-"574
+"579
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
 {
-"581
-[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 18 ]
-"580
-[v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
 "586
-[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
-"584
-[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 16 ]
-"583
-[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 15 ]
-"579
-[v receive_upload_frame@i i `uc  1 a 1 14 ]
+[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 18 ]
 "585
+[v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
+"591
+[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
+"589
+[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 16 ]
+"588
+[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 15 ]
+"584
+[v receive_upload_frame@i i `uc  1 a 1 14 ]
+"590
 [v receive_upload_frame@len_hi len_hi `uc  1 a 1 13 ]
-"578
+"583
 [v receive_upload_frame@ch ch `uc  1 a 1 12 ]
-"575
+"580
 [v receive_upload_frame@sequence sequence `*.30us  1 p 1 6 ]
-"576
+"581
 [v receive_upload_frame@length length `*.30uc  1 p 1 7 ]
-"655
+"660
 } 0
 "205
 [v _uart2_getc_timeout uart2_getc_timeout `(a  1 s 1 uart2_getc_timeout ]
@@ -448,111 +448,111 @@
 {
 "203
 } 0
-"557
+"562
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
 {
-"559
+"564
 [v crc16_update@i i `uc  1 a 1 5 ]
-"557
+"562
 [v crc16_update@crc crc `us  1 p 2 0 ]
 [v crc16_update@data data `uc  1 p 1 2 ]
-"572
+"577
 } 0
-"447
+"451
 [v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
 {
-"468
+"472
 } 0
-"532
+"537
 [v _eeprom_clear_unused eeprom_clear_unused `(a  1 s 1 eeprom_clear_unused ]
 {
-"534
+"539
 [v eeprom_clear_unused@address address `us  1 a 2 8 ]
-"532
+"537
 [v eeprom_clear_unused@used_size used_size `us  1 p 2 6 ]
-"548
+"553
 } 0
-"487
+"492
 [v _eeprom_write_verify_byte eeprom_write_verify_byte `(a  1 s 1 eeprom_write_verify_byte ]
 {
-"489
+"494
 [v eeprom_write_verify_byte@gie_state gie_state `uc  1 a 1 5 ]
-"487
+"492
 [v eeprom_write_verify_byte@address address `us  1 p 2 2 ]
 [v eeprom_write_verify_byte@value value `uc  1 p 1 4 ]
-"529
+"534
 } 0
-"471
+"475
 [v _eeprom_read_byte eeprom_read_byte `(uc  1 s 1 eeprom_read_byte ]
 {
 [v eeprom_read_byte@address address `us  1 p 2 0 ]
-"481
+"486
 } 0
-"360
+"363
 [v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
 {
-"362
+"365
 [v application_marker_write@marker marker `[64]uc  1 a 64 24 ]
-"363
+"366
 [v application_marker_write@i i `uc  1 a 1 88 ]
-"360
+"363
 [v application_marker_write@size size `us  1 p 2 18 ]
 [v application_marker_write@crc crc `ul  1 p 4 20 ]
-"391
+"394
 } 0
-"437
+"441
 [v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
 {
 [v flash_program_row@address address `us  1 p 2 14 ]
-"438
+"442
 [v flash_program_row@buffer buffer `*.39Cuc  1 p 2 16 ]
-"444
+"448
 } 0
-"395
+"398
 [v _flash_write_row flash_write_row `(a  1 s 1 flash_write_row ]
 {
-"398
+"401
 [v flash_write_row@i i `uc  1 a 1 13 ]
-"399
+"402
 [v flash_write_row@gie_state gie_state `uc  1 a 1 12 ]
-"395
+"398
 [v flash_write_row@address address `us  1 p 2 8 ]
-"396
+"399
 [v flash_write_row@buffer buffer `*.39Cuc  1 p 2 10 ]
-"434
+"438
 } 0
-"300
+"301
 [v _flash_verify_row flash_verify_row `(a  1 s 1 flash_verify_row ]
 {
-"302
+"303
 [v flash_verify_row@i i `uc  1 a 1 7 ]
-"300
+"301
 [v flash_verify_row@address address `us  1 p 2 2 ]
 [v flash_verify_row@buffer buffer `*.39Cuc  1 p 2 4 ]
-"324
+"326
 } 0
-"1043
+"1048
 [v _process_command process_command `(v  1 s 1 process_command ]
 {
 [v process_command@cmd cmd `*.30Cuc  1 p 1 17 ]
-"1068
-} 0
-"923
-[v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
-{
-"925
-[v parse_upload_command@p p `*.30Cuc  1 a 1 16 ]
-"926
-[v parse_upload_command@error error `uc  1 a 1 15 ]
-"923
-[v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 13 ]
-"1011
+"1073
 } 0
 "159
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
 {
 [v uart2_puts@s s `*.31Cuc  1 p 1 1 ]
 "164
+} 0
+"928
+[v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
+{
+"930
+[v parse_upload_command@p p `*.30Cuc  1 a 1 16 ]
+"931
+[v parse_upload_command@error error `uc  1 a 1 15 ]
+"928
+[v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 13 ]
+"1016
 } 0
 "182
 [v _uart2_error uart2_error `(v  1 s 1 uart2_error ]
@@ -571,35 +571,35 @@
 [v uart2_putc@c c `uc  1 a 1 0 ]
 "157
 } 0
-"864
+"869
 [v _parse_decimal_u16 parse_decimal_u16 `(a  1 s 1 parse_decimal_u16 ]
 {
-"866
+"871
 [v parse_decimal_u16@accumulator accumulator `us  1 a 2 10 ]
-"868
+"873
 [v parse_decimal_u16@digit digit `uc  1 a 1 9 ]
-"867
+"872
 [v parse_decimal_u16@digits digits `uc  1 a 1 8 ]
-"864
+"869
 [v parse_decimal_u16@cursor cursor `*.30*.30Cuc  1 p 1 0 ]
 [v parse_decimal_u16@value value `*.30us  1 p 1 1 ]
-"890
+"895
 } 0
-"892
+"897
 [v _parse_crc32_hex parse_crc32_hex `(a  1 s 1 parse_crc32_hex ]
 {
-"897
+"902
 [v parse_crc32_hex@crc crc `ul  1 a 4 7 ]
-"896
+"901
 [v parse_crc32_hex@c c `uc  1 a 1 12 ]
-"894
+"899
 [v parse_crc32_hex@i i `uc  1 a 1 11 ]
-"895
+"900
 [v parse_crc32_hex@nibble nibble `uc  1 a 1 6 ]
-"892
+"897
 [v parse_crc32_hex@cursor cursor `*.30*.30Cuc  1 p 1 0 ]
 [v parse_crc32_hex@value value `*.30ul  1 p 1 1 ]
-"917
+"922
 } 0
 "97
 [v _flash_fill_buffer flash_fill_buffer `(v  1 s 1 flash_fill_buffer ]
@@ -617,7 +617,7 @@
 "239
 [v _flash_erase_row flash_erase_row `(a  1 s 1 flash_erase_row ]
 {
-"278
+"279
 [v flash_erase_row@i i `uc  1 a 1 8 ]
 "242
 [v flash_erase_row@status status `uc  1 a 1 7 ]
@@ -625,7 +625,7 @@
 [v flash_erase_row@gie_state gie_state `uc  1 a 1 6 ]
 "239
 [v flash_erase_row@address address `us  1 p 2 4 ]
-"295
+"296
 } 0
 "231
 [v _flash_valid_row flash_valid_row `(a  1 s 1 flash_valid_row ]
@@ -633,21 +633,21 @@
 [v flash_valid_row@address address `us  1 p 2 0 ]
 "237
 } 0
-"1023
+"1028
 [v _jump_to_application jump_to_application `(v  1 s 1 jump_to_application ]
 {
-"1041
+"1046
 } 0
-"328
+"330
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
 {
-"330
-[v application_marker_valid@marker marker `[8]uc  1 a 8 4 ]
 "332
+[v application_marker_valid@marker marker `[8]uc  1 a 8 4 ]
+"334
 [v application_marker_valid@size size `us  1 a 2 13 ]
-"331
+"333
 [v application_marker_valid@i i `uc  1 a 1 15 ]
-"356
+"359
 } 0
 "222
 [v _flash_set_pointer flash_set_pointer `(v  1 s 1 flash_set_pointer ]
