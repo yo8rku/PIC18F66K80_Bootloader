@@ -1065,7 +1065,7 @@ static void process_command(const char *cmd)
         }
         else if (application_marker_valid())
         {
-            uart2_puts("RUN\\r\\n");
+            uart2_puts("RUN\r\n");
             reset_to_bootloader();
         }
         else
