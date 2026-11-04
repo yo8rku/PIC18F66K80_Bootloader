@@ -1,13 +1,13 @@
 /*
- * PIC18F66K80 UART2 Bootloader - Dual Image
+ * PIC18F6722 UART2 Bootloader - Dual Image
  * MPLAB X + XC8 v2.46
  *
  * UART2 bootloader with application launch and dual Flash/EEPROM update.
  * The application marker is written only after both images are verified.
  *
  * Hardware:
- *   Fosc = 64 MHz (16 MHz crystal + PLL x4)
- *   UART2 RX = RE6, TX = RE7
+ *   Fosc = 40 MHz (10 MHz crystal + PLL x4)
+ *   UART2 RX = RG2, TX = RG1
  *   115200 baud, 8-N-1, no flow control
  */
 
@@ -15,17 +15,20 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-#pragma config FOSC = HS1 ,PLLCFG = ON
-#pragma config IESO = OFF, FCMEN = OFF
-#pragma config PWRTEN = ON, BORV = 3, BOREN = ON
-#pragma config WDTEN = ON, WDTPS = 128
-#pragma config MCLRE = ON, MSSPMSK = MSK7, T0CKMX = PORTB, T3CKMX = PORTB, CANMX = PORTB
-#pragma config STVREN = ON, DEBUG = OFF, XINST = OFF, BBSIZ = BB2K
+#pragma config OSC = HSPLL, FCMEN = OFF, IESO = OFF
+#pragma config PWRT = ON, BOREN = ON, BORV = 3
+#pragma config WDT = ON, WDTPS = 128
+#pragma config CCP2MX = PORTE, LPT1OSC = OFF, MCLRE = ON
+#pragma config STVREN = ON, LVP = OFF, BBSIZ = BB4K
+#pragma config XINST = OFF, DEBUG = OFF
 #pragma config CP0 = OFF, CP1 = OFF, CP2 = OFF, CP3 = OFF
+#pragma config CP4 = OFF, CP5 = OFF, CP6 = OFF, CP7 = OFF
 #pragma config CPB = OFF, CPD = OFF
 #pragma config WRT0 = OFF, WRT1 = OFF, WRT2 = OFF, WRT3 = OFF
+#pragma config WRT4 = OFF, WRT5 = OFF, WRT6 = OFF, WRT7 = OFF
 #pragma config WRTC = OFF, WRTB = OFF, WRTD = OFF
 #pragma config EBTR0 = OFF, EBTR1 = OFF, EBTR2 = OFF, EBTR3 = OFF
+#pragma config EBTR4 = OFF, EBTR5 = OFF, EBTR6 = OFF, EBTR7 = OFF
 #pragma config EBTRB = OFF
 #pragma warning disable 1510
 
@@ -42,7 +45,7 @@
 asm("PSECT intcode");
 asm("GOTO 0x1008");
 
-#define _XTAL_FREQ       64000000UL
+#define _XTAL_FREQ       40000000UL
 #define UART2_BAUD       115200UL
 #define RX_LINE_MAX      36u
 
@@ -125,13 +128,17 @@ static bool eeprom_clear_unused(uint16_t used_size);
 
 static void uart2_init(void)
 {
-    /* Preserve the pin direction setup used on the target board. */
-    TRISE = 0b01000111;
+    /* PIC18F6722 UART2 pins: RG2 = RX2 input, RG1 = TX2 output. */
+    TRISGbits.TRISG2 = 1;
+    TRISGbits.TRISG1 = 0;
 
-    BAUDCON2bits.BRG16 = 0;
+    /* 40 MHz, asynchronous high-speed, 16-bit baud generator.
+     * SPBRG2 = 86 gives 114942 baud (about -0.22% error).
+     */
+    BAUDCON2bits.BRG16 = 1;
     RCSTA2 = 0b10010000;       /* SPEN=1, CREN=1, 8-bit asynchronous RX */
     TXSTA2 = 0b00100100;       /* TXEN=1, BRGH=1, asynchronous */
-    SPBRG2 = 34;               /* 114285.7 baud at Fosc=64 MHz (~ -0.79%) */
+    SPBRG2 = 86;
     SPBRGH2 = 0;
 
     if (RCSTA2bits.OERR) {
@@ -228,7 +235,7 @@ static bool uart2_getc_timeout(void)
     return false;
 }
 
-/* Set PIC18F66K80 program memory table pointer */
+/* Set PIC18F6722 program memory table pointer (lower 64 KB used). */
 static void flash_set_pointer(uint16_t address)
 {
     // TBLPTRU must be cleared: table operations can carry into it. 
@@ -237,7 +244,7 @@ static void flash_set_pointer(uint16_t address)
     TBLPTRL = (uint8_t) address;
 }
 
-/* Check that address is a valid application Flash row */
+/* Check that address is a valid application Flash row in 0x0000-0xFFFF. */
 static bool flash_valid_row(uint16_t address)
 {
     // One combined test avoids three separate return paths. 
@@ -530,7 +537,7 @@ static bool eeprom_write_verify_byte(uint16_t address, uint8_t value)
         CLRWDT();
 
     /* The EEPROM write-complete flag is cleared in software. */
-    PIR4bits.EEIF = 0;
+    PIR2bits.EEIF = 0;
     EECON1bits.WREN = 0;
 
     if (EECON1bits.WRERR)
@@ -1085,6 +1092,7 @@ void main(void)
 
     /* RB6/PGC is the active-low BOOT request input.
      * Use an external 10-kohm pull-up to VDD and a jumper/switch to GND.
+     * DEBUG is disabled in configuration bits, so RB6 is available as GPIO.
      */
     TRISBbits.TRISB6 = 1;
 
