@@ -1029,29 +1029,21 @@ upload_command_error:
 
 /////////////
 /*
- * Launch the application linked at 0x1000.
- *
- * This is a software hand-off, not a hardware reset. Stop UART2 cleanly,
- * keep interrupts disabled, clear the hardware return stack, then branch to
- * the application's reset vector. The application startup code is expected
- * to initialize its own C runtime and peripherals.
+ * Restart the MCU after the RUN response has left UART2.
+ * On the next boot, main() validates the application and BOOT pin,
+ * then either launches the application or remains in the bootloader.
  */
-static void jump_to_application(void)
+static void reset_to_bootloader(void)
 {
-    /* Finish transmitting the RUN response before releasing UART2. */
     while (!TXSTA2bits.TRMT) {
         CLRWDT();
     }
 
-    RCSTA2 = 0;
-    TXSTA2 = 0;
-    BAUDCON2 = 0;
+    asm("RESET");
 
-    /* GIE is cleared before this hand-off; no interrupt may run in the app. */
-    INTCONbits.GIE = 0;
-    STKPTR = 0;
-
-    asm("GOTO 0x1000");
+    for (;;) {
+        ;
+    }
 }
 
 static void process_command(const char *cmd)
@@ -1066,10 +1058,15 @@ static void process_command(const char *cmd)
         uart2_puts("BOOT\r\n");
 
     } else if (cmd[0] == 'R' && cmd[1] == '\0') {
-        if (application_marker_valid())
+        if (!PORTBbits.RB6)
         {
-            uart2_puts("RUN\r\n");
-            jump_to_application();
+            /* BOOT jumper is asserted: remain in the bootloader. */
+            uart2_error('B');
+        }
+        else if (application_marker_valid())
+        {
+            uart2_puts("RUN\\r\\n");
+            reset_to_bootloader();
         }
         else
         {
@@ -1089,6 +1086,17 @@ void main(void)
 
     INTCONbits.GIE = 0;
     INTCONbits.PEIE = 0;
+
+    /* RB6/PGC is the active-low BOOT request input.
+     * Use an external 10-kohm pull-up to VDD and a jumper/switch to GND.
+     */
+    TRISBbits.TRISB6 = 1;
+
+    /* Normal startup: launch a valid application unless BOOT is requested. */
+    if (PORTBbits.RB6 && application_marker_valid())
+    {
+        asm("GOTO 0x1000");
+    }
 
     /* Initialize non-zero state here to avoid a ROM data-init table. */
     upload_crc32 = 0xFFFFFFFFUL;
