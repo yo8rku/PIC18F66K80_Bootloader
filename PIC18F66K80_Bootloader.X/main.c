@@ -94,6 +94,7 @@ static uint16_t flash_row_address;
 static volatile uint8_t asm_clear_count;
 
 /* Fill a selected range of the Flash staging row with erased value 0xFF. */
+/*
 static void flash_fill_buffer(uint8_t offset, uint8_t count)
 {
     uint16_t address;
@@ -109,6 +110,19 @@ static void flash_fill_buffer(uint8_t offset, uint8_t count)
     asm("SETF POSTINC2, c");
     asm("DECFSZ _asm_clear_count, f, c");
     asm("BRA flash_fill_loop");
+}
+*/
+static void flash_fill_buffer(uint8_t offset, uint8_t count)
+{
+    uint8_t i;
+
+    if (count == 0u)
+        return;
+
+    for (i = 0u; i < count; i++)
+    {
+        flash_row_buffer[offset + i] = 0xFFu;
+    }
 }
 
 static uint32_t upload_crc32;
@@ -183,8 +197,10 @@ static void uart2_error(char code)
 {
     uart2_putc('!');
     uart2_putc(code);
-    uart2_putc('\r');
-    uart2_putc('\n');
+    //uart2_putc('\r');
+    //uart2_putc('\n');
+    uart2_putc(0x0D);
+    uart2_putc(0x0A);
 }
 
 static bool uart2_try_getc(void)
@@ -453,9 +469,6 @@ static bool flash_flush_row(void)
     if (flash_row_fill == 0u)
         return true;
 
-    /* Pad the last incomplete row with erased Flash value.
-     * Use FSR2 post-increment and an assembly countdown loop.
-     */
     flash_fill_buffer(flash_row_fill,
                       (uint8_t)(FLASH_ROW_SIZE - flash_row_fill));
 
@@ -466,7 +479,7 @@ static bool flash_flush_row(void)
     flash_row_fill = 0u;
     flash_row_address += FLASH_ROW_SIZE;
 
-    flash_fill_buffer(0u, FLASH_ROW_SIZE);
+    //flash_fill_buffer(0u, FLASH_ROW_SIZE);
 
     return true;
 }
@@ -790,17 +803,17 @@ static void receive_upload_data(void)
 
             if (upload_phase == UPLOAD_PHASE_FLASH)
             {
-                /* Flush and verify the final partial Flash row. */
+                // Flush and verify the final partial Flash row. /
                 if (!flash_flush_row())
                 {
                     error = 'F';
                     goto upload_abort;
                 }
 
-                /* Expected CRC is now proven equal to the calculated CRC. */
+                // Expected CRC is now proven equal to the calculated CRC./
                 flash_final_crc = upload_expected_crc;
 
-                /* Switch to EEPROM phase; sequence numbering restarts at zero. */
+                // Switch to EEPROM phase; sequence numbering restarts at zero. 
                 upload_phase = UPLOAD_PHASE_EEPROM;
                 upload_size = eeprom_upload_size;
                 upload_expected_crc = eeprom_upload_expected_crc;
@@ -809,7 +822,10 @@ static void receive_upload_data(void)
                 upload_crc32 = 0xFFFFFFFFUL;
                 upload_have_frame = false;
 
-                uart2_puts("E\r\n");
+                //uart2_puts("E\r\n");
+                uart2_putc('E');
+                uart2_putc(0x0D);
+                uart2_putc(0x0A);
             }
             else
             {
@@ -832,7 +848,8 @@ static void receive_upload_data(void)
                 uart2_puthex32(flash_final_crc);
                 uart2_putc(' ');
                 uart2_puthex32(upload_expected_crc);
-                uart2_puts("\r\n");
+                uart2_putc(0x0D);
+                uart2_putc(0x0A);
             }
         }
 
