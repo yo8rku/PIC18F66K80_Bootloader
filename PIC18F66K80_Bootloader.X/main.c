@@ -1053,10 +1053,6 @@ static void process_command(const char *cmd)
 
     if (cmd[0] == 'I' && cmd[1] == '\0') {
         uart2_puts("LDMOS CONTROLER UPLOADER\r\n");
-
-    } else if (cmd[0] == 'B' && cmd[1] == '\0') {
-        uart2_puts("BOOT\r\n");
-
     } else if (cmd[0] == 'R' && cmd[1] == '\0') {
         if (!PORTBbits.RB6)
         {
