@@ -29,7 +29,7 @@
     <conf name="default" type="2">
       <toolsSet>
         <developmentServer>localhost</developmentServer>
-        <targetDevice>PIC18F66K80</targetDevice>
+        <targetDevice>PIC18F6722</targetDevice>
         <targetHeader></targetHeader>
         <targetPluginBoard></targetPluginBoard>
         <platformTool>PK5Tool</platformTool>
@@ -38,7 +38,7 @@
         <platform>3</platform>
       </toolsSet>
       <packs>
-        <pack name="PIC18F-K_DFP" vendor="Microchip" version="1.16.308"/>
+        <pack name="PIC18Fxxxx_DFP" vendor="Microchip" version="1.8.178"/>
       </packs>
       <ScriptingSettings>
       </ScriptingSettings>
@@ -197,9 +197,9 @@
         <property key="memories.instruction.ram.ranges"
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
-        <property key="memories.programmemory.ranges" value="0-ffff"/>
+        <property key="memories.programmemory.ranges" value="0-1ffff"/>
         <property key="poweroptions.powerenable" value="true"/>
-        <property key="programmerToGoImageName" value="PIC18F66K80_Bootloader_ptg"/>
+        <property key="programmerToGoImageName" value="PIC18F6722_Bootloader_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.ledbrightness" value="5"/>
@@ -263,9 +263,9 @@
         <property key="memories.instruction.ram.ranges"
                   value="${memories.instruction.ram.ranges}"/>
         <property key="memories.programmemory" value="true"/>
-        <property key="memories.programmemory.ranges" value="0-ffff"/>
+        <property key="memories.programmemory.ranges" value="0-1ffff"/>
         <property key="poweroptions.powerenable" value="true"/>
-        <property key="programmerToGoImageName" value="PIC18F66K80_Bootloader_ptg"/>
+        <property key="programmerToGoImageName" value="PIC18F6722_Bootloader_ptg"/>
         <property key="programoptions.donoteraseauxmem" value="false"/>
         <property key="programoptions.eraseb4program" value="true"/>
         <property key="programoptions.ledbrightness" value="5"/>
