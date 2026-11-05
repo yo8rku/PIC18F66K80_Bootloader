@@ -52,14 +52,13 @@ asm("GOTO 0x1008");
 #define UART2_BAUD       115200UL
 #define RX_LINE_MAX      36u
 
-#define APP_START        ((__uint24)0x01000u)
-#define APP_END          ((__uint24)0x1FFFFu)  /* Physical end of 128-KB program Flash */
-#define APP_MARKER_ADDR  ((__uint24)0x1FFC0u)  /* Reserved final 64-byte row */
-#define FLASH_ROW_SIZE   64u
-#define EEPROM_SIZE      1024u
+#define APP_START       0x01000u
+#define APP_END         0x1FFFFu
+#define APP_MARKER_ADDR 0x1FFC0u
+#define FLASH_ROW_SIZE  64u
+#define EEPROM_SIZE     1024u
 
-/* Keep the uploader's application image limit at 64 KiB. */
-#define MAX_APP_SIZE     ((__uint24)0x10000u)
+#define MAX_APP_SIZE    (APP_MARKER_ADDR - APP_START)
 
 #define UPLOAD_PHASE_FLASH   0u
 #define UPLOAD_PHASE_EEPROM  1u
@@ -79,13 +78,13 @@ asm("GOTO 0x1008");
 
 #define UART_TIMEOUT_COUNT  60000u
 
-static __uint24 upload_size;
+static uint16_t upload_size;
 static uint32_t upload_expected_crc;
-static __uint24 upload_received;
+static uint16_t upload_received;
 static uint16_t upload_sequence;
 static bool upload_active;
 
-static __uint24 flash_upload_size;
+static uint16_t flash_upload_size;
 static uint16_t eeprom_upload_size;
 static uint32_t eeprom_upload_expected_crc;
 static uint32_t flash_final_crc;
@@ -95,7 +94,10 @@ static uint8_t uart2_rx_byte;
 static uint8_t frame_payload[BLOCK_SIZE];
 static uint8_t flash_row_buffer[FLASH_ROW_SIZE];
 static uint8_t flash_row_fill;
-static __uint24 flash_row_address;
+static uint16_t flash_row_address;
+
+/* Dedicated counter used by the small Flash-row buffer clear routine. */
+static volatile uint8_t asm_clear_count;
 
 /* Fill a selected range of the Flash staging row with erased value 0xFF. */
 static void flash_fill_buffer(uint8_t offset, uint8_t count)
@@ -115,14 +117,14 @@ static uint32_t upload_crc32;
 static bool upload_have_frame;
 
 /* Parser scratch is static to avoid four temporary values in the C stack. */
-static __uint24 parsed_flash_size;
+static uint16_t parsed_flash_size;
 static uint16_t parsed_eeprom_size;
 static uint32_t parsed_flash_crc;
 static uint32_t parsed_eeprom_crc;
 
 // Function prototypes
 static uint32_t crc32_update(uint32_t crc, uint8_t data);
-static bool flash_program_row(__uint24 address, const uint8_t *buffer);
+static bool flash_program_row(uint16_t address, const uint8_t *buffer);
 static uint8_t eeprom_read_byte(uint16_t address);
 static bool eeprom_write_verify_byte(uint16_t address, uint8_t value);
 static bool eeprom_clear_unused(uint16_t used_size);
@@ -172,20 +174,23 @@ static void uart2_puts(const char *s)
 /* Send a 32-bit value as exactly 8 uppercase hexadecimal digits. */
 static void uart2_puthex32(uint32_t value)
 {
-    uint8_t i;
+    uint8_t shift;
     uint8_t nibble;
+    char c;
 
-    /* Fixed four-bit shifts are smaller than a variable shift count on PIC18. */
-    for (i = 0u; i < 8u; i++)
+    for (shift = 28u; ; shift -= 4u)
     {
-        nibble = (uint8_t)(value >> 28);
+        nibble = (uint8_t)((value >> shift) & 0x0Fu);
 
         if (nibble < 10u)
-            uart2_putc((char)('0' + nibble));
+            c = (char)('0' + nibble);
         else
-            uart2_putc((char)('A' + nibble - 10u));
+            c = (char)('A' + nibble - 10u);
 
-        value <<= 4;
+        uart2_putc(c);
+
+        if (shift == 0u)
+            break;
     }
 }
 
@@ -233,16 +238,17 @@ static bool uart2_getc_timeout(void)
     return false;
 }
 
-/* Set the full PIC18F6722 program-memory table pointer. */
-static void flash_set_pointer(__uint24 address)
+/* Set PIC18F6722 program memory table pointer (lower 64 KB used). */
+static void flash_set_pointer(uint16_t address)
 {
-    TBLPTRU = (uint8_t)(address >> 16);
+    // TBLPTRU must be cleared: table operations can carry into it. 
+    TBLPTRU = 0;
     TBLPTRH = (uint8_t)(address >> 8);
-    TBLPTRL = (uint8_t)address;
+    TBLPTRL = (uint8_t) address;
 }
 
-/* Check a 64-byte row within program Flash; the marker row is also writable. */
-static bool flash_valid_row(__uint24 address)
+/* Check that address is a valid application Flash row in 0x0000-0xFFFF. */
+static bool flash_valid_row(uint16_t address)
 {
     // One combined test avoids three separate return paths. 
     return (address >= APP_START) &&
@@ -250,7 +256,7 @@ static bool flash_valid_row(__uint24 address)
            ((address & (FLASH_ROW_SIZE - 1u)) == 0u);
 }
 
-static bool flash_erase_row(__uint24 address)
+static bool flash_erase_row(uint16_t address)
 {
     uint8_t gie_state;
     uint8_t status;
@@ -312,7 +318,7 @@ static bool flash_erase_row(__uint24 address)
 
 
 /* Read and verify one 64-byte Flash row */
-static bool flash_verify_row(__uint24 address, const uint8_t *buffer)
+static bool flash_verify_row(uint16_t address, const uint8_t *buffer)
 {
     uint8_t i;
 
@@ -345,7 +351,7 @@ static bool application_marker_valid(void)
 {
     uint8_t marker[8];
     uint8_t i;
-    __uint24 size;
+    uint16_t size;
 
     EECON1bits.EEPGD = 1;
     EECON1bits.CFGS = 0;
@@ -363,20 +369,18 @@ static bool application_marker_valid(void)
         marker[3] != '1')
         return false;
 
-    if (marker[7] != 0u)
+    if (marker[6] != 0u || marker[7] != 0u)
         return false;
 
-    /* The marker stores a 24-bit size; do not promote it to uint32_t. */
-    size = (__uint24)marker[4] |
-           ((__uint24)marker[5] << 8) |
-           ((__uint24)marker[6] << 16);
+    size = (uint16_t)marker[4] |
+           ((uint16_t)marker[5] << 8);
 
     return (size != 0u && size <= MAX_APP_SIZE);
 }
 
 
 /* Write application validity marker */
-static bool application_marker_write(__uint24 size, uint32_t crc)
+static bool application_marker_write(uint16_t size, uint32_t crc)
 {
     uint8_t i;
 
@@ -393,7 +397,7 @@ static bool application_marker_write(__uint24 size, uint32_t crc)
 
     flash_row_buffer[4] = (uint8_t)size;
     flash_row_buffer[5] = (uint8_t)(size >> 8);
-    flash_row_buffer[6] = (uint8_t)(size >> 16);
+    flash_row_buffer[6] = 0;
     flash_row_buffer[7] = 0;
 
     flash_row_buffer[8]  = (uint8_t)crc;
@@ -410,7 +414,7 @@ static bool application_marker_write(__uint24 size, uint32_t crc)
 
 /* Write one 64-byte Flash row.
    The row must have been erased first. */
-static bool flash_write_row(__uint24 address,
+static bool flash_write_row(uint16_t address,
                             const uint8_t *buffer)
 {
     uint8_t i;
@@ -453,7 +457,7 @@ static bool flash_write_row(__uint24 address,
 }
 
 /* Complete erase + write + verification operation */
-static bool flash_program_row(__uint24 address,
+static bool flash_program_row(uint16_t address,
                               const uint8_t *buffer)
 {
     if (!flash_erase_row(address))
@@ -911,50 +915,6 @@ static bool parse_decimal_u16(const char **cursor, uint16_t *value)
     return true;
 }
 
-static bool parse_decimal_u24(const char **cursor, __uint24 *value)
-{
-    uint16_t accumulator = 0;
-    uint8_t digits = 0;
-    uint8_t digit;
-
-    /*
-     * The accepted Flash image is at most 65536 bytes.
-     * Parse normally in 16 bits and handle the single 17-bit value
-     * (65536) explicitly. This avoids XC8 generating the 24-bit
-     * multiplication helper for accumulator * 10.
-     */
-    while (**cursor >= '0' && **cursor <= '9')
-    {
-        digit = (uint8_t)(**cursor - '0');
-
-        if (accumulator > 6553u ||
-            (accumulator == 6553u && digit > 5u))
-        {
-            if (accumulator == 6553u && digit == 6u &&
-                ((*cursor)[1] == ' ' || (*cursor)[1] == '\0'))
-            {
-                (*cursor)++;
-                *value = (__uint24)0x10000u;
-                return true;
-            }
-
-            return false;
-        }
-
-        accumulator = (uint16_t)((accumulator << 3) +
-                                 (accumulator << 1) +
-                                 digit);
-        (*cursor)++;
-        digits++;
-    }
-
-    if (digits == 0u)
-        return false;
-
-    *value = (__uint24)accumulator;
-    return true;
-}
-
 static bool parse_crc32_hex(const char **cursor, uint32_t *value)
 {
     uint8_t i;
@@ -998,7 +958,7 @@ static bool parse_upload_command(const char *cmd)
         *p++ != ' ')
         return false;
 
-    if (!parse_decimal_u24(&p, &parsed_flash_size) || *p++ != ' ')
+    if (!parse_decimal_u16(&p, &parsed_flash_size) || *p++ != ' ')
     {
         error = 'S';
         goto upload_command_error;
