@@ -913,21 +913,35 @@ static bool parse_decimal_u16(const char **cursor, uint16_t *value)
 
 static bool parse_decimal_u24(const char **cursor, __uint24 *value)
 {
-    __uint24 accumulator = 0;
+    uint16_t accumulator = 0;
     uint8_t digits = 0;
     uint8_t digit;
 
+    /*
+     * The accepted Flash image is at most 65536 bytes.
+     * Parse normally in 16 bits and handle the single 17-bit value
+     * (65536) explicitly. This avoids XC8 generating the 24-bit
+     * multiplication helper for accumulator * 10.
+     */
     while (**cursor >= '0' && **cursor <= '9')
     {
         digit = (uint8_t)(**cursor - '0');
 
-        /* Reject decimal overflow before multiplying by ten. */
-        if (accumulator > 1677721u ||
-            (accumulator == 1677721u && digit > 5u))
-            return false;
+        if (accumulator > 6553u ||
+            (accumulator == 6553u && digit > 5u))
+        {
+            if (accumulator == 6553u && digit == 6u &&
+                ((*cursor)[1] == ' ' || (*cursor)[1] == '\0'))
+            {
+                (*cursor)++;
+                *value = (__uint24)0x10000u;
+                return true;
+            }
 
-        /* Shift/add is substantially smaller than 24-bit multiply on PIC18. */
-        accumulator = (__uint24)((accumulator << 3) +
+            return false;
+        }
+
+        accumulator = (uint16_t)((accumulator << 3) +
                                  (accumulator << 1) +
                                  digit);
         (*cursor)++;
@@ -937,7 +951,7 @@ static bool parse_decimal_u24(const char **cursor, __uint24 *value)
     if (digits == 0u)
         return false;
 
-    *value = accumulator;
+    *value = (__uint24)accumulator;
     return true;
 }
 
