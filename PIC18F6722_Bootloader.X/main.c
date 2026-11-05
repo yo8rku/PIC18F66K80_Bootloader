@@ -21,6 +21,9 @@
 #pragma config CCP2MX = PORTE, LPT1OSC = OFF, MCLRE = ON
 #pragma config STVREN = ON, LVP = OFF, BBSIZ = BB4K
 #pragma config XINST = OFF, DEBUG = OFF
+//#pragma config CP0 = ON, CP1 = ON, CP2 = ON, CP3 = ON
+//#pragma config CP4 = ON, CP5 = ON, CP6 = ON, CP7 = ON
+//#pragma config CPB = ON, CPD = OFF
 #pragma config CP0 = OFF, CP1 = OFF, CP2 = OFF, CP3 = OFF
 #pragma config CP4 = OFF, CP5 = OFF, CP6 = OFF, CP7 = OFF
 #pragma config CPB = OFF, CPD = OFF
@@ -49,9 +52,9 @@ asm("GOTO 0x1008");
 #define UART2_BAUD       115200UL
 #define RX_LINE_MAX      36u
 
-#define APP_START       0x1000u
-#define APP_END         0xFFFFu
-#define APP_MARKER_ADDR 0xFFC0u
+#define APP_START       0x01000u
+#define APP_END         0x1FFFFu
+#define APP_MARKER_ADDR 0x1FFC0u
 #define FLASH_ROW_SIZE  64u
 #define EEPROM_SIZE     1024u
 
