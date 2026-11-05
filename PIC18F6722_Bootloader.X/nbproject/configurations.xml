@@ -106,7 +106,7 @@
         <property key="additional-options-checksumAVR2" value="0"/>
         <property key="additional-options-code-offset" value=""/>
         <property key="additional-options-command-line"
-                  value="-Wl,-ACODE=00h-0FFFh,-ACONST=00h-0FFFh,-AMEDIUMCONST=00h-0FFFh,-ASMALLCONST=00h-0FFFh"/>
+                  value="-Wl,-ACODE=00h-1FFFh,-ACONST=00h-1FFFh,-AMEDIUMCONST=00h-1FFFh,-ASMALLCONST=00h-1FFFh"/>
         <property key="additional-options-errata" value=""/>
         <property key="additional-options-extend-address" value="false"/>
         <property key="additional-options-fillAVR2" value="0"/>
