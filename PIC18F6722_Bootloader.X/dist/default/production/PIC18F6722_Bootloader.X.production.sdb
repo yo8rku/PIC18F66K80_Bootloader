@@ -27,69 +27,71 @@
 [v ___lmul __lmul `(ul  1 e 4 0 ]
 "91 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul64.c
 [v ___omul __omul `(uo  1 e 8 0 ]
-"100 D:\PA_Controler_YO6RK_-_final\PIC18F6722_Bootloader\PIC18F6722_Bootloader.X\main.c
+"104 C:\Users\marius.ciobanu\OneDrive - Vodafone Group\Desktop\PA_Controler_YO6RK - final\PIC18F6722_Bootloader\PIC18F6722_Bootloader.X\main.c
 [v _flash_fill_buffer flash_fill_buffer `(v  1 s 1 flash_fill_buffer ]
-"129
+"133
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
-"154
+"158
 [v _uart2_putc uart2_putc `(v  1 s 1 uart2_putc ]
-"162
+"166
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
-"172
+"176
 [v _uart2_puthex32 uart2_puthex32 `(v  1 s 1 uart2_puthex32 ]
-"197
+"201
 [v _uart2_error uart2_error `(v  1 s 1 uart2_error ]
-"207
+"211
 [v _uart2_try_getc uart2_try_getc `(a  1 s 1 uart2_try_getc ]
-"222
+"226
 [v _uart2_getc_timeout uart2_getc_timeout `(a  1 s 1 uart2_getc_timeout ]
-"239
+"243
 [v _flash_set_pointer flash_set_pointer `(v  1 s 1 flash_set_pointer ]
-"248
+"251
 [v _flash_valid_row flash_valid_row `(a  1 s 1 flash_valid_row ]
-"256
+"259
 [v _flash_erase_row flash_erase_row `(a  1 s 1 flash_erase_row ]
-"318
+"321
 [v _flash_verify_row flash_verify_row `(a  1 s 1 flash_verify_row ]
-"347
+"350
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
-"380
+"384
 [v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
-"414
+"418
 [v _flash_write_row flash_write_row `(a  1 s 1 flash_write_row ]
-"457
+"461
 [v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
-"467
+"471
 [v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
-"488
+"492
 [v _eeprom_read_byte eeprom_read_byte `(uc  1 s 1 eeprom_read_byte ]
-"505
+"509
 [v _eeprom_write_verify_byte eeprom_write_verify_byte `(a  1 s 1 eeprom_write_verify_byte ]
-"550
+"554
 [v _eeprom_clear_unused eeprom_clear_unused `(a  1 s 1 eeprom_clear_unused ]
-"575
+"579
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
-"592
+"596
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
-"678
+"682
 [v _upload_store_payload upload_store_payload `(a  1 s 1 upload_store_payload ]
-"720
+"724
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
-"870
+"874
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
-"887
+"891
 [v _parse_decimal_u16 parse_decimal_u16 `(a  1 s 1 parse_decimal_u16 ]
-"915
-[v _parse_crc32_hex parse_crc32_hex `(a  1 s 1 parse_crc32_hex ]
+"919
+[v _parse_decimal_u32 parse_decimal_u32 `(a  1 s 1 parse_decimal_u32 ]
 "946
+[v _parse_crc32_hex parse_crc32_hex `(a  1 s 1 parse_crc32_hex ]
+"977
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
-"1043
+"1074
 [v _reset_to_bootloader reset_to_bootloader `(v  1 s 1 reset_to_bootloader ]
-"1056
+"1087
 [v _process_command process_command `(v  1 s 1 process_command ]
-"1084
+"1115
 [v _main main `(v  1 e 1 0 ]
-"1301 C:/Users/Marius/.mchp_packs/Microchip/PIC18Fxxxx_DFP/1.8.178/xc8\pic\include\proc\pic18f6722.h
+"1301 C:/Users/marius.ciobanu/.mchp_packs/Microchip/PIC18Fxxxx_DFP/1.8.178/xc8\pic\include\proc\pic18f6722.h
 [v _RCSTA2 RCSTA2 `VEuc  1 e 1 @3947 ]
 [s S114 . 1 `uc 1 RX9D 1 0 :1:0 
 `uc 1 OERR 1 0 :1:1 
@@ -350,357 +352,381 @@
 [v _TBLPTRH TBLPTRH `VEuc  1 e 1 @4087 ]
 "12114
 [v _TBLPTRU TBLPTRU `VEuc  1 e 1 @4088 ]
-"78 D:\PA_Controler_YO6RK_-_final\PIC18F6722_Bootloader\PIC18F6722_Bootloader.X\main.c
-[v _upload_size upload_size `us  1 s 2 upload_size ]
-"79
+"82 C:\Users\marius.ciobanu\OneDrive - Vodafone Group\Desktop\PA_Controler_YO6RK - final\PIC18F6722_Bootloader\PIC18F6722_Bootloader.X\main.c
+[v _upload_size upload_size `ul  1 s 4 upload_size ]
+"83
 [v _upload_expected_crc upload_expected_crc `ul  1 s 4 upload_expected_crc ]
-"80
-[v _upload_received upload_received `us  1 s 2 upload_received ]
-"81
-[v _upload_sequence upload_sequence `us  1 s 2 upload_sequence ]
-"82
-[v _upload_active upload_active `a  1 s 1 upload_active ]
 "84
-[v _flash_upload_size flash_upload_size `us  1 s 2 flash_upload_size ]
+[v _upload_received upload_received `ul  1 s 4 upload_received ]
 "85
-[v _eeprom_upload_size eeprom_upload_size `us  1 s 2 eeprom_upload_size ]
+[v _upload_sequence upload_sequence `us  1 s 2 upload_sequence ]
 "86
-[v _eeprom_upload_expected_crc eeprom_upload_expected_crc `ul  1 s 4 eeprom_upload_expected_crc ]
-"87
-[v _flash_final_crc flash_final_crc `ul  1 s 4 flash_final_crc ]
+[v _upload_active upload_active `a  1 s 1 upload_active ]
 "88
-[v _upload_phase upload_phase `uc  1 s 1 upload_phase ]
+[v _flash_upload_size flash_upload_size `ul  1 s 4 flash_upload_size ]
 "89
-[v _uart2_rx_byte uart2_rx_byte `uc  1 s 1 uart2_rx_byte ]
+[v _eeprom_upload_size eeprom_upload_size `us  1 s 2 eeprom_upload_size ]
+"90
+[v _eeprom_upload_expected_crc eeprom_upload_expected_crc `ul  1 s 4 eeprom_upload_expected_crc ]
 "91
-[v _frame_payload frame_payload `[48]uc  1 s 48 frame_payload ]
+[v _flash_final_crc flash_final_crc `ul  1 s 4 flash_final_crc ]
 "92
-[v _flash_row_buffer flash_row_buffer `[64]uc  1 s 64 flash_row_buffer ]
+[v _upload_phase upload_phase `uc  1 s 1 upload_phase ]
 "93
-[v _flash_row_fill flash_row_fill `uc  1 s 1 flash_row_fill ]
-"94
-[v _flash_row_address flash_row_address `us  1 s 2 flash_row_address ]
+[v _uart2_rx_byte uart2_rx_byte `uc  1 s 1 uart2_rx_byte ]
+"95
+[v _frame_payload frame_payload `[48]uc  1 s 48 frame_payload ]
+"96
+[v _flash_row_buffer flash_row_buffer `[64]uc  1 s 64 flash_row_buffer ]
 "97
+[v _flash_row_fill flash_row_fill `uc  1 s 1 flash_row_fill ]
+"98
+[v _flash_row_address flash_row_address `ul  1 s 4 flash_row_address ]
+"101
 [v _asm_clear_count asm_clear_count `VEuc  1 s 1 asm_clear_count ]
-"113
-[v _upload_crc32 upload_crc32 `ul  1 s 4 upload_crc32 ]
-"114
-[v _upload_have_frame upload_have_frame `a  1 s 1 upload_have_frame ]
 "117
-[v _parsed_flash_size parsed_flash_size `us  1 s 2 parsed_flash_size ]
+[v _upload_crc32 upload_crc32 `ul  1 s 4 upload_crc32 ]
 "118
+[v _upload_have_frame upload_have_frame `a  1 s 1 upload_have_frame ]
+"121
+[v _parsed_flash_size parsed_flash_size `ul  1 s 4 parsed_flash_size ]
+"122
 [v _parsed_eeprom_size parsed_eeprom_size `us  1 s 2 parsed_eeprom_size ]
-"119
+"123
 [v _parsed_flash_crc parsed_flash_crc `ul  1 s 4 parsed_flash_crc ]
-"120
+"124
 [v _parsed_eeprom_crc parsed_eeprom_crc `ul  1 s 4 parsed_eeprom_crc ]
-"1084
+"1115
 [v _main main `(v  1 e 1 0 ]
 {
-"1086
-[v main@line line `[36]uc  1 a 36 34 ]
-"1088
-[v main@ch ch `uc  1 a 1 71 ]
-"1087
-[v main@count count `uc  1 a 1 70 ]
-"1135
+"1117
+[v main@line line `[36]uc  1 a 36 0 ]
+"1119
+[v main@ch ch `uc  1 a 1 37 ]
+"1118
+[v main@count count `uc  1 a 1 36 ]
+"1166
 } 0
-"129
+"133
 [v _uart2_init uart2_init `(v  1 s 1 uart2_init ]
 {
-"149
+"153
 [v uart2_init@dummy dummy `VEuc  1 a 1 0 ]
-"152
+"156
 } 0
-"720
+"724
 [v _receive_upload_data receive_upload_data `(v  1 s 1 receive_upload_data ]
 {
-"722
-[v receive_upload_data@sequence sequence `us  1 a 2 31 ]
-"724
-[v receive_upload_data@result result `uc  1 a 1 33 ]
-"723
-[v receive_upload_data@length length `uc  1 a 1 30 ]
-"725
-[v receive_upload_data@error error `uc  1 a 1 29 ]
-"863
+"726
+[v receive_upload_data@sequence sequence `us  1 a 2 55 ]
+"728
+[v receive_upload_data@result result `uc  1 a 1 57 ]
+"727
+[v receive_upload_data@length length `uc  1 a 1 54 ]
+"729
+[v receive_upload_data@error error `uc  1 a 1 53 ]
+"867
 } 0
-"678
+"682
 [v _upload_store_payload upload_store_payload `(a  1 s 1 upload_store_payload ]
 {
 [v upload_store_payload@length length `uc  1 a 1 wreg ]
-"680
-[v upload_store_payload@i i `uc  1 a 1 17 ]
-"681
-[v upload_store_payload@data data `uc  1 a 1 16 ]
-"678
+"684
+[v upload_store_payload@i i `uc  1 a 1 25 ]
+"685
+[v upload_store_payload@data data `uc  1 a 1 24 ]
+"682
 [v upload_store_payload@length length `uc  1 a 1 wreg ]
-"683
-[v upload_store_payload@length length `uc  1 a 1 15 ]
-"718
+"687
+[v upload_store_payload@length length `uc  1 a 1 23 ]
+"722
 } 0
-"870
+"874
 [v _crc32_update crc32_update `(ul  1 s 4 crc32_update ]
 {
-"872
+"876
 [v crc32_update@i i `uc  1 a 1 9 ]
-"870
+"874
 [v crc32_update@crc crc `ul  1 p 4 0 ]
 [v crc32_update@data data `uc  1 p 1 4 ]
-"885
+"889
 } 0
-"172
+"176
 [v _uart2_puthex32 uart2_puthex32 `(v  1 s 1 uart2_puthex32 ]
 {
-"175
+"179
 [v uart2_puthex32@nibble nibble `uc  1 a 1 11 ]
-"174
+"178
 [v uart2_puthex32@shift shift `uc  1 a 1 10 ]
-"176
+"180
 [v uart2_puthex32@c c `uc  1 a 1 9 ]
-"172
+"176
 [v uart2_puthex32@value value `ul  1 p 4 1 ]
-"192
+"196
 } 0
-"592
+"596
 [v _receive_upload_frame receive_upload_frame `(uc  1 s 1 receive_upload_frame ]
 {
-"599
-[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 18 ]
-"598
-[v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
-"604
-[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
-"602
-[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 16 ]
-"601
-[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 15 ]
-"597
-[v receive_upload_frame@i i `uc  1 a 1 14 ]
 "603
+[v receive_upload_frame@calculated_crc calculated_crc `us  1 a 2 18 ]
+"602
+[v receive_upload_frame@received_crc received_crc `us  1 a 2 10 ]
+"608
+[v receive_upload_frame@len_lo len_lo `uc  1 a 1 17 ]
+"606
+[v receive_upload_frame@seq_lo seq_lo `uc  1 a 1 16 ]
+"605
+[v receive_upload_frame@seq_hi seq_hi `uc  1 a 1 15 ]
+"601
+[v receive_upload_frame@i i `uc  1 a 1 14 ]
+"607
 [v receive_upload_frame@len_hi len_hi `uc  1 a 1 13 ]
-"596
+"600
 [v receive_upload_frame@ch ch `uc  1 a 1 12 ]
-"593
+"597
 [v receive_upload_frame@sequence sequence `*.30us  1 p 1 6 ]
-"594
+"598
 [v receive_upload_frame@length length `*.30uc  1 p 1 7 ]
-"673
+"677
 } 0
-"222
+"226
 [v _uart2_getc_timeout uart2_getc_timeout `(a  1 s 1 uart2_getc_timeout ]
 {
-"224
+"228
 [v uart2_getc_timeout@timeout timeout `us  1 a 2 0 ]
-"236
+"240
 } 0
-"207
+"211
 [v _uart2_try_getc uart2_try_getc `(a  1 s 1 uart2_try_getc ]
 {
-"220
+"224
 } 0
-"575
+"579
 [v _crc16_update crc16_update `(us  1 s 2 crc16_update ]
 {
-"577
+"581
 [v crc16_update@i i `uc  1 a 1 5 ]
-"575
+"579
 [v crc16_update@crc crc `us  1 p 2 0 ]
 [v crc16_update@data data `uc  1 p 1 2 ]
-"590
+"594
 } 0
-"467
+"471
 [v _flash_flush_row flash_flush_row `(a  1 s 1 flash_flush_row ]
 {
-"485
+"489
 } 0
-"550
+"554
 [v _eeprom_clear_unused eeprom_clear_unused `(a  1 s 1 eeprom_clear_unused ]
 {
-"552
+"556
 [v eeprom_clear_unused@address address `us  1 a 2 8 ]
-"550
+"554
 [v eeprom_clear_unused@used_size used_size `us  1 p 2 6 ]
-"566
+"570
 } 0
-"505
+"509
 [v _eeprom_write_verify_byte eeprom_write_verify_byte `(a  1 s 1 eeprom_write_verify_byte ]
 {
-"507
+"511
 [v eeprom_write_verify_byte@gie_state gie_state `uc  1 a 1 5 ]
-"505
+"509
 [v eeprom_write_verify_byte@address address `us  1 p 2 2 ]
 [v eeprom_write_verify_byte@value value `uc  1 p 1 4 ]
-"547
+"551
 } 0
-"488
+"492
 [v _eeprom_read_byte eeprom_read_byte `(uc  1 s 1 eeprom_read_byte ]
 {
 [v eeprom_read_byte@address address `us  1 p 2 0 ]
-"499
+"503
 } 0
-"380
+"384
 [v _application_marker_write application_marker_write `(a  1 s 1 application_marker_write ]
 {
-"382
-[v application_marker_write@i i `uc  1 a 1 22 ]
-"380
-[v application_marker_write@size size `us  1 p 2 16 ]
-[v application_marker_write@crc crc `ul  1 p 4 18 ]
-"409
+"386
+[v application_marker_write@i i `uc  1 a 1 42 ]
+"384
+[v application_marker_write@size size `ul  1 p 4 34 ]
+[v application_marker_write@crc crc `ul  1 p 4 38 ]
+"413
 } 0
-"457
+"461
 [v _flash_program_row flash_program_row `(a  1 s 1 flash_program_row ]
 {
-[v flash_program_row@address address `us  1 p 2 12 ]
-"458
-[v flash_program_row@buffer buffer `*.30Cuc  1 p 1 14 ]
-"464
+[v flash_program_row@address address `ul  1 p 4 18 ]
+"462
+[v flash_program_row@buffer buffer `*.30Cuc  1 p 1 22 ]
+"468
 } 0
-"414
+"418
 [v _flash_write_row flash_write_row `(a  1 s 1 flash_write_row ]
 {
-"417
-[v flash_write_row@i i `uc  1 a 1 11 ]
+"421
+[v flash_write_row@i i `uc  1 a 1 17 ]
+"422
+[v flash_write_row@gie_state gie_state `uc  1 a 1 16 ]
 "418
-[v flash_write_row@gie_state gie_state `uc  1 a 1 10 ]
-"414
-[v flash_write_row@address address `us  1 p 2 7 ]
-"415
-[v flash_write_row@buffer buffer `*.30Cuc  1 p 1 9 ]
-"454
+[v flash_write_row@address address `ul  1 p 4 11 ]
+"419
+[v flash_write_row@buffer buffer `*.30Cuc  1 p 1 15 ]
+"458
 } 0
-"318
+"321
 [v _flash_verify_row flash_verify_row `(a  1 s 1 flash_verify_row ]
 {
-"320
-[v flash_verify_row@i i `uc  1 a 1 6 ]
-"318
-[v flash_verify_row@address address `us  1 p 2 2 ]
-[v flash_verify_row@buffer buffer `*.30Cuc  1 p 1 4 ]
-"343
+"323
+[v flash_verify_row@i i `uc  1 a 1 10 ]
+"321
+[v flash_verify_row@address address `ul  1 p 4 4 ]
+[v flash_verify_row@buffer buffer `*.30Cuc  1 p 1 8 ]
+"346
 } 0
-"1056
+"1087
 [v _process_command process_command `(v  1 s 1 process_command ]
 {
-[v process_command@cmd cmd `*.30Cuc  1 p 1 17 ]
-"1082
+[v process_command@cmd cmd `*.30Cuc  1 p 1 34 ]
+"1113
 } 0
-"162
+"166
 [v _uart2_puts uart2_puts `(v  1 s 1 uart2_puts ]
 {
 [v uart2_puts@s s `*.31Cuc  1 p 1 1 ]
-"169
+"173
 } 0
-"1043
+"1074
 [v _reset_to_bootloader reset_to_bootloader `(v  1 s 1 reset_to_bootloader ]
 {
-"1054
+"1085
 } 0
-"946
+"977
 [v _parse_upload_command parse_upload_command `(a  1 s 1 parse_upload_command ]
 {
-"948
-[v parse_upload_command@p p `*.30Cuc  1 a 1 16 ]
-"949
-[v parse_upload_command@error error `uc  1 a 1 15 ]
-"946
-[v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 13 ]
-"1034
+"979
+[v parse_upload_command@p p `*.30Cuc  1 a 1 24 ]
+"980
+[v parse_upload_command@error error `uc  1 a 1 23 ]
+"977
+[v parse_upload_command@cmd cmd `*.30Cuc  1 p 1 21 ]
+"1065
 } 0
-"197
+"201
 [v _uart2_error uart2_error `(v  1 s 1 uart2_error ]
 {
 [v uart2_error@code code `uc  1 a 1 wreg ]
 [v uart2_error@code code `uc  1 a 1 wreg ]
-"199
+"203
 [v uart2_error@code code `uc  1 a 1 1 ]
-"205
+"209
 } 0
-"154
+"158
 [v _uart2_putc uart2_putc `(v  1 s 1 uart2_putc ]
 {
 [v uart2_putc@c c `uc  1 a 1 wreg ]
 [v uart2_putc@c c `uc  1 a 1 wreg ]
 [v uart2_putc@c c `uc  1 a 1 0 ]
-"160
+"164
 } 0
-"887
+"919
+[v _parse_decimal_u32 parse_decimal_u32 `(a  1 s 1 parse_decimal_u32 ]
+{
+"921
+[v parse_decimal_u32@accumulator accumulator `ul  1 a 4 17 ]
+"923
+[v parse_decimal_u32@digit digit `uc  1 a 1 16 ]
+"922
+[v parse_decimal_u32@digits digits `uc  1 a 1 15 ]
+"919
+[v parse_decimal_u32@cursor cursor `*.30*.30Cuc  1 p 1 12 ]
+[v parse_decimal_u32@value value `*.30ul  1 p 1 13 ]
+"944
+} 0
+"15 C:\Program Files\Microchip\xc8\v2.46\pic\sources\c99\common\Umul32.c
+[v ___lmul __lmul `(ul  1 e 4 0 ]
+{
+"17
+[v ___lmul@product product `ul  1 a 4 8 ]
+"15
+[v ___lmul@multiplier multiplier `ul  1 p 4 0 ]
+[v ___lmul@multiplicand multiplicand `ul  1 p 4 4 ]
+"129
+} 0
+"891 C:\Users\marius.ciobanu\OneDrive - Vodafone Group\Desktop\PA_Controler_YO6RK - final\PIC18F6722_Bootloader\PIC18F6722_Bootloader.X\main.c
 [v _parse_decimal_u16 parse_decimal_u16 `(a  1 s 1 parse_decimal_u16 ]
 {
-"889
+"893
 [v parse_decimal_u16@accumulator accumulator `us  1 a 2 10 ]
-"891
+"895
 [v parse_decimal_u16@digit digit `uc  1 a 1 9 ]
-"890
+"894
 [v parse_decimal_u16@digits digits `uc  1 a 1 8 ]
-"887
+"891
 [v parse_decimal_u16@cursor cursor `*.30*.30Cuc  1 p 1 0 ]
 [v parse_decimal_u16@value value `*.30us  1 p 1 1 ]
-"913
+"917
 } 0
-"915
+"946
 [v _parse_crc32_hex parse_crc32_hex `(a  1 s 1 parse_crc32_hex ]
 {
-"920
+"951
 [v parse_crc32_hex@crc crc `ul  1 a 4 7 ]
-"919
+"950
 [v parse_crc32_hex@c c `uc  1 a 1 12 ]
-"917
+"948
 [v parse_crc32_hex@i i `uc  1 a 1 11 ]
-"918
+"949
 [v parse_crc32_hex@nibble nibble `uc  1 a 1 6 ]
-"915
+"946
 [v parse_crc32_hex@cursor cursor `*.30*.30Cuc  1 p 1 0 ]
 [v parse_crc32_hex@value value `*.30ul  1 p 1 1 ]
-"940
+"971
 } 0
-"100
+"104
 [v _flash_fill_buffer flash_fill_buffer `(v  1 s 1 flash_fill_buffer ]
 {
 [v flash_fill_buffer@offset offset `uc  1 a 1 wreg ]
-"102
+"106
 [v flash_fill_buffer@i i `uc  1 a 1 2 ]
-"100
+"104
 [v flash_fill_buffer@offset offset `uc  1 a 1 wreg ]
 [v flash_fill_buffer@count count `uc  1 p 1 0 ]
-"104
+"108
 [v flash_fill_buffer@offset offset `uc  1 a 1 1 ]
-"111
+"115
 } 0
-"256
+"259
 [v _flash_erase_row flash_erase_row `(a  1 s 1 flash_erase_row ]
 {
-"296
-[v flash_erase_row@i i `uc  1 a 1 8 ]
+"299
+[v flash_erase_row@i i `uc  1 a 1 12 ]
+"262
+[v flash_erase_row@status status `uc  1 a 1 11 ]
+"261
+[v flash_erase_row@gie_state gie_state `uc  1 a 1 10 ]
 "259
-[v flash_erase_row@status status `uc  1 a 1 7 ]
-"258
-[v flash_erase_row@gie_state gie_state `uc  1 a 1 6 ]
-"256
-[v flash_erase_row@address address `us  1 p 2 4 ]
-"313
+[v flash_erase_row@address address `ul  1 p 4 6 ]
+"316
 } 0
-"248
+"251
 [v _flash_valid_row flash_valid_row `(a  1 s 1 flash_valid_row ]
 {
-[v flash_valid_row@address address `us  1 p 2 0 ]
-"254
+[v flash_valid_row@address address `ul  1 p 4 0 ]
+"257
 } 0
-"347
+"350
 [v _application_marker_valid application_marker_valid `(a  1 s 1 application_marker_valid ]
 {
-"349
-[v application_marker_valid@marker marker `[8]uc  1 a 8 4 ]
-"351
-[v application_marker_valid@size size `us  1 a 2 13 ]
-"350
-[v application_marker_valid@i i `uc  1 a 1 15 ]
-"376
+"352
+[v application_marker_valid@marker marker `[8]uc  1 a 8 20 ]
+"354
+[v application_marker_valid@size size `ul  1 a 4 29 ]
+"353
+[v application_marker_valid@i i `uc  1 a 1 33 ]
+"380
 } 0
-"239
+"243
 [v _flash_set_pointer flash_set_pointer `(v  1 s 1 flash_set_pointer ]
 {
-[v flash_set_pointer@address address `us  1 p 2 0 ]
-"245
+[v flash_set_pointer@address address `ul  1 p 4 0 ]
+"248
 } 0
