@@ -345,7 +345,7 @@ static bool application_marker_valid(void)
 {
     uint8_t marker[8];
     uint8_t i;
-    uint32_t size;
+    __uint24 size;
 
     EECON1bits.EEPGD = 1;
     EECON1bits.CFGS = 0;
@@ -366,9 +366,10 @@ static bool application_marker_valid(void)
     if (marker[7] != 0u)
         return false;
 
-    size = (uint32_t)marker[4] |
-           ((uint32_t)marker[5] << 8) |
-           ((uint32_t)marker[6] << 16);
+    /* The marker stores a 24-bit size; do not promote it to uint32_t. */
+    size = (__uint24)marker[4] |
+           ((__uint24)marker[5] << 8) |
+           ((__uint24)marker[6] << 16);
 
     return (size != 0u && size <= MAX_APP_SIZE);
 }
@@ -925,7 +926,10 @@ static bool parse_decimal_u24(const char **cursor, __uint24 *value)
             (accumulator == 1677721u && digit > 5u))
             return false;
 
-        accumulator = (__uint24)(accumulator * 10u + digit);
+        /* Shift/add is substantially smaller than 24-bit multiply on PIC18. */
+        accumulator = (__uint24)((accumulator << 3) +
+                                 (accumulator << 1) +
+                                 digit);
         (*cursor)++;
         digits++;
     }
