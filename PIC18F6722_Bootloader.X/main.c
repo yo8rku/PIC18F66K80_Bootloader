@@ -19,7 +19,7 @@
 #pragma config PWRT = ON, BOREN = ON, BORV = 3
 #pragma config WDT = ON, WDTPS = 128
 #pragma config CCP2MX = PORTE, LPT1OSC = OFF, MCLRE = ON
-#pragma config STVREN = ON, LVP = OFF, BBSIZ = BB4K
+#pragma config STVREN = ON, LVP = OFF, BBSIZ = BB8K
 #pragma config XINST = OFF, DEBUG = OFF
 //#pragma config CP0 = ON, CP1 = ON, CP2 = ON, CP3 = ON
 //#pragma config CP4 = ON, CP5 = ON, CP6 = ON, CP7 = ON
@@ -38,27 +38,27 @@
 
 /*
  * Application interrupt redirect:
- * The application is linked at 0x01000, so its high-priority/default
- * interrupt entry is at 0x1008. Keep this in XC8's standard intcode psect
+ * The application is linked at 0x02000, so its high-priority/default
+ * interrupt entry is at 0x2008. Keep this in XC8's standard intcode psect
  * so the linker places the GOTO at the hardware vector address 0x0008.
  *
  * This bootloader keeps IPEN=0, matching the application. No low-priority
  * redirect is needed for the current firmware.
  */
 asm("PSECT intcode");
-asm("GOTO 0x1008");
+asm("GOTO 0x2008");
 
 #define _XTAL_FREQ       40000000UL
 #define UART2_BAUD       115200UL
 #define RX_LINE_MAX      36u
 
-#define APP_START       0x01000u
-#define APP_END         0x1FFFFu
-#define APP_MARKER_ADDR 0x1FFC0u
+#define APP_START       0x02000UL
+#define APP_END         0x1FFFFUL
+#define APP_MARKER_ADDR 0x1FFC0UL
 #define FLASH_ROW_SIZE  64u
 #define EEPROM_SIZE     1024u
 
-#define MAX_APP_SIZE    (APP_MARKER_ADDR - APP_START)
+#define MAX_APP_SIZE    0xFFFFu /* Upload protocol and marker store a 16-bit size. */
 
 #define UPLOAD_PHASE_FLASH   0u
 #define UPLOAD_PHASE_EEPROM  1u
@@ -94,7 +94,7 @@ static uint8_t uart2_rx_byte;
 static uint8_t frame_payload[BLOCK_SIZE];
 static uint8_t flash_row_buffer[FLASH_ROW_SIZE];
 static uint8_t flash_row_fill;
-static uint16_t flash_row_address;
+static uint32_t flash_row_address;
 
 /* Dedicated counter used by the small Flash-row buffer clear routine. */
 static volatile uint8_t asm_clear_count;
@@ -124,7 +124,7 @@ static uint32_t parsed_eeprom_crc;
 
 // Function prototypes
 static uint32_t crc32_update(uint32_t crc, uint8_t data);
-static bool flash_program_row(uint16_t address, const uint8_t *buffer);
+static bool flash_program_row(uint32_t address, const uint8_t *buffer);
 static uint8_t eeprom_read_byte(uint16_t address);
 static bool eeprom_write_verify_byte(uint16_t address, uint8_t value);
 static bool eeprom_clear_unused(uint16_t used_size);
@@ -238,25 +238,23 @@ static bool uart2_getc_timeout(void)
     return false;
 }
 
-/* Set PIC18F6722 program memory table pointer (lower 64 KB used). */
-static void flash_set_pointer(uint16_t address)
+/* Set the PIC18F6722 program-memory table pointer (17-bit Flash address). */
+static void flash_set_pointer(uint32_t address)
 {
-    // TBLPTRU must be cleared: table operations can carry into it. 
-    TBLPTRU = 0;
+    TBLPTRU = (uint8_t)(address >> 16);
     TBLPTRH = (uint8_t)(address >> 8);
-    TBLPTRL = (uint8_t) address;
+    TBLPTRL = (uint8_t)address;
 }
 
-/* Check that address is a valid application Flash row in 0x0000-0xFFFF. */
-static bool flash_valid_row(uint16_t address)
+/* Validate a 64-byte Flash row, including the final marker row. */
+static bool flash_valid_row(uint32_t address)
 {
-    // One combined test avoids three separate return paths. 
     return (address >= APP_START) &&
            (address <= (APP_END - (FLASH_ROW_SIZE - 1u))) &&
            ((address & (FLASH_ROW_SIZE - 1u)) == 0u);
 }
 
-static bool flash_erase_row(uint16_t address)
+static bool flash_erase_row(uint32_t address)
 {
     uint8_t gie_state;
     uint8_t status;
@@ -318,7 +316,7 @@ static bool flash_erase_row(uint16_t address)
 
 
 /* Read and verify one 64-byte Flash row */
-static bool flash_verify_row(uint16_t address, const uint8_t *buffer)
+static bool flash_verify_row(uint32_t address, const uint8_t *buffer)
 {
     uint8_t i;
 
@@ -375,7 +373,8 @@ static bool application_marker_valid(void)
     size = (uint16_t)marker[4] |
            ((uint16_t)marker[5] << 8);
 
-    return (size != 0u && size <= MAX_APP_SIZE);
+    /* Marker stores image size as uint16_t; zero means invalid. */
+    return (size != 0u);
 }
 
 
@@ -384,7 +383,7 @@ static bool application_marker_write(uint16_t size, uint32_t crc)
 {
     uint8_t i;
 
-    if (size == 0u || size > MAX_APP_SIZE)
+    if (size == 0u)
         return false;
 
     for (i = 0; i < FLASH_ROW_SIZE; i++)
@@ -414,7 +413,7 @@ static bool application_marker_write(uint16_t size, uint32_t crc)
 
 /* Write one 64-byte Flash row.
    The row must have been erased first. */
-static bool flash_write_row(uint16_t address,
+static bool flash_write_row(uint32_t address,
                             const uint8_t *buffer)
 {
     uint8_t i;
@@ -457,7 +456,7 @@ static bool flash_write_row(uint16_t address,
 }
 
 /* Complete erase + write + verification operation */
-static bool flash_program_row(uint16_t address,
+static bool flash_program_row(uint32_t address,
                               const uint8_t *buffer)
 {
     if (!flash_erase_row(address))
@@ -988,7 +987,7 @@ static bool parse_upload_command(const char *cmd)
         goto upload_command_error;
     }
 
-    if (parsed_flash_size == 0u || parsed_flash_size > MAX_APP_SIZE ||
+    if (parsed_flash_size == 0u ||
         parsed_eeprom_size == 0u || parsed_eeprom_size > EEPROM_SIZE)
     {
         error = 'S';
@@ -1102,7 +1101,7 @@ void main(void)
     /* Normal startup: launch a valid application unless BOOT is requested. */
     if (PORTBbits.RB6 && application_marker_valid())
     {
-        asm("GOTO 0x1000");
+        asm("GOTO 0x2000");
     }
 
     /* Initialize non-zero state here to avoid a ROM data-init table. */
